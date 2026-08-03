@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,7 +9,6 @@ import { Check } from "lucide-react"
 
 const PricingCalculator = () => {
   const [staffCount, setStaffCount] = useState("2")
-  const [totalPrice, setTotalPrice] = useState(0)
 
   const basePrice = 39
   const pricePerStaff = 10
@@ -19,13 +18,9 @@ const PricingCalculator = () => {
     "20+": basePrice + 180, // Example additional cost for 20+ staff
   }
 
-  useEffect(() => {
-    if (tierPricing.hasOwnProperty(staffCount)) {
-      setTotalPrice(tierPricing[staffCount])
-    } else {
-      setTotalPrice(basePrice + (Number.parseInt(staffCount) - 2) * pricePerStaff)
-    }
-  }, [staffCount])
+  const totalPrice = tierPricing.hasOwnProperty(staffCount)
+    ? tierPricing[staffCount]
+    : basePrice + (Number.parseInt(staffCount) - 2) * pricePerStaff
 
   return (
     <Card className="mx-auto max-w-3xl" id="pricing">
