@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# saloonik.com
 
-## Getting Started
-
-First, run the development server:
+Strona marketingowa Saloonika (Next.js 16, Tailwind CSS 4) w design systemie „Atelier Plum” z `system.saloonik.com`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build   # wszystkie strony generowane statycznie
+npm test        # testy kalkulatora cen (vitest)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Gdzie co jest
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `src/config/site.ts`: adresy aplikacji, e-mail kontaktowy, dane firmy (puste pola nie są renderowane).
+- `src/content/`: cała treść (funkcje, branże, FAQ), oddzielona od komponentów.
+- `src/lib/pricing.ts`: port 1:1 `SubscriptionPricing.cs` + `SubscriptionPlanSeedData.cs` z API. **Przy zmianie cennika w backendzie zaktualizuj ten plik i testy.**
+- `src/lib/seo.ts`: `buildMetadata()` i generatory JSON-LD (Organization, WebSite, SoftwareApplication, FAQPage, BreadcrumbList).
+- `src/components/mockups/`: mockupy UI aplikacji budowane w kodzie (bez screenshotów).
+- `src/app/globals.css`: tokeny kolorów skopiowane z `@saloonik/app-core/tokens.css`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Podstrony branżowe
 
-## Learn More
+Nowa branża = nowy wpis w `src/content/industries.ts`. Strona `/dla/<slug>`, obraz OG, sitemap i linki w nawigacji generują się automatycznie.
 
-To learn more about Next.js, take a look at the following resources:
+## Zmienne środowiskowe
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_GSC_VERIFICATION`: kod weryfikacji Google Search Console (opcjonalny).
