@@ -10,15 +10,22 @@ import { ThemeToggle } from "./theme";
 export function SiteHeader() {
   const [features, ...rest] = mainNav;
   return (
-    <header className="bg-background/80 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-40 border-b backdrop-blur-lg">
+    <header className="bg-background/80 supports-backdrop-filter:bg-background/70 sticky top-0 z-40 border-b backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" aria-label="Saloonik — strona główna" className="shrink-0">
-          <Logo />
-        </Link>
+        <Logo />
 
-        <nav aria-label="Główna nawigacja" className="ml-6 hidden items-center md:flex">
+        <nav
+          aria-label="Główna nawigacja"
+          className="ml-6 hidden items-center md:flex"
+        >
           <NavItem href={features.href}>{features.label}</NavItem>
-          <IndustriesMenu items={industries.map(({ slug, h1, color }) => ({ slug, h1, color }))} />
+          <IndustriesMenu
+            items={industries.map(({ slug, h1, color }) => ({
+              slug,
+              h1,
+              color,
+            }))}
+          />
           {rest.map((link) => (
             <NavItem key={link.href} href={link.href}>
               {link.label}
@@ -46,7 +53,13 @@ export function SiteHeader() {
   );
 }
 
-function NavItem({ href, children }: { href: string; children: React.ReactNode }) {
+function NavItem({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}

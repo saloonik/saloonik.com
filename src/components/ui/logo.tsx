@@ -1,25 +1,39 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Dwa warianty wordmarku przełączane czystym CSS (bez JS), więc nie ma mignięcia przy hydratacji.
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
   return (
-    <>
+    <Link
+      href="/"
+      aria-label="Saloonik — strona główna"
+      onClick={onClick}
+      className={cn(
+        "focus-visible:ring-ring/50 inline-flex shrink-0 items-center rounded-md outline-none focus-visible:ring-[3px]",
+        className,
+      )}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/logo-light.svg"
-        alt="Saloonik"
+        alt=""
         width={85}
         height={20}
-        className={cn("h-6 w-auto dark:hidden", className)}
+        className="block h-6 w-auto dark:hidden"
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/logo-dark.svg"
-        alt="Saloonik"
+        alt=""
         width={91}
         height={20}
-        className={cn("hidden h-6 w-auto dark:block", className)}
+        className="hidden h-6 w-auto dark:block"
       />
-    </>
+    </Link>
   );
 }
