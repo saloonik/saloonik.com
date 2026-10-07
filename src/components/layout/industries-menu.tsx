@@ -35,7 +35,9 @@ export function IndustriesMenu({ items }: { items: Item[] }) {
         className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/50 inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors outline-none focus-visible:ring-[3px]"
       >
         Branże
-        <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} />
+        <ChevronDown
+          className={cn("size-4 transition-transform", open && "rotate-180")}
+        />
       </button>
       {open && (
         <div
@@ -49,7 +51,10 @@ export function IndustriesMenu({ items }: { items: Item[] }) {
               onClick={() => setOpen(false)}
               className="hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-sm"
             >
-              <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: item.color }} />
+              <span
+                className="size-2.5 shrink-0 rounded-full"
+                style={{ backgroundColor: item.color }}
+              />
               {item.h1}
             </Link>
           ))}

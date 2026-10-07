@@ -1,10 +1,14 @@
 import { Section, SectionHeading } from "@/components/layout/section";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { JsonLd } from "@/components/json-ld";
 import type { FaqItem } from "@/content/faq";
 import { faqJsonLd } from "@/lib/seo";
 
-// Odpowiedzi są w HTML także po zwinięciu (forceMount w AccordionContent) i w JSON-LD FAQPage.
 export function FaqSection({
   items,
   title = "Najczęściej zadawane pytania",

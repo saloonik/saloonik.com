@@ -2,7 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check, X } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
-import { Container, Section, SectionHeading } from "@/components/layout/section";
+import {
+  Container,
+  Section,
+  SectionHeading,
+} from "@/components/layout/section";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
@@ -46,18 +50,30 @@ export default async function IndustryPage({ params }: Props) {
         <HeroBackground />
         <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr]">
           <div>
-            <nav aria-label="Okruszki" className="text-muted-foreground mb-6 text-sm">
-              <Link href="/" className="hover:text-foreground">Saloonik</Link>
+            <nav
+              aria-label="Okruszki"
+              className="text-muted-foreground mb-6 text-sm"
+            >
+              <Link href="/" className="hover:text-foreground">
+                Saloonik
+              </Link>
               <span className="mx-2">/</span>
               <span>{industry.name}</span>
             </nav>
-            <p className="text-primary mb-3 text-xs font-bold tracking-wide uppercase">{industry.eyebrow}</p>
-            <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">{industry.h1}</h1>
-            <p className="text-muted-foreground mt-6 text-lg leading-relaxed text-pretty">{industry.intro}</p>
+            <p className="text-primary mb-3 text-xs font-bold tracking-wide uppercase">
+              {industry.eyebrow}
+            </p>
+            <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+              {industry.h1}
+            </h1>
+            <p className="text-muted-foreground mt-6 text-lg leading-relaxed text-pretty">
+              {industry.intro}
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="xl">
                 <a href={siteConfig.registerUrl}>
-                  Wypróbuj {siteConfig.trialDays} dni za darmo <ArrowRight className="size-5" />
+                  Wypróbuj {siteConfig.trialDays} dni za darmo{" "}
+                  <ArrowRight className="size-5" />
                 </a>
               </Button>
               <Button asChild size="xl" variant="outline">
@@ -77,15 +93,23 @@ export default async function IndustryPage({ params }: Props) {
       </section>
 
       <Section className="bg-card/50 border-y">
-        <SectionHeading eyebrow="Znasz to?" title="Codzienne wyzwania — i jak rozwiązuje je Saloonik" />
+        <SectionHeading
+          eyebrow="Znasz to?"
+          title="Codzienne wyzwania — i jak rozwiązuje je Saloonik"
+        />
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {industry.pains.map((pain) => (
-            <div key={pain.problem} className="bg-background flex flex-col rounded-xl border p-6">
+            <div
+              key={pain.problem}
+              className="bg-background flex flex-col rounded-xl border p-6"
+            >
               <p className="text-muted-foreground flex items-start gap-2 text-sm font-medium">
-                <X className="text-destructive mt-0.5 size-4 shrink-0" /> {pain.problem}
+                <X className="text-destructive mt-0.5 size-4 shrink-0" />{" "}
+                {pain.problem}
               </p>
               <p className="mt-4 flex items-start gap-2 leading-relaxed">
-                <Check className="text-primary mt-1 size-4 shrink-0" /> {pain.solution}
+                <Check className="text-primary mt-1 size-4 shrink-0" />{" "}
+                {pain.solution}
               </p>
             </div>
           ))}
@@ -106,28 +130,35 @@ export default async function IndustryPage({ params }: Props) {
                 if (!f) return null;
                 return (
                   <div key={id} className="flex gap-4">
-                    <span className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-lg dark:bg-primary/20">
+                    <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-10 shrink-0 items-center justify-center rounded-lg">
                       <f.icon className="size-5" />
                     </span>
                     <div>
                       <h3 className="font-semibold">{f.title}</h3>
-                      <p className="text-muted-foreground mt-1 leading-relaxed">{f.description}</p>
+                      <p className="text-muted-foreground mt-1 leading-relaxed">
+                        {f.description}
+                      </p>
                     </div>
                   </div>
                 );
               })}
             </div>
-            <Link href="/funkcje" className="text-primary mt-8 inline-flex items-center gap-1.5 font-medium hover:underline">
+            <Link
+              href="/funkcje"
+              className="text-primary mt-8 inline-flex items-center gap-1.5 font-medium hover:underline"
+            >
               Wszystkie funkcje <ArrowRight className="size-4" />
             </Link>
           </div>
 
           <div className="bg-card h-fit rounded-xl border p-6 shadow-sm">
             <Badge className="mb-3">Gotowy szablon</Badge>
-            <h3 className="text-lg font-semibold">Usługi gotowe od pierwszego dnia</h3>
+            <h3 className="text-lg font-semibold">
+              Usługi gotowe od pierwszego dnia
+            </h3>
             <p className="text-muted-foreground mt-1 text-sm">
-              Wybierz branżę „{industry.name}” przy rejestracji, a Saloonik doda przykładowe usługi. Czasy i ceny
-              zmienisz w każdej chwili.
+              Wybierz branżę „{industry.name}” przy rejestracji, a Saloonik doda
+              przykładowe usługi. Czasy i ceny zmienisz w każdej chwili.
             </p>
             <table className="mt-5 w-full text-sm">
               <thead className="sr-only">
@@ -141,11 +172,18 @@ export default async function IndustryPage({ params }: Props) {
                 {industry.services.map((s) => (
                   <tr key={s.name}>
                     <td className="py-2.5 pr-2">
-                      <span className="mr-2 inline-block size-2 rounded-full align-middle" style={{ backgroundColor: industry.color }} />
+                      <span
+                        className="mr-2 inline-block size-2 rounded-full align-middle"
+                        style={{ backgroundColor: industry.color }}
+                      />
                       {s.name}
                     </td>
-                    <td className="text-muted-foreground py-2.5 text-right font-mono">{s.duration} min</td>
-                    <td className="py-2.5 pl-4 text-right font-mono">{formatPln(s.price)}</td>
+                    <td className="text-muted-foreground py-2.5 text-right font-mono">
+                      {s.duration} min
+                    </td>
+                    <td className="py-2.5 pl-4 text-right font-mono">
+                      {formatPln(s.price)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -154,10 +192,17 @@ export default async function IndustryPage({ params }: Props) {
         </div>
       </Section>
 
-      <FaqSection items={industry.faq} title={`${industry.h1} — pytania i odpowiedzi`} className="bg-card/50 border-y" />
+      <FaqSection
+        items={industry.faq}
+        title={`${industry.h1} — pytania i odpowiedzi`}
+        className="bg-card/50 border-y"
+      />
 
       <Section>
-        <SectionHeading eyebrow="Inne branże" title="Saloonik sprawdza się także w" />
+        <SectionHeading
+          eyebrow="Inne branże"
+          title="Saloonik sprawdza się także w"
+        />
         <ul className="mt-10 flex flex-wrap justify-center gap-2">
           {others.map((o) => (
             <li key={o.slug}>
@@ -174,7 +219,12 @@ export default async function IndustryPage({ params }: Props) {
 
       <CtaSection title={`${industry.h1}, który działa od pierwszego dnia`} />
       <JsonLd
-        data={[softwareJsonLd(), breadcrumbJsonLd([{ name: industry.name, path: `/dla/${industry.slug}` }])]}
+        data={[
+          softwareJsonLd(),
+          breadcrumbJsonLd([
+            { name: industry.name, path: `/dla/${industry.slug}` },
+          ]),
+        ]}
       />
     </>
   );

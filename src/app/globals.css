@@ -3,10 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * „Atelier Plum” — tokeny 1:1 z @saloonik/app-core/tokens.css (system.saloonik.com).
- * Wartości są w hex: używaj var(--x), nigdy hsl(var(--x)).
- */
 :root {
   --background: #fcf8fa;
   --foreground: #281c25;
@@ -40,11 +36,21 @@
   --radius: 0.75rem;
   --shadow-2xs: 0px 1px 2px 0px hsl(335 30% 22% / 0.04);
   --shadow-xs: 0px 1px 3px 0px hsl(335 30% 22% / 0.05);
-  --shadow-sm: 0px 2px 4px -1px hsl(335 30% 22% / 0.07), 0px 1px 2px -1px hsl(335 30% 22% / 0.07);
-  --shadow: 0px 2px 6px -1px hsl(335 30% 22% / 0.08), 0px 1px 3px -1px hsl(335 30% 22% / 0.08);
-  --shadow-md: 0px 4px 10px -2px hsl(335 30% 22% / 0.09), 0px 2px 4px -2px hsl(335 30% 22% / 0.09);
-  --shadow-lg: 0px 8px 20px -4px hsl(335 30% 22% / 0.1), 0px 4px 6px -4px hsl(335 30% 22% / 0.1);
-  --shadow-xl: 0px 16px 32px -6px hsl(335 30% 22% / 0.12), 0px 8px 10px -6px hsl(335 30% 22% / 0.12);
+  --shadow-sm:
+    0px 2px 4px -1px hsl(335 30% 22% / 0.07),
+    0px 1px 2px -1px hsl(335 30% 22% / 0.07);
+  --shadow:
+    0px 2px 6px -1px hsl(335 30% 22% / 0.08),
+    0px 1px 3px -1px hsl(335 30% 22% / 0.08);
+  --shadow-md:
+    0px 4px 10px -2px hsl(335 30% 22% / 0.09),
+    0px 2px 4px -2px hsl(335 30% 22% / 0.09);
+  --shadow-lg:
+    0px 8px 20px -4px hsl(335 30% 22% / 0.1),
+    0px 4px 6px -4px hsl(335 30% 22% / 0.1);
+  --shadow-xl:
+    0px 16px 32px -6px hsl(335 30% 22% / 0.12),
+    0px 8px 10px -6px hsl(335 30% 22% / 0.12);
   --shadow-2xl: 0px 24px 48px -12px hsl(335 30% 22% / 0.18);
   --tracking-normal: 0em;
 }
@@ -81,11 +87,21 @@
   --viz-5: #9c72de;
   --shadow-2xs: 0px 1px 2px 0px hsl(330 40% 3% / 0.2);
   --shadow-xs: 0px 1px 3px 0px hsl(330 40% 3% / 0.24);
-  --shadow-sm: 0px 2px 4px -1px hsl(330 40% 3% / 0.28), 0px 1px 2px -1px hsl(330 40% 3% / 0.28);
-  --shadow: 0px 2px 6px -1px hsl(330 40% 3% / 0.32), 0px 1px 3px -1px hsl(330 40% 3% / 0.32);
-  --shadow-md: 0px 4px 10px -2px hsl(330 40% 3% / 0.36), 0px 2px 4px -2px hsl(330 40% 3% / 0.36);
-  --shadow-lg: 0px 8px 20px -4px hsl(330 40% 3% / 0.4), 0px 4px 6px -4px hsl(330 40% 3% / 0.4);
-  --shadow-xl: 0px 16px 32px -6px hsl(330 40% 3% / 0.44), 0px 8px 10px -6px hsl(330 40% 3% / 0.44);
+  --shadow-sm:
+    0px 2px 4px -1px hsl(330 40% 3% / 0.28),
+    0px 1px 2px -1px hsl(330 40% 3% / 0.28);
+  --shadow:
+    0px 2px 6px -1px hsl(330 40% 3% / 0.32),
+    0px 1px 3px -1px hsl(330 40% 3% / 0.32);
+  --shadow-md:
+    0px 4px 10px -2px hsl(330 40% 3% / 0.36),
+    0px 2px 4px -2px hsl(330 40% 3% / 0.36);
+  --shadow-lg:
+    0px 8px 20px -4px hsl(330 40% 3% / 0.4),
+    0px 4px 6px -4px hsl(330 40% 3% / 0.4);
+  --shadow-xl:
+    0px 16px 32px -6px hsl(330 40% 3% / 0.44),
+    0px 8px 10px -6px hsl(330 40% 3% / 0.44);
   --shadow-2xl: 0px 24px 48px -12px hsl(330 40% 3% / 0.55);
   color-scheme: dark;
 }
@@ -121,7 +137,6 @@
   --color-viz-4: var(--viz-4);
   --color-viz-5: var(--viz-5);
 
-  /* Zmienne ustawia next/font w layout.tsx */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 

@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { formatPln, monthlyPrice, periodPrice, withVat, isEnterprise } from "./pricing";
+import {
+  formatPln,
+  monthlyPrice,
+  periodPrice,
+  withVat,
+  isEnterprise,
+} from "./pricing";
 
 describe("formatPln", () => {
   it("pełne złote bez groszy, inaczej zawsze dwa miejsca", () => {
@@ -8,8 +14,6 @@ describe("formatPln", () => {
   });
 });
 
-// Oczekiwane wartości policzone ze wzoru w SubscriptionPricing.cs:
-// 79 + 35 × min(e, 5) + 25 × max(min(e, 15) − 5, 0) + 59 × (oddziały − 1)
 describe("monthlyPrice", () => {
   it.each([
     [0, 1, 79],
@@ -19,10 +23,13 @@ describe("monthlyPrice", () => {
     [6, 2, 338],
     [12, 5, 665],
     [15, 5, 740],
-    [40, 5, 740], // powyżej 15 pracowników kolejni są bezpłatni
-  ])("%i pracowników, %i oddziałów → %i zł", (employees, branches, expected) => {
-    expect(monthlyPrice(employees, branches)).toBe(expected);
-  });
+    [40, 5, 740],
+  ])(
+    "%i pracowników, %i oddziałów → %i zł",
+    (employees, branches, expected) => {
+      expect(monthlyPrice(employees, branches)).toBe(expected);
+    },
+  );
 
   it("większy zespół nigdy nie kosztuje mniej", () => {
     for (let e = 1; e <= 20; e++) {

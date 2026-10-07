@@ -8,6 +8,7 @@ export default function OpengraphImage() {
   return renderOg({
     eyebrow: "Dla salonów, gabinetów i studiów",
     title: "Program do umawiania wizyt",
-    subtitle: "Kalendarz wizyt, klienci, przypomnienia SMS i statystyki. 7 dni za darmo.",
+    subtitle:
+      "Kalendarz wizyt, klienci, przypomnienia SMS i statystyki. 7 dni za darmo.",
   });
 }

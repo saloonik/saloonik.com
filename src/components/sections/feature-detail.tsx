@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import type { Feature } from "@/content/features";
 import { cn } from "@/lib/utils";
 
-// Rozbudowany blok funkcji: opis + lista + opcjonalna wizualizacja, naprzemiennie lewo/prawo.
 export function FeatureDetail({
   feature,
   visual,
@@ -15,16 +14,21 @@ export function FeatureDetail({
 }) {
   const Icon = feature.icon;
   return (
-    <article id={feature.id} className="grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <article
+      id={feature.id}
+      className="grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+    >
       <div className={cn(reverse && "lg:order-2")}>
-        <span className="bg-primary/10 text-primary flex size-11 items-center justify-center rounded-xl dark:bg-primary/20">
+        <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 items-center justify-center rounded-xl">
           <Icon className="size-5" />
         </span>
         <h2 className="mt-5 flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl">
           {feature.title}
           {feature.soon && <Badge variant="warning">Wkrótce</Badge>}
         </h2>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{feature.description}</p>
+        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
+          {feature.description}
+        </p>
         <ul className="mt-6 space-y-3">
           {feature.points.map((p) => (
             <li key={p} className="flex gap-3">

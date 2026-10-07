@@ -9,8 +9,11 @@ type PageMeta = {
   path: string;
 };
 
-/** Metadata strony z canonical i OG. OG image dostarczają pliki opengraph-image.tsx. */
-export function buildMetadata({ title, description, path }: PageMeta): Metadata {
+export function buildMetadata({
+  title,
+  description,
+  path,
+}: PageMeta): Metadata {
   const desc = description ?? siteConfig.description;
   const url = new URL(path, siteConfig.url).toString();
   return {

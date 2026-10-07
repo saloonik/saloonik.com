@@ -1,4 +1,3 @@
-// Dane strukturalne schema.org. `<` jest escapowane, żeby treść nie mogła zamknąć tagu script.
 export function JsonLd({ data }: { data: object | object[] }) {
   return (
     <script

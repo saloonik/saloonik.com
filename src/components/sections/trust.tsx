@@ -1,4 +1,9 @@
-import { CreditCard, FileSpreadsheet, History, ShieldCheck } from "lucide-react";
+import {
+  CreditCard,
+  FileSpreadsheet,
+  History,
+  ShieldCheck,
+} from "lucide-react";
 import { Section, SectionHeading } from "@/components/layout/section";
 
 const items = [
@@ -35,11 +40,13 @@ export function Trust() {
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => (
           <div key={item.title} className="text-center">
-            <span className="bg-primary/10 text-primary mx-auto flex size-12 items-center justify-center rounded-xl dark:bg-primary/20">
+            <span className="bg-primary/10 text-primary dark:bg-primary/20 mx-auto flex size-12 items-center justify-center rounded-xl">
               <item.icon className="size-6" />
             </span>
             <h3 className="mt-4 font-semibold">{item.title}</h3>
-            <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{item.text}</p>
+            <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+              {item.text}
+            </p>
           </div>
         ))}
       </div>

@@ -62,10 +62,14 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${jetbrainsMono.variable} min-h-dvh`}>
+      <body
+        className={`${dmSans.variable} ${jetbrainsMono.variable} min-h-dvh`}
+      >
         <ThemeProvider>
           <a
             href="#tresc"

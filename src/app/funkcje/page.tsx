@@ -1,7 +1,11 @@
 import { JsonLd } from "@/components/json-ld";
 import { Container, SectionHeading } from "@/components/layout/section";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
-import { ClientCardMockup, PhotosMockup, TreatmentCardsMockup } from "@/components/mockups/client-card-mockup";
+import {
+  ClientCardMockup,
+  PhotosMockup,
+  TreatmentCardsMockup,
+} from "@/components/mockups/client-card-mockup";
 import { PhoneMockup } from "@/components/mockups/phone-mockup";
 import { SmsMockup } from "@/components/mockups/sms-mockup";
 import { StatsMockup } from "@/components/mockups/stats-mockup";
@@ -41,7 +45,10 @@ export default function FeaturesPage() {
             title="Jeden program do prowadzenia całej firmy usługowej"
             description="Kalendarz, klienci, przypomnienia, zespół i statystyki — wszystko w cenie abonamentu, bez dodatkowych modułów."
           />
-          <nav aria-label="Spis funkcji" className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-2">
+          <nav
+            aria-label="Spis funkcji"
+            className="mx-auto mt-10 flex max-w-4xl flex-wrap justify-center gap-2"
+          >
             {all.map((f) => (
               <a
                 key={f.id}
@@ -57,12 +64,19 @@ export default function FeaturesPage() {
 
       <Container className="space-y-24 py-16 sm:space-y-32 sm:py-24">
         {all.map((feature, i) => (
-          <FeatureDetail key={feature.id} feature={feature} visual={visuals[feature.id]} reverse={i % 2 === 1} />
+          <FeatureDetail
+            key={feature.id}
+            feature={feature}
+            visual={visuals[feature.id]}
+            reverse={i % 2 === 1}
+          />
         ))}
       </Container>
 
       <CtaSection />
-      <JsonLd data={breadcrumbJsonLd([{ name: "Funkcje", path: "/funkcje" }])} />
+      <JsonLd
+        data={breadcrumbJsonLd([{ name: "Funkcje", path: "/funkcje" }])}
+      />
     </>
   );
 }

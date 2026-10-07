@@ -48,7 +48,8 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
         <div>
           <h3 className="text-xl font-semibold">Skonfiguruj swój abonament</h3>
           <p className="text-muted-foreground mt-1 text-sm">
-            Jeden plan ze wszystkimi funkcjami. Płacisz tylko za wielkość zespołu i liczbę lokali.
+            Jeden plan ze wszystkimi funkcjami. Płacisz tylko za wielkość
+            zespołu i liczbę lokali.
           </p>
         </div>
 
@@ -60,14 +61,22 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
               : "Bez właściciela — właściciel jest w cenie"
           }
           value={employees}
-          display={employees >= plan.maxEmployees ? `${plan.maxEmployees}+` : String(employees)}
+          display={
+            employees >= plan.maxEmployees
+              ? `${plan.maxEmployees}+`
+              : String(employees)
+          }
           min={0}
           max={plan.maxEmployees}
           onChange={setEmployees}
         />
         <Stepper
           label="Oddziały"
-          hint={enterprise ? "Powyżej 5 oddziałów — wycena indywidualna" : "Pierwszy oddział jest w cenie"}
+          hint={
+            enterprise
+              ? "Powyżej 5 oddziałów — wycena indywidualna"
+              : "Pierwszy oddział jest w cenie"
+          }
           value={branches}
           display={enterprise ? `${plan.maxBranches}+` : String(branches)}
           min={1}
@@ -76,7 +85,10 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
         />
 
         <div className="flex flex-wrap gap-x-8 gap-y-4 border-t pt-6">
-          <label htmlFor={yearlyId} className="flex cursor-pointer items-center gap-3 text-sm font-medium">
+          <label
+            htmlFor={yearlyId}
+            className="flex cursor-pointer items-center gap-3 text-sm font-medium"
+          >
             <Switch
               id={yearlyId}
               checked={period === "yearly"}
@@ -85,31 +97,41 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
             Płatność roczna
             <Badge variant="success">2 miesiące gratis</Badge>
           </label>
-          <label htmlFor={grossId} className="flex cursor-pointer items-center gap-3 text-sm font-medium">
+          <label
+            htmlFor={grossId}
+            className="flex cursor-pointer items-center gap-3 text-sm font-medium"
+          >
             <Switch id={grossId} checked={gross} onCheckedChange={setGross} />
             Pokaż ceny brutto
           </label>
         </div>
       </div>
 
-      <div className="bg-primary text-primary-foreground flex flex-col gap-6 p-6 sm:p-10 dark:bg-accent dark:text-accent-foreground">
+      <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground flex flex-col gap-6 p-6 sm:p-10">
         {enterprise ? (
           <div className="space-y-3">
             <p className="text-sm font-medium opacity-80">Enterprise</p>
             <p className="text-4xl font-semibold">Wycena indywidualna</p>
             <p className="opacity-80">
-              Masz więcej niż {plan.maxBranches} oddziałów? Napisz do nas — przygotujemy ofertę dopasowaną do sieci
-              lokali.
+              Masz więcej niż {plan.maxBranches} oddziałów? Napisz do nas —
+              przygotujemy ofertę dopasowaną do sieci lokali.
             </p>
           </div>
         ) : (
           <div>
             <p className="text-sm font-medium opacity-80">
-              {period === "yearly" ? "Płacisz raz w roku" : "Płacisz co miesiąc"} · {gross ? "brutto" : "netto"}
+              {period === "yearly"
+                ? "Płacisz raz w roku"
+                : "Płacisz co miesiąc"}{" "}
+              · {gross ? "brutto" : "netto"}
             </p>
             <p className="mt-2 flex items-baseline gap-2" aria-live="polite">
-              <span className="font-mono text-5xl font-semibold tracking-tight">{show(total)}</span>
-              <span className="opacity-80">/{period === "yearly" ? "rok" : "mies."}</span>
+              <span className="font-mono text-5xl font-semibold tracking-tight">
+                {show(total)}
+              </span>
+              <span className="opacity-80">
+                /{period === "yearly" ? "rok" : "mies."}
+              </span>
             </p>
             {period === "yearly" && (
               <p className="mt-1 text-sm opacity-80">
@@ -117,12 +139,21 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
               </p>
             )}
             <dl className="mt-6 space-y-2 border-t border-current/20 pt-4 text-sm">
-              <Row label="Właściciel + 1 oddział" value={show(plan.monthlyPrice)} />
+              <Row
+                label="Właściciel + 1 oddział"
+                value={show(plan.monthlyPrice)}
+              />
               {employees > 0 && (
-                <Row label={`Pracownicy (${employees >= plan.maxEmployees ? "15+" : employees})`} value={show(extraEmployeesPrice(employees))} />
+                <Row
+                  label={`Pracownicy (${employees >= plan.maxEmployees ? "15+" : employees})`}
+                  value={show(extraEmployeesPrice(employees))}
+                />
               )}
               {extraBranches > 0 && (
-                <Row label={`Dodatkowe oddziały (${extraBranches})`} value={show(extraBranches * plan.pricePerExtraBranch)} />
+                <Row
+                  label={`Dodatkowe oddziały (${extraBranches})`}
+                  value={show(extraBranches * plan.pricePerExtraBranch)}
+                />
               )}
               <Row label="Razem miesięcznie" value={show(monthly)} strong />
             </dl>
@@ -144,21 +175,35 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 dark:bg-primary dark:text-primary-foreground w-full"
           >
             {enterprise ? (
-              <a href={`mailto:${contactEmail}?subject=Saloonik%20Enterprise`}>Napisz do nas</a>
+              <a href={`mailto:${contactEmail}?subject=Saloonik%20Enterprise`}>
+                Napisz do nas
+              </a>
             ) : (
               <a href={registerUrl}>Zacznij 7 dni za darmo</a>
             )}
           </Button>
-          <p className="text-center text-xs opacity-80">Bez karty płatniczej. Ceny netto, do których doliczamy 23% VAT.</p>
+          <p className="text-center text-xs opacity-80">
+            Bez karty płatniczej. Ceny netto, do których doliczamy 23% VAT.
+          </p>
         </div>
       </div>
     </div>
   );
 }
 
-function Row({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+function Row({
+  label,
+  value,
+  strong,
+}: {
+  label: string;
+  value: string;
+  strong?: boolean;
+}) {
   return (
-    <div className={cn("flex justify-between gap-4", strong && "font-semibold")}>
+    <div
+      className={cn("flex justify-between gap-4", strong && "font-semibold")}
+    >
       <dt className={cn(!strong && "opacity-80")}>{label}</dt>
       <dd className="font-mono">{value}</dd>
     </div>
@@ -175,14 +220,26 @@ type StepperProps = {
   onChange: (value: number) => void;
 };
 
-function Stepper({ label, hint, value, display, min, max, onChange }: StepperProps) {
+function Stepper({
+  label,
+  hint,
+  value,
+  display,
+  min,
+  max,
+  onChange,
+}: StepperProps) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div>
         <p className="font-medium">{label}</p>
         <p className="text-muted-foreground text-sm">{hint}</p>
       </div>
-      <div className="flex items-center gap-1 rounded-lg border p-1" role="group" aria-label={label}>
+      <div
+        className="flex items-center gap-1 rounded-lg border p-1"
+        role="group"
+        aria-label={label}
+      >
         <Button
           variant="ghost"
           size="icon-sm"
@@ -192,7 +249,10 @@ function Stepper({ label, hint, value, display, min, max, onChange }: StepperPro
         >
           <Minus />
         </Button>
-        <output aria-live="polite" className="w-10 text-center font-mono text-lg font-semibold">
+        <output
+          aria-live="polite"
+          className="w-10 text-center font-mono text-lg font-semibold"
+        >
           {display}
         </output>
         <Button

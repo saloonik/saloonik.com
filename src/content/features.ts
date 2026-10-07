@@ -24,14 +24,13 @@ export type Feature = {
   soon?: boolean;
 };
 
-// Treść oparta wyłącznie o funkcje, które działają w system.saloonik.com
-// (routes, changelog patch-notes.ts, artykuły pomocy). „soon” = jeszcze niedostępne.
 export const features: Feature[] = [
   {
     id: "kalendarz",
     icon: CalendarDays,
     title: "Kalendarz wizyt",
-    summary: "Grafik całego zespołu na jednym ekranie. Przeciągasz wizytę — gotowe.",
+    summary:
+      "Grafik całego zespołu na jednym ekranie. Przeciągasz wizytę — gotowe.",
     description:
       "Widok dnia z kolumną dla każdego pracownika, tydzień, miesiąc albo lista wizyt. Wizyty przesuwasz i wydłużasz myszką, a Saloonik pilnuje, żeby nic się nie nałożyło.",
     points: [
@@ -47,7 +46,8 @@ export const features: Feature[] = [
     id: "klienci",
     icon: Users,
     title: "Kartoteka klienta",
-    summary: "Wizyty, karty zabiegowe, zdjęcia i opinie klienta — w jednym oknie.",
+    summary:
+      "Wizyty, karty zabiegowe, zdjęcia i opinie klienta — w jednym oknie.",
     description:
       "Kartoteka klienta otwiera się nad dowolną stroną, z zakładkami: dane klienta, wizyty, karty zabiegowe, zdjęcia i opinia. Dotychczasową bazę przenosisz z pliku Excel w kilka minut.",
     points: [
@@ -62,7 +62,8 @@ export const features: Feature[] = [
     id: "karty-zabiegowe",
     icon: ClipboardList,
     title: "Karty zabiegowe",
-    summary: "Klient dostaje kartę mailem przed wizytą, a Ty dodajesz skan wypełnionej.",
+    summary:
+      "Klient dostaje kartę mailem przed wizytą, a Ty dodajesz skan wypełnionej.",
     description:
       "Wgraj własne wzory kart — wywiady, zgody, ankiety — i przypisz je do usług. Przy zapisie na wizytę Saloonik wyśle kartę klientowi mailem, a wypełnioną dodasz jako skan, choćby zdjęciem z telefonu.",
     points: [
@@ -135,7 +136,8 @@ export const features: Feature[] = [
     id: "statystyki",
     icon: ChartColumn,
     title: "Statystyki",
-    summary: "Przychód, obłożenie i lojalność klientów — bez arkuszy kalkulacyjnych.",
+    summary:
+      "Przychód, obłożenie i lojalność klientów — bez arkuszy kalkulacyjnych.",
     description:
       "Zobacz, które usługi i którzy pracownicy zarabiają najwięcej, jak wykorzystany jest czas zespołu i ilu klientów wraca.",
     points: [
@@ -191,7 +193,8 @@ export const upcomingFeatures: Feature[] = [
     icon: Package,
     title: "Magazyn",
     summary: "Stany produktów i kosmetyków pod kontrolą.",
-    description: "Ewidencja produktów i materiałów zużywanych podczas zabiegów.",
+    description:
+      "Ewidencja produktów i materiałów zużywanych podczas zabiegów.",
     points: ["Stany magazynowe", "Zużycie materiałów"],
     soon: true,
   },

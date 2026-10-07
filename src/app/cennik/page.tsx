@@ -40,9 +40,15 @@ export default function PricingPage() {
           <table className="bg-background w-full text-left text-sm">
             <thead className="bg-muted/60 text-muted-foreground text-xs uppercase">
               <tr>
-                <th scope="col" className="px-4 py-3 font-semibold">Firma</th>
-                <th scope="col" className="px-4 py-3 text-right font-semibold">Miesięcznie</th>
-                <th scope="col" className="px-4 py-3 text-right font-semibold">Rocznie</th>
+                <th scope="col" className="px-4 py-3 font-semibold">
+                  Firma
+                </th>
+                <th scope="col" className="px-4 py-3 text-right font-semibold">
+                  Miesięcznie
+                </th>
+                <th scope="col" className="px-4 py-3 text-right font-semibold">
+                  Rocznie
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -50,9 +56,15 @@ export default function PricingPage() {
                 const m = monthlyPrice(ex.employees, ex.branches);
                 return (
                   <tr key={ex.label}>
-                    <th scope="row" className="px-4 py-3 font-medium">{ex.label}</th>
-                    <td className="px-4 py-3 text-right font-mono">{formatPln(m)}</td>
-                    <td className="px-4 py-3 text-right font-mono">{formatPln(m * 10)}</td>
+                    <th scope="row" className="px-4 py-3 font-medium">
+                      {ex.label}
+                    </th>
+                    <td className="px-4 py-3 text-right font-mono">
+                      {formatPln(m)}
+                    </td>
+                    <td className="px-4 py-3 text-right font-mono">
+                      {formatPln(m * 10)}
+                    </td>
                   </tr>
                 );
               })}
@@ -63,7 +75,12 @@ export default function PricingPage() {
 
       <FaqSection items={pricingFaq} title="Pytania o cennik i płatności" />
       <CtaSection />
-      <JsonLd data={[softwareJsonLd(), breadcrumbJsonLd([{ name: "Cennik", path: "/cennik" }])]} />
+      <JsonLd
+        data={[
+          softwareJsonLd(),
+          breadcrumbJsonLd([{ name: "Cennik", path: "/cennik" }]),
+        ]}
+      />
     </>
   );
 }

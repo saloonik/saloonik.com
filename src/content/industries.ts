@@ -5,7 +5,7 @@ export type ServiceSample = { name: string; duration: number; price: number };
 export type Industry = {
   slug: string;
   name: string;
-  /** Kolor branży z industry-presets.ts w systemie */
+
   color: string;
   h1: string;
   metaTitle: string;
@@ -18,7 +18,6 @@ export type Industry = {
   faq: FaqItem[];
 };
 
-// Wszystkie branże dostępne przy rejestracji (system.saloonik.com, industry-presets.ts).
 export const allIndustryLabels = [
   "Fryzjerstwo",
   "Barber",
@@ -38,7 +37,6 @@ export const allIndustryLabels = [
   "Inna branża",
 ];
 
-// Podstrony SEO. Usługi i ceny = gotowe szablony, które Saloonik proponuje przy rejestracji.
 export const industries: Industry[] = [
   {
     slug: "salon-fryzjerski",
@@ -300,7 +298,8 @@ export const industries: Industry[] = [
       },
       {
         question: "Ile SMS-ów mam w cenie?",
-        answer: "200 SMS-ów na osobę (właścicielkę i każdego pracownika) miesięcznie.",
+        answer:
+          "200 SMS-ów na osobę (właścicielkę i każdego pracownika) miesięcznie.",
       },
       {
         question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
@@ -352,7 +351,8 @@ export const industries: Industry[] = [
       },
       {
         question: "Czy mogę wydrukować grafik terapeuty na dany dzień?",
-        answer: "Tak, dzienny grafik pracownika wydrukujesz lub zapiszesz jako PDF.",
+        answer:
+          "Tak, dzienny grafik pracownika wydrukujesz lub zapiszesz jako PDF.",
       },
       {
         question: "Czy Saloonik nadaje się też dla fizjoterapeuty?",
@@ -363,4 +363,5 @@ export const industries: Industry[] = [
   },
 ];
 
-export const getIndustry = (slug: string) => industries.find((i) => i.slug === slug);
+export const getIndustry = (slug: string) =>
+  industries.find((i) => i.slug === slug);

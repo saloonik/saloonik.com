@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 
-// Ramka okna przeglądarki wokół mockupów aplikacji. Mockupy są dekoracyjne — treść
-// opisuje je dla czytników ekranu przez `label`.
 export function AppWindow({
   label,
   className,
@@ -15,9 +13,15 @@ export function AppWindow({
     <figure
       role="img"
       aria-label={label}
-      className={cn("bg-card relative overflow-hidden rounded-xl border shadow-2xl select-none", className)}
+      className={cn(
+        "bg-card relative overflow-hidden rounded-xl border shadow-2xl select-none",
+        className,
+      )}
     >
-      <div aria-hidden className="bg-muted/60 flex items-center gap-2 border-b px-4 py-2.5">
+      <div
+        aria-hidden
+        className="bg-muted/60 flex items-center gap-2 border-b px-4 py-2.5"
+      >
         <span className="size-2.5 rounded-full bg-[#ff5f57]" />
         <span className="size-2.5 rounded-full bg-[#febc2e]" />
         <span className="size-2.5 rounded-full bg-[#28c840]" />
@@ -31,7 +35,6 @@ export function AppWindow({
   );
 }
 
-/** Kolor „wash” jak w systemie (hex + 1a), ale oparty o tokeny, żeby działał w dark mode. */
 export const wash = (cssVar: string) => ({
   backgroundColor: `color-mix(in oklab, var(${cssVar}) 14%, transparent)`,
   borderColor: `var(${cssVar})`,

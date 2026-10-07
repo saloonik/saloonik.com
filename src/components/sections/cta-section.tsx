@@ -13,18 +13,26 @@ export function CtaSection({
   return (
     <section className="py-20 sm:py-28">
       <Container>
-        <div className="bg-primary text-primary-foreground relative isolate overflow-hidden rounded-3xl px-6 py-16 text-center shadow-2xl sm:px-16 dark:bg-accent dark:text-accent-foreground">
+        <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground relative isolate overflow-hidden rounded-3xl px-6 py-16 text-center shadow-2xl sm:px-16">
           <div
             aria-hidden
             className="absolute inset-0 -z-10 opacity-[0.12]"
             style={{
-              backgroundImage: "radial-gradient(currentColor 1px, transparent 1px)",
+              backgroundImage:
+                "radial-gradient(currentColor 1px, transparent 1px)",
               backgroundSize: "28px 28px",
             }}
           />
-          <div aria-hidden className="absolute -top-24 -right-24 -z-10 size-96 rounded-full bg-rose-400/30 blur-3xl" />
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{title}</h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg opacity-85">{description}</p>
+          <div
+            aria-hidden
+            className="absolute -top-24 -right-24 -z-10 size-96 rounded-full bg-rose-400/30 blur-3xl"
+          />
+          <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            {title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-lg opacity-85">
+            {description}
+          </p>
           <Button
             asChild
             size="xl"
