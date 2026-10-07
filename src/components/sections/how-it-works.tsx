@@ -29,13 +29,22 @@ export function HowItWorks() {
       />
       <ol className="mt-14 grid gap-6 md:grid-cols-3">
         {steps.map((step, i) => (
-          <li key={step.title} className="bg-background relative rounded-xl border p-6">
+          <li
+            key={step.title}
+            className="bg-background relative rounded-xl border p-6"
+          >
             <span className="text-primary/15 dark:text-primary/20 absolute top-4 right-5 font-mono text-5xl font-bold">
               {i + 1}
             </span>
-            <step.icon className="text-primary size-6" />
-            <h3 className="mt-4 text-lg font-semibold">{step.title}</h3>
-            <p className="text-muted-foreground mt-2 leading-relaxed">{step.text}</p>
+            <div className="flex items-center gap-3 pr-10">
+              <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-10 shrink-0 items-center justify-center rounded-lg">
+                <step.icon className="size-5" />
+              </span>
+              <h3 className="text-lg font-semibold">{step.title}</h3>
+            </div>
+            <p className="text-muted-foreground mt-4 leading-relaxed">
+              {step.text}
+            </p>
           </li>
         ))}
       </ol>

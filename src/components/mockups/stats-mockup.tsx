@@ -1,4 +1,5 @@
 import { TrendingUp } from "lucide-react";
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 
 const kpis = [
@@ -8,7 +9,6 @@ const kpis = [
   { label: "Obłożenie", value: "82%", delta: "+4 pp" },
 ];
 
-// Przychód tygodniowy — jedna seria, jeden odcień (primary), bez legendy.
 const weeks = [62, 70, 58, 74, 81, 77, 69, 85, 88, 79, 92, 96];
 
 export function StatsMockup({ className }: { className?: string }) {
@@ -16,28 +16,50 @@ export function StatsMockup({ className }: { className?: string }) {
     <figure
       role="img"
       aria-label="Statystyki firmy: przychód, liczba wizyt, nowi klienci i obłożenie z trendem z 12 tygodni"
-      className={cn("bg-card rounded-xl border p-5 text-left shadow-xl select-none", className)}
+      className={cn(
+        "bg-card rounded-xl border p-4 text-left shadow-xl select-none",
+        className,
+      )}
     >
-      <div aria-hidden className="space-y-5">
-        <div className="grid grid-cols-2 gap-3">
+      <div aria-hidden className="space-y-4">
+        <div className="grid grid-cols-2 gap-2">
           {kpis.map((k) => (
-            <div key={k.label} className="rounded-lg border p-3">
+            <div key={k.label} className="rounded-lg border px-3 py-2">
               <p className="text-muted-foreground text-[11px]">{k.label}</p>
-              <p className="mt-0.5 font-mono text-lg font-semibold">{k.value}</p>
-              <p className="flex items-center gap-1 text-[11px] text-emerald-700 dark:text-emerald-400">
-                <TrendingUp className="size-3" /> {k.delta} vs poprz. miesiąc
+              <p className="flex items-baseline justify-between gap-2">
+                <span className="font-mono text-base font-semibold whitespace-nowrap">
+                  {k.value}
+                </span>
+                <span className="flex items-center gap-0.5 text-[11px] text-emerald-700 dark:text-emerald-400">
+                  <TrendingUp className="size-3" /> {k.delta}
+                </span>
               </p>
             </div>
           ))}
         </div>
         <div>
-          <p className="mb-3 text-xs font-semibold">Przychód — ostatnie 12 tygodni</p>
-          <div className="flex h-28 items-end gap-0.5 border-b">
+          <p className="mb-2 flex justify-between text-xs">
+            <span className="font-semibold">
+              Przychód — ostatnie 12 tygodni
+            </span>
+            <span className="text-muted-foreground">vs poprz. miesiąc</span>
+          </p>
+          <div className="flex h-16 items-end gap-0.5 border-b">
             {weeks.map((v, i) => (
-              <div
+              <motion.div
                 key={i}
-                className={cn("flex-1 rounded-t-[4px]", i === weeks.length - 1 ? "bg-primary" : "bg-primary/35")}
-                style={{ height: `${v}%` }}
+                className={cn(
+                  "flex-1 rounded-t-[3px]",
+                  i === weeks.length - 1 ? "bg-primary" : "bg-primary/35",
+                )}
+                initial={{ height: "0%" }}
+                whileInView={{ height: `${v}%` }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.04,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               />
             ))}
           </div>
