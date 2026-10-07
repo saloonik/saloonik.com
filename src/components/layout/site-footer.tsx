@@ -23,22 +23,33 @@ const columns: { title: string; links: FooterLink[] }[] = [
     title: "Pomoc",
     links: [
       { href: "/kontakt", label: "Kontakt" },
-      { href: siteConfig.helpUrl, label: "Centrum pomocy", external: true },
-      { href: `mailto:${siteConfig.contactEmail}`, label: siteConfig.contactEmail, external: true },
+      {
+        href: `mailto:${siteConfig.contactEmail}`,
+        label: siteConfig.contactEmail,
+        external: true,
+      },
     ],
   },
   {
     title: "Dokumenty",
     links: [
       { href: siteConfig.termsUrl, label: "Regulamin", external: true },
-      { href: siteConfig.privacyUrl, label: "Polityka prywatności", external: true },
+      {
+        href: siteConfig.privacyUrl,
+        label: "Polityka prywatności",
+        external: true,
+      },
     ],
   },
 ];
 
 export function SiteFooter() {
   const { company } = siteConfig;
-  const companyLine = [company.legalName, company.address, company.nip && `NIP ${company.nip}`]
+  const companyLine = [
+    company.legalName,
+    company.address,
+    company.nip && `NIP ${company.nip}`,
+  ]
     .filter(Boolean)
     .join(" · ");
 
@@ -48,8 +59,8 @@ export function SiteFooter() {
         <div className="max-w-xs space-y-4">
           <Logo />
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Program do umawiania wizyt dla firm usługowych — kalendarz wizyt, klienci, przypomnienia SMS i
-            statystyki w jednym miejscu.
+            Program do umawiania wizyt dla firm usługowych — kalendarz wizyt,
+            klienci, przypomnienia SMS i statystyki w jednym miejscu.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -62,11 +73,17 @@ export function SiteFooter() {
                 {col.links.map((link) => (
                   <li key={link.href}>
                     {link.external ? (
-                      <a href={link.href} className="hover:text-primary text-sm break-all transition-colors">
+                      <a
+                        href={link.href}
+                        className="hover:text-primary text-sm break-all transition-colors"
+                      >
                         {link.label}
                       </a>
                     ) : (
-                      <Link href={link.href} className="hover:text-primary text-sm transition-colors">
+                      <Link
+                        href={link.href}
+                        className="hover:text-primary text-sm transition-colors"
+                      >
                         {link.label}
                       </Link>
                     )}
@@ -79,7 +96,9 @@ export function SiteFooter() {
       </div>
       <div className="border-t">
         <div className="text-muted-foreground mx-auto flex max-w-7xl flex-col gap-1 px-4 py-6 text-xs sm:flex-row sm:justify-between sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} Saloonik. Wszelkie prawa zastrzeżone.</p>
+          <p>
+            © {new Date().getFullYear()} Saloonik. Wszelkie prawa zastrzeżone.
+          </p>
           {companyLine && <p>{companyLine}</p>}
         </div>
       </div>

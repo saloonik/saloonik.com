@@ -1,4 +1,4 @@
-import { LifeBuoy, Mail, MessageSquareText } from "lucide-react";
+import { Mail, MessageSquareText } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { HeroBackground } from "@/components/sections/hero-background";
@@ -21,13 +21,6 @@ const channels = [
     cta: siteConfig.contactEmail,
   },
   {
-    icon: LifeBuoy,
-    title: "Centrum pomocy",
-    text: "Instrukcje krok po kroku: kalendarz, klienci, import z Excela, SMS i ustawienia.",
-    href: siteConfig.helpUrl,
-    cta: "Przejdź do pomocy",
-  },
-  {
     icon: MessageSquareText,
     title: "Masz już konto?",
     text: "Skorzystaj z formularza „Zgłoś uwagę” w aplikacji — trafia prosto do naszego zespołu.",
@@ -47,24 +40,30 @@ export default function ContactPage() {
           title="Porozmawiajmy o Twojej firmie"
           description="Napisz, w czym możemy pomóc — odpowiemy najszybciej, jak to możliwe."
         />
-        <div className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-14 grid max-w-3xl gap-6 md:grid-cols-2">
           {channels.map((c) => (
             <a
               key={c.title}
               href={c.href}
               className="bg-card group flex flex-col rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md"
             >
-              <span className="bg-primary/10 text-primary flex size-11 items-center justify-center rounded-xl dark:bg-primary/20">
+              <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 items-center justify-center rounded-xl">
                 <c.icon className="size-5" />
               </span>
               <h2 className="mt-5 text-lg font-semibold">{c.title}</h2>
-              <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">{c.text}</p>
-              <span className="text-primary mt-5 text-sm font-medium break-all group-hover:underline">{c.cta}</span>
+              <p className="text-muted-foreground mt-2 flex-1 text-sm leading-relaxed">
+                {c.text}
+              </p>
+              <span className="text-primary mt-5 text-sm font-medium break-all group-hover:underline">
+                {c.cta}
+              </span>
             </a>
           ))}
         </div>
       </Section>
-      <JsonLd data={breadcrumbJsonLd([{ name: "Kontakt", path: "/kontakt" }])} />
+      <JsonLd
+        data={breadcrumbJsonLd([{ name: "Kontakt", path: "/kontakt" }])}
+      />
     </div>
   );
 }

@@ -1,5 +1,3 @@
-// Jedno źródło prawdy dla adresów, kontaktu i danych firmy.
-
 const appUrl = "https://system.saloonik.com";
 
 export const siteConfig = {
@@ -12,12 +10,11 @@ export const siteConfig = {
   appUrl,
   registerUrl: `${appUrl}/register`,
   loginUrl: appUrl,
-  helpUrl: `${appUrl}/pomoc`,
   termsUrl: `${appUrl}/regulamin`,
   privacyUrl: `${appUrl}/polityka-prywatnosci`,
-  contactEmail: "kontakt@saloonik.com",
+  contactEmail: "support@saloonik.com",
   trialDays: 7,
-  // TODO: uzupełnić przed publikacją — puste pola nie są renderowane (stopka, JSON-LD).
+
   company: {
     legalName: "",
     nip: "",
