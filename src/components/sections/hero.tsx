@@ -4,7 +4,8 @@ import * as motion from "motion/react-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GradientText } from "@/components/ui/gradient-text";
-import { Container } from "@/components/layout/section";
+import { Container, heroScreen } from "@/components/layout/section";
+import { cn } from "@/lib/utils";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
 import { SmsMockup } from "@/components/mockups/sms-mockup";
 import { siteConfig } from "@/config/site";
@@ -28,7 +29,7 @@ export const trustPoints = [
 
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden pt-16 pb-20 sm:pt-24 sm:pb-28">
+    <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
       <HeroBackground />
       <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-10">
         <motion.div

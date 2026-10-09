@@ -1,6 +1,10 @@
 import { Mail, MessageSquareText } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
-import { Section, SectionHeading } from "@/components/layout/section";
+import {
+  heroScreen,
+  Section,
+  SectionHeading,
+} from "@/components/layout/section";
 import { HeroBackground } from "@/components/sections/hero-background";
 import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
@@ -33,7 +37,7 @@ export default function ContactPage() {
   return (
     <div className="relative isolate overflow-hidden">
       <HeroBackground />
-      <Section className="pt-16 sm:pt-24">
+      <Section className={heroScreen}>
         <SectionHeading
           as="h1"
           eyebrow="Kontakt"

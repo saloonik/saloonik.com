@@ -19,10 +19,10 @@ export function FeatureDetail({
       className="grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16"
     >
       <div className={cn(reverse && "lg:order-2")}>
-        <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 items-center justify-center rounded-xl">
-          <Icon className="size-5" />
-        </span>
-        <h2 className="mt-5 flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2 className="flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 shrink-0 items-center justify-center rounded-xl">
+            <Icon className="size-5" />
+          </span>
           {feature.title}
           {feature.soon && <Badge variant="warning">Wkrótce</Badge>}
         </h2>

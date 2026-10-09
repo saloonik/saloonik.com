@@ -1,5 +1,9 @@
 import { JsonLd } from "@/components/json-ld";
-import { Container, SectionHeading } from "@/components/layout/section";
+import {
+  Container,
+  heroScreen,
+  SectionHeading,
+} from "@/components/layout/section";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
 import {
   ClientCardMockup,
@@ -13,6 +17,7 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { FeatureDetail } from "@/components/sections/feature-detail";
 import { HeroBackground } from "@/components/sections/hero-background";
 import { features, upcomingFeatures } from "@/content/features";
+import { cn } from "@/lib/utils";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -36,7 +41,7 @@ export default function FeaturesPage() {
   const all = [...features, ...upcomingFeatures];
   return (
     <>
-      <section className="relative isolate overflow-hidden py-16 sm:py-24">
+      <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
         <HeroBackground />
         <Container>
           <SectionHeading

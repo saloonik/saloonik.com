@@ -1,5 +1,9 @@
 import { JsonLd } from "@/components/json-ld";
-import { Section, SectionHeading } from "@/components/layout/section";
+import {
+  heroScreen,
+  Section,
+  SectionHeading,
+} from "@/components/layout/section";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
 import { HeroBackground } from "@/components/sections/hero-background";
@@ -27,7 +31,7 @@ export default function PricingPage() {
     <>
       <div className="relative isolate">
         <HeroBackground />
-        <PricingSection as="h1" className="pt-16 sm:pt-20" />
+        <PricingSection as="h1" className={heroScreen} />
       </div>
 
       <Section className="bg-card/50 border-y">
@@ -59,10 +63,10 @@ export default function PricingPage() {
                     <th scope="row" className="px-4 py-3 font-medium">
                       {ex.label}
                     </th>
-                    <td className="px-4 py-3 text-right font-mono">
+                    <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
                       {formatPln(m)}
                     </td>
-                    <td className="px-4 py-3 text-right font-mono">
+                    <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
                       {formatPln(m * 10)}
                     </td>
                   </tr>

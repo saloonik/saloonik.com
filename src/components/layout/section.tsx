@@ -1,5 +1,9 @@
 import { cn } from "@/lib/utils";
 
+// Full viewport minus the 65px sticky header, content centered.
+export const heroScreen =
+  "flex min-h-[calc(100svh-65px)] flex-col justify-center py-8 sm:py-8 [@media(max-height:820px)]:py-3";
+
 export function Container({
   className,
   ...props

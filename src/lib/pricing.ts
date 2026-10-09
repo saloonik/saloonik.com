@@ -9,7 +9,7 @@ export const plan = {
   pricePerExtraEmployeeAboveTier: 25,
   pricePerExtraBranch: 59,
   yearlyMonthsCharged: 10,
-  smsPerPersonMonth: 200,
+  smsPerPersonMonth: 400,
   vatRate: 0.23,
 } as const;
 

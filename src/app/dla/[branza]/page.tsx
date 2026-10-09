@@ -4,9 +4,11 @@ import { ArrowRight, Check, X } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import {
   Container,
+  heroScreen,
   Section,
   SectionHeading,
 } from "@/components/layout/section";
+import { cn } from "@/lib/utils";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
@@ -46,7 +48,7 @@ export default async function IndustryPage({ params }: Props) {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden pt-16 pb-20 sm:pt-24">
+      <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
         <HeroBackground />
         <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr]">
           <div>

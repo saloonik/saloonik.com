@@ -1,7 +1,15 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Check, Minus, Plus } from "lucide-react";
+import {
+  Check,
+  FileSpreadsheet,
+  Gift,
+  Globe,
+  Minus,
+  Plus,
+  ShieldCheck,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -26,6 +34,13 @@ const included = [
   "Wszystkie przyszłe funkcje",
 ];
 
+const guarantees = [
+  { icon: Gift, text: "7 dni za darmo, bez karty" },
+  { icon: FileSpreadsheet, text: "Import klientów z Excela" },
+  { icon: Globe, text: "Działa w przeglądarce" },
+  { icon: ShieldCheck, text: "Płatności przez Przelewy24" },
+];
+
 type Props = { registerUrl: string; contactEmail: string };
 
 export function PricingCalculator({ registerUrl, contactEmail }: Props) {
@@ -43,8 +58,8 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
   const extraBranches = Math.max(0, branches - plan.includedBranches);
 
   return (
-    <div className="bg-card grid overflow-hidden rounded-2xl border shadow-xl lg:grid-cols-[1.1fr_1fr]">
-      <div className="space-y-8 p-6 sm:p-10">
+    <div className="bg-card grid overflow-hidden rounded-2xl border shadow-xl lg:grid-cols-[1.1fr_1fr] lg:grid-rows-[auto_1fr_auto]">
+      <div className="flex flex-col gap-6 p-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
         <div>
           <h3 className="text-xl font-semibold">Skonfiguruj swój abonament</h3>
           <p className="text-muted-foreground mt-1 text-sm">
@@ -53,61 +68,67 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
           </p>
         </div>
 
-        <Stepper
-          label="Pracownicy"
-          hint={
-            employees >= plan.maxEmployees
-              ? "Powyżej 15 pracowników kolejni są bezpłatni"
-              : "Bez właściciela — właściciel jest w cenie"
-          }
-          value={employees}
-          display={
-            employees >= plan.maxEmployees
-              ? `${plan.maxEmployees}+`
-              : String(employees)
-          }
-          min={0}
-          max={plan.maxEmployees}
-          onChange={setEmployees}
-        />
-        <Stepper
-          label="Oddziały"
-          hint={
-            enterprise
-              ? "Powyżej 5 oddziałów — wycena indywidualna"
-              : "Pierwszy oddział jest w cenie"
-          }
-          value={branches}
-          display={enterprise ? `${plan.maxBranches}+` : String(branches)}
-          min={1}
-          max={plan.maxBranches + 1}
-          onChange={setBranches}
-        />
-
-        <div className="flex flex-wrap gap-x-8 gap-y-4 border-t pt-6">
-          <label
-            htmlFor={yearlyId}
-            className="flex cursor-pointer items-center gap-3 text-sm font-medium"
-          >
-            <Switch
-              id={yearlyId}
-              checked={period === "yearly"}
-              onCheckedChange={(v) => setPeriod(v ? "yearly" : "monthly")}
-            />
-            Płatność roczna
-            <Badge variant="success">2 miesiące gratis</Badge>
-          </label>
-          <label
-            htmlFor={grossId}
-            className="flex cursor-pointer items-center gap-3 text-sm font-medium"
-          >
-            <Switch id={grossId} checked={gross} onCheckedChange={setGross} />
-            Pokaż ceny brutto
-          </label>
+        <div className="flex flex-col divide-y border-y">
+          <Stepper
+            label="Pracownicy"
+            hint={
+              employees >= plan.maxEmployees
+                ? "Powyżej 15 pracowników kolejni są bezpłatni"
+                : "Bez właściciela — właściciel jest w cenie"
+            }
+            value={employees}
+            display={
+              employees >= plan.maxEmployees
+                ? `${plan.maxEmployees}+`
+                : String(employees)
+            }
+            min={0}
+            max={plan.maxEmployees}
+            onChange={setEmployees}
+          />
+          <Stepper
+            label="Oddziały"
+            hint={
+              enterprise
+                ? "Powyżej 5 oddziałów — wycena indywidualna"
+                : "Pierwszy oddział jest w cenie"
+            }
+            value={branches}
+            display={enterprise ? `${plan.maxBranches}+` : String(branches)}
+            min={1}
+            max={plan.maxBranches + 1}
+            onChange={setBranches}
+          />
+          <Toggle
+            id={yearlyId}
+            label="Płatność roczna"
+            badge="2 miesiące gratis"
+            hint="Płacisz za 10 miesięcy zamiast 12"
+            checked={period === "yearly"}
+            onChange={(v) => setPeriod(v ? "yearly" : "monthly")}
+          />
+          <Toggle
+            id={grossId}
+            label="Ceny brutto"
+            hint="Pokaż kwoty z 23% VAT"
+            checked={gross}
+            onChange={setGross}
+          />
         </div>
+
+        <ul className="grid content-end gap-x-6 gap-y-3 text-sm font-medium sm:grid-cols-2">
+          {guarantees.map(({ icon: Icon, text }) => (
+            <li key={text} className="flex items-center gap-3">
+              <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-8 shrink-0 items-center justify-center rounded-lg">
+                <Icon className="size-4" />
+              </span>
+              {text}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground flex flex-col gap-6 p-6 sm:p-10">
+      <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground flex flex-col gap-6 p-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
         {enterprise ? (
           <div className="space-y-3">
             <p className="text-sm font-medium opacity-80">Enterprise</p>
@@ -126,19 +147,24 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
               · {gross ? "brutto" : "netto"}
             </p>
             <p className="mt-2 flex items-baseline gap-2" aria-live="polite">
-              <span className="font-mono text-5xl font-semibold tracking-tight">
+              <span className="text-5xl font-semibold tracking-tight tabular-nums">
                 {show(total)}
               </span>
               <span className="opacity-80">
                 /{period === "yearly" ? "rok" : "mies."}
               </span>
             </p>
-            {period === "yearly" && (
-              <p className="mt-1 text-sm opacity-80">
-                Zamiast {show(monthly * 12)} — oszczędzasz {show(monthly * 2)}
-              </p>
-            )}
-            <dl className="mt-6 space-y-2 border-t border-current/20 pt-4 text-sm">
+            <p className="mt-1 text-sm opacity-80">
+              {period === "yearly"
+                ? `Zamiast ${show(monthly * 12)} — oszczędzasz ${show(monthly * 2)}`
+                : `Rocznie zapłacisz ${show(monthly * 10)} — oszczędzasz ${show(monthly * 2)}`}
+            </p>
+          </div>
+        )}
+
+        <div className="space-y-5 border-t border-current/20 pt-5 [@media(max-height:820px)]:space-y-4">
+          {!enterprise && (
+            <dl className="space-y-2 text-sm">
               <Row
                 label="Właściciel + 1 oddział"
                 value={show(plan.monthlyPrice)}
@@ -157,18 +183,18 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
               )}
               <Row label="Razem miesięcznie" value={show(monthly)} strong />
             </dl>
-          </div>
-        )}
+          )}
 
-        <ul className="space-y-2 text-sm">
-          {included.map((item) => (
-            <li key={item} className="flex gap-2">
-              <Check className="mt-0.5 size-4 shrink-0" /> {item}
-            </li>
-          ))}
-        </ul>
+          <ul className="space-y-2 text-sm">
+            {included.map((item) => (
+              <li key={item} className="flex gap-2">
+                <Check className="mt-0.5 size-4 shrink-0" /> {item}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div className="mt-auto space-y-2">
+        <div className="space-y-2">
           <Button
             asChild
             size="xl"
@@ -205,7 +231,7 @@ function Row({
       className={cn("flex justify-between gap-4", strong && "font-semibold")}
     >
       <dt className={cn(!strong && "opacity-80")}>{label}</dt>
-      <dd className="font-mono">{value}</dd>
+      <dd className="tabular-nums">{value}</dd>
     </div>
   );
 }
@@ -230,7 +256,7 @@ function Stepper({
   onChange,
 }: StepperProps) {
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-1 items-center justify-between gap-4 py-4">
       <div>
         <p className="font-medium">{label}</p>
         <p className="text-muted-foreground text-sm">{hint}</p>
@@ -251,7 +277,7 @@ function Stepper({
         </Button>
         <output
           aria-live="polite"
-          className="w-10 text-center font-mono text-lg font-semibold"
+          className="w-10 text-center text-lg font-semibold tabular-nums"
         >
           {display}
         </output>
@@ -265,6 +291,30 @@ function Stepper({
           <Plus />
         </Button>
       </div>
+    </div>
+  );
+}
+
+type ToggleProps = {
+  id: string;
+  label: string;
+  hint: string;
+  badge?: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+};
+
+function Toggle({ id, label, hint, badge, checked, onChange }: ToggleProps) {
+  return (
+    <div className="flex flex-1 items-center justify-between gap-4 py-4">
+      <label htmlFor={id} className="cursor-pointer">
+        <span className="flex flex-wrap items-center gap-2 font-medium">
+          {label}
+          {badge && <Badge variant="success">{badge}</Badge>}
+        </span>
+        <span className="text-muted-foreground block text-sm">{hint}</span>
+      </label>
+      <Switch id={id} checked={checked} onCheckedChange={onChange} />
     </div>
   );
 }

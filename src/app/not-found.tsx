@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { Section } from "@/components/layout/section";
+import { heroScreen, Section } from "@/components/layout/section";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Nie znaleziono strony",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <Section className="text-center">
+    <Section className={cn(heroScreen, "text-center")}>
       <p className="text-primary font-mono text-sm font-semibold">404</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
         Nie znaleźliśmy tej strony
