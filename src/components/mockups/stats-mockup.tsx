@@ -1,5 +1,6 @@
-import { TrendingUp } from "lucide-react";
+import { TrendingUpIcon } from "@/components/ui/icons";
 import * as motion from "motion/react-client";
+import { CountUp } from "@/components/ui/count-up";
 import { cn } from "@/lib/utils";
 
 const kpis = [
@@ -28,10 +29,10 @@ export function StatsMockup({ className }: { className?: string }) {
               <p className="text-muted-foreground text-[11px]">{k.label}</p>
               <p className="flex items-baseline justify-between gap-2">
                 <span className="font-mono text-base font-semibold whitespace-nowrap">
-                  {k.value}
+                  <CountUp value={k.value} />
                 </span>
                 <span className="flex items-center gap-0.5 text-[11px] text-emerald-700 dark:text-emerald-400">
-                  <TrendingUp className="size-3" /> {k.delta}
+                  <TrendingUpIcon className="size-3" /> {k.delta}
                 </span>
               </p>
             </div>

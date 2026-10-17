@@ -1,24 +1,25 @@
 import {
-  CalendarDays,
-  CheckCircle2,
-  Clock,
-  Download,
-  ExternalLink,
-  FileText,
-  Images,
-  Phone,
-  Star,
-  Upload,
-  UserRound,
-} from "lucide-react";
+  CalendarIcon,
+  CircleCheckIcon,
+  ClockIcon,
+  DownloadIcon,
+  ExternalLinkIcon,
+  FileTextIcon,
+  ImagesIcon,
+  PhoneIcon,
+  StarIcon,
+  UploadIcon,
+  UserIcon,
+} from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
+import { BeforeAfter } from "./before-after";
 
 const tabs = [
-  { label: "Dane klienta", icon: UserRound },
-  { label: "Wizyty", icon: CalendarDays },
-  { label: "Karty zabiegowe", icon: FileText },
-  { label: "Zdjęcia", icon: Images },
-  { label: "Opinia klienta", icon: Star },
+  { label: "Dane klienta", icon: UserIcon },
+  { label: "Wizyty", icon: CalendarIcon },
+  { label: "Karty zabiegowe", icon: FileTextIcon },
+  { label: "Zdjęcia", icon: ImagesIcon },
+  { label: "Opinia klienta", icon: StarIcon },
 ];
 
 type CardEntry = { name: string; status: "sent" | "completed"; date: string };
@@ -30,7 +31,7 @@ const cards: CardEntry[] = [
 
 function CardStatusBadge({ status }: { status: CardEntry["status"] }) {
   const sent = status === "sent";
-  const Icon = sent ? Clock : CheckCircle2;
+  const Icon = sent ? ClockIcon : CircleCheckIcon;
   return (
     <span
       className={cn(
@@ -54,7 +55,7 @@ export function TreatmentCardsPanel({ className }: { className?: string }) {
           key={card.name}
           className="flex items-center gap-2.5 rounded-lg border px-3 py-2.5"
         >
-          <FileText className="text-muted-foreground size-4 shrink-0" />
+          <FileTextIcon className="text-muted-foreground size-4 shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-medium">{card.name}</p>
             <p className="text-muted-foreground text-[10px]">
@@ -65,12 +66,12 @@ export function TreatmentCardsPanel({ className }: { className?: string }) {
           <CardStatusBadge status={card.status} />
           {card.status === "sent" ? (
             <span className="hidden items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium sm:inline-flex">
-              <Upload className="size-3" /> Dodaj skan
+              <UploadIcon className="size-3" /> Dodaj skan
             </span>
           ) : (
             <span className="text-muted-foreground hidden gap-1.5 sm:flex">
-              <ExternalLink className="size-3.5" />
-              <Download className="size-3.5" />
+              <ExternalLinkIcon className="size-3.5" />
+              <DownloadIcon className="size-3.5" />
             </span>
           )}
         </div>
@@ -88,18 +89,7 @@ export function PhotoPairPanel({ className }: { className?: string }) {
           wtorek, 30.09 · Anna
         </p>
       </div>
-      <div className="bg-border grid grid-cols-2 gap-0.5 overflow-hidden rounded-lg border">
-        <div className="relative aspect-[3/4] bg-linear-to-b from-stone-300 via-amber-200/70 to-stone-400 dark:from-stone-600 dark:via-amber-900/60 dark:to-stone-800">
-          <span className="bg-foreground/85 text-background absolute bottom-1 left-1 rounded-full px-1.5 py-0.5 text-[11px] font-medium shadow-sm">
-            Przed
-          </span>
-        </div>
-        <div className="relative aspect-[3/4] bg-linear-to-b from-rose-300 via-[#b0527f] to-[#5e2147] dark:from-rose-900 dark:via-[#7a2f58] dark:to-[#3b1530]">
-          <span className="bg-primary text-primary-foreground absolute right-1 bottom-1 rounded-full px-1.5 py-0.5 text-[11px] font-medium shadow-sm">
-            Po
-          </span>
-        </div>
-      </div>
+      <BeforeAfter className="aspect-[3/4] rounded-lg border" />
       <p className="text-muted-foreground text-[10px] italic">
         Notatka: 7.1 + 8.1 (1:1), oksydant 6%
       </p>
@@ -125,7 +115,7 @@ export function ClientCardMockup({ className }: { className?: string }) {
           <div className="min-w-0">
             <p className="truncate font-semibold">Natalia Wiśniewska</p>
             <p className="text-muted-foreground flex items-center gap-1 font-mono text-xs">
-              <Phone className="size-3" /> 600 123 456
+              <PhoneIcon className="size-3" /> 600 123 456
             </p>
           </div>
         </div>

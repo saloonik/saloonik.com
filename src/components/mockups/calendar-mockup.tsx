@@ -1,22 +1,31 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
 import { toast } from "sonner";
 import {
-  CalendarDays,
-  ChartColumn,
-  ChevronLeft,
-  ChevronRight,
-  Hand,
-  Info,
-  LayoutDashboard,
-  Scissors,
-  Settings,
-  Store,
-  UserCog,
-  Users,
-} from "lucide-react";
+  BellIcon,
+  BookOpenIcon,
+  BuildingIcon,
+  CalendarIcon,
+  ChartColumnIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ClipboardListIcon,
+  DashboardIcon,
+  HistoryIcon,
+  InfoIcon,
+  MenuIcon,
+  TagIcon,
+  UserLockIcon,
+  UsersIcon,
+  WarehouseIcon,
+} from "@/components/ui/icons";
 import {
   formatDuration,
   formatTime,
@@ -32,8 +41,6 @@ import { AppWindow } from "./app-window";
 const ROW = 48;
 const GRID = { from: 9 * 60, to: 18 * 60 };
 const OPEN = { from: 9 * 60, to: 17 * 60 };
-const SNAP = 15;
-const RESIZE_STEP = 5;
 const NOW = 12 * 60 + 20;
 const hours = Array.from(
   { length: (GRID.to - GRID.from) / 60 + 1 },
@@ -164,23 +171,55 @@ const initialVisits: DemoVisit[] = [
 const HATCH =
   "repeating-linear-gradient(135deg, transparent, transparent 6px, color-mix(in oklab, var(--muted-foreground) 25%, transparent) 6px, color-mix(in oklab, var(--muted-foreground) 25%, transparent) 7px)";
 
-const sidebarIcons = [
-  LayoutDashboard,
-  UserCog,
-  Users,
-  CalendarDays,
-  Scissors,
-  Store,
-  ChartColumn,
-  Settings,
+// Same groups as the collapsed sidebar in system.saloonik.com.
+const sidebarGroups = [
+  [DashboardIcon, BellIcon],
+  [
+    UserLockIcon,
+    UsersIcon,
+    CalendarIcon,
+    TagIcon,
+    WarehouseIcon,
+    ClipboardListIcon,
+    BuildingIcon,
+  ],
+  [BookOpenIcon, HistoryIcon, ChartColumnIcon],
 ];
 
 const toY = (minute: number) => ((minute - GRID.from) / 60) * ROW;
-const clamp = (n: number, min: number, max: number) =>
-  Math.min(Math.max(n, min), max);
+
+const ADDED_MESSAGE = "Wizyta została dodana.";
+const GLIDE = { duration: 1, ease: [0.45, 0, 0.2, 1] } as const;
+const SETTLE = {
+  type: "spring",
+  stiffness: 260,
+  damping: 30,
+  mass: 0.9,
+} as const;
+const COL_WIDTH = `${100 / staff.length}%`;
 
 type Drag = DemoVisit & { mode: "move" | "resize" };
+type Cursor = { col: number; y: number; down: boolean; visible: boolean };
+type Wait = (ms: number) => Promise<void>;
 
+const hiddenCursor: Cursor = {
+  col: 1,
+  y: toY(GRID.to),
+  down: false,
+  visible: false,
+};
+
+const newVisit: DemoVisit = {
+  id: "11",
+  employee: 1,
+  start: 765,
+  duration: 60,
+  client: "Karolina B.",
+  service: "Manicure klasyczny",
+  price: 110,
+};
+
+// The calendar plays a scripted demo on its own; there is nothing to grab.
 export function CalendarMockup({
   className,
   captionClassName,
@@ -190,130 +229,162 @@ export function CalendarMockup({
 }) {
   const [visits, setVisits] = useState(initialVisits);
   const [drag, setDrag] = useState<Drag | null>(null);
-  const layerRef = useRef<HTMLDivElement>(null);
+  const [cursor, setCursor] = useState(hiddenCursor);
+  const [caption, setCaption] = useState<string | null>(null);
+  const [fresh, setFresh] = useState<string | null>(null);
+  const [fading, setFading] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { amount: 0.4 });
+  const reduceMotion = useReducedMotion();
 
-  function update(before: DemoVisit, after: DemoVisit) {
-    const replace = (v: DemoVisit) =>
-      setVisits((vs) => vs.map((x) => (x.id === v.id ? v : x)));
-    replace(after);
-    toast.success(UPDATED_MESSAGE, {
-      action: { label: "Cofnij", onClick: () => replace(before) },
-    });
-  }
+  useEffect(() => {
+    if (!inView || reduceMotion) return;
+    const ctrl = new AbortController();
+    const wait: Wait = (ms) =>
+      new Promise((resolve, reject) => {
+        const t = setTimeout(resolve, ms);
+        ctrl.signal.addEventListener(
+          "abort",
+          () => {
+            clearTimeout(t);
+            reject(ctrl.signal.reason);
+          },
+          { once: true },
+        );
+      });
+    async function play(wait: Wait) {
+      let vs = initialVisits;
+      const point = async (col: number, y: number, ms = 1100) => {
+        setCursor((c) => ({ ...c, col, y, visible: true }));
+        await wait(ms);
+      };
+      const press = async (down: boolean) => {
+        setCursor((c) => ({ ...c, down }));
+        await wait(220);
+      };
 
-  function commit(before: DemoVisit, after: Drag) {
-    if (after.mode === "resize") {
-      if (after.duration === before.duration) return;
-      if (hasConflict(visits, after, before.employee, before.start))
-        toast.warning(EMPLOYEE_CONFLICT_MESSAGE);
-      else update(before, after);
-      return;
+      async function move(id: string, employee: number, start: number) {
+        const v = vs.find((x) => x.id === id)!;
+        const after = { ...v, employee, start };
+        await point(v.employee, toY(v.start) + 14);
+        await press(true);
+        setDrag({ ...v, mode: "move" });
+        await wait(200);
+        setDrag({ ...after, mode: "move" });
+        await point(employee, toY(start) + 14, 1150);
+        const drop = resolveDrop(vs, v, employee, start, OPEN);
+        if (drop.ok) {
+          vs = vs.map((x) => (x.id === id ? after : x));
+          setVisits(vs);
+        }
+        setDrag(null);
+        await press(false);
+        if (drop.ok) toast.success(UPDATED_MESSAGE);
+        else if (drop.reason === "closed") toast.info(CLOSED_HOURS_MESSAGE);
+        else toast.warning(EMPLOYEE_CONFLICT_MESSAGE);
+        await wait(1800);
+      }
+
+      async function resize(id: string, duration: number) {
+        const v = vs.find((x) => x.id === id)!;
+        const after = { ...v, duration };
+        await point(v.employee, toY(v.start + v.duration) - 3);
+        await press(true);
+        setDrag({ ...v, mode: "resize" });
+        await wait(200);
+        setDrag({ ...after, mode: "resize" });
+        await point(v.employee, toY(v.start + duration) - 3, 1150);
+        vs = vs.map((x) => (x.id === id ? after : x));
+        setVisits(vs);
+        setDrag(null);
+        await press(false);
+        toast.success(UPDATED_MESSAGE);
+        await wait(1800);
+      }
+
+      async function add(visit: DemoVisit) {
+        await point(visit.employee, toY(visit.start) + 14);
+        await press(true);
+        await press(false);
+        vs = [...vs, visit];
+        setFresh(visit.id);
+        setVisits(vs);
+        toast.success(ADDED_MESSAGE);
+        await wait(2000);
+      }
+
+      await wait(1000);
+      setCaption("Przenoszenie wizyty do innego pracownika");
+      await move("2", 2, 690);
+      setCaption("Wydłużanie wizyty o kwadrans");
+      await resize("7", 60);
+      setCaption("Kalendarz pilnuje, by wizyty się nie nakładały");
+      await move("6", 0, 870);
+      setCaption("Dodawanie wizyty w wolnym terminie");
+      await add(newVisit);
+      setCaption("Wizyty poza godzinami otwarcia są blokowane");
+      await move("10", 2, 1035);
+      setCursor((c) => ({ ...c, visible: false }));
+      setCaption(null);
+      await wait(2600);
+      setFading(true);
+      await wait(500);
+      setVisits(initialVisits);
+      setFresh(null);
+      setFading(false);
     }
-    const drop = resolveDrop(visits, before, after.employee, after.start, OPEN);
-    if (drop.ok) update(before, after);
-    else if (drop.reason === "closed") toast.info(CLOSED_HOURS_MESSAGE);
-    else if (drop.reason === "conflict")
-      toast.warning(EMPLOYEE_CONFLICT_MESSAGE);
-  }
 
-  function startDrag(
-    e: React.PointerEvent,
-    visit: DemoVisit,
-    mode: Drag["mode"],
-  ) {
-    if (e.button !== 0 || !layerRef.current) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const rect = layerRef.current.getBoundingClientRect();
-    const { clientX: x0, clientY: y0 } = e;
-    let current: Drag | null = null;
-
-    const onMove = (ev: PointerEvent) => {
-      const dy = ev.clientY - y0;
-      if (!current && Math.hypot(ev.clientX - x0, dy) < 4) return;
-      const deltaMin = (dy / ROW) * 60;
-      current =
-        mode === "move"
-          ? {
-              ...visit,
-              mode,
-              employee: clamp(
-                Math.floor(
-                  ((ev.clientX - rect.left) / rect.width) * staff.length,
-                ),
-                0,
-                staff.length - 1,
-              ),
-              start: clamp(
-                visit.start + Math.round(deltaMin / SNAP) * SNAP,
-                GRID.from,
-                GRID.to - visit.duration,
-              ),
-            }
-          : {
-              ...visit,
-              mode,
-              duration: clamp(
-                visit.duration +
-                  Math.round(deltaMin / RESIZE_STEP) * RESIZE_STEP,
-                RESIZE_STEP,
-                GRID.to - visit.start,
-              ),
-            };
-      setDrag(current);
-    };
-    const onUp = () => {
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("pointercancel", onUp);
+    (async () => {
+      for (;;) await play(wait);
+    })().catch(() => {});
+    return () => {
+      ctrl.abort();
+      setVisits(initialVisits);
       setDrag(null);
-      if (current) commit(visit, current);
+      setCursor(hiddenCursor);
+      setCaption(null);
+      setFresh(null);
+      setFading(false);
     };
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-    window.addEventListener("pointercancel", onUp);
-  }
+  }, [inView, reduceMotion]);
 
   const shown = visits.map((v) => (drag?.id === v.id ? drag : v));
 
   return (
-    <div className={className}>
+    <div ref={rootRef} className={className}>
       <div className="relative">
-        <AppWindow
-          label="Kalendarz wizyt Saloonik: widok dnia z osobną kolumną dla każdego pracownika"
-          className={cn(drag && "cursor-grabbing")}
-        >
+        <AppWindow label="Kalendarz wizyt Saloonik: widok dnia z osobną kolumną dla każdego pracownika">
           <div className="flex text-left">
-            <div className="bg-card hidden w-14 shrink-0 flex-col items-center gap-1 border-r py-3 sm:flex">
-              {sidebarIcons.map((Icon, i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    "flex size-9 items-center justify-center rounded-lg",
-                    i === 3
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground",
-                  )}
-                >
-                  <Icon className="size-4" />
-                </span>
-              ))}
-            </div>
+            <AppSidebar />
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 border-b px-4 py-3">
                 <span className="flex size-7 items-center justify-center rounded-md border">
-                  <ChevronLeft className="size-3.5" />
+                  <ChevronLeftIcon className="size-3.5" />
                 </span>
                 <span className="flex size-7 items-center justify-center rounded-md border">
-                  <ChevronRight className="size-3.5" />
+                  <ChevronRightIcon className="size-3.5" />
                 </span>
                 <span className="ml-1 text-sm font-semibold">
                   Wtorek, 14 października
                 </span>
-                <span className="text-muted-foreground ml-auto hidden items-center gap-1.5 text-[11px] md:flex">
-                  <Hand className="size-3.5" /> Przeciągnij wizytę albo jej
-                  dolną krawędź
+                <span className="text-muted-foreground ml-auto hidden min-w-0 items-center gap-2 text-[11px] md:flex">
+                  <span className="relative flex size-2 shrink-0">
+                    <span className="bg-primary absolute inset-0 rounded-full motion-safe:animate-ping" />
+                    <span className="bg-primary relative size-2 rounded-full" />
+                  </span>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={caption ?? "idle"}
+                      className="truncate"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      {caption ?? "Podgląd na żywo"}
+                    </motion.span>
+                  </AnimatePresence>
                 </span>
               </div>
 
@@ -426,35 +497,44 @@ export function CalendarMockup({
                     <div className="bg-primary ml-1 h-px flex-1" />
                   </div>
 
-                  <div ref={layerRef} className="absolute inset-0">
+                  <motion.div
+                    className="absolute inset-0"
+                    animate={{ opacity: fading ? 0 : 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
                     {shown.map((v) => {
                       const dragging = drag?.id === v.id;
-                      const conflict =
-                        dragging && hasConflict(visits, v, v.employee, v.start);
+                      const warning = !dragging
+                        ? null
+                        : v.start >= OPEN.to
+                          ? "Salon jest wtedy zamknięty"
+                          : hasConflict(visits, v, v.employee, v.start)
+                            ? "Pracownik ma wtedy wizytę"
+                            : null;
                       return (
                         <Tile
                           key={v.id}
                           visit={v}
                           color={staff[v.employee].color}
                           dragging={dragging}
-                          conflict={conflict}
-                          onMoveStart={(e) => startDrag(e, v, "move")}
-                          onResizeStart={(e) => startDrag(e, v, "resize")}
+                          fresh={fresh === v.id}
+                          warning={warning}
                         />
                       );
                     })}
-                  </div>
+                    <DemoCursor cursor={cursor} />
+                  </motion.div>
                 </div>
               </div>
             </div>
           </div>
         </AppWindow>
 
-        <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-xl [contain:paint] [&_[data-sonner-toast]]:pointer-events-auto">
+        <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-xl [contain:paint]">
           <Toaster
             position="bottom-right"
-            closeButton
             offset={12}
+            duration={2600}
             className="origin-bottom-right scale-80"
           />
         </div>
@@ -465,10 +545,99 @@ export function CalendarMockup({
           captionClassName,
         )}
       >
-        <Info className="mt-px size-3.5 shrink-0" />
+        <InfoIcon className="mt-px size-3.5 shrink-0" />
         Widok poglądowy na przykładowych danych. W systemie kalendarz jest
         zaawansowany i bardziej rozbudowany.
       </p>
+    </div>
+  );
+}
+
+function DemoCursor({ cursor }: { cursor: Cursor }) {
+  return (
+    <motion.div
+      className="pointer-events-none absolute top-0 left-0 z-60 h-5"
+      style={{ width: COL_WIDTH }}
+      initial={false}
+      animate={{
+        x: `${cursor.col * 100 + 50}%`,
+        y: cursor.y,
+        opacity: cursor.visible ? 1 : 0,
+      }}
+      transition={{ ...GLIDE, opacity: { duration: 0.3 } }}
+    >
+      <AnimatePresence>
+        {cursor.down && (
+          <motion.span
+            className="border-primary absolute -top-3 -left-3 size-6 rounded-full border-2"
+            initial={{ scale: 0.3, opacity: 0.9 }}
+            animate={{ scale: 1.4, opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          />
+        )}
+      </AnimatePresence>
+      <motion.svg
+        viewBox="0 0 20 20"
+        className="size-5 drop-shadow-md"
+        animate={{ scale: cursor.down ? 0.82 : 1 }}
+        style={{ originX: 0, originY: 0 }}
+      >
+        <path
+          d="M2 1.5 L2 16.5 L6.2 12.6 L9 18.5 L11.6 17.3 L8.9 11.5 L14.6 11.5 Z"
+          className="fill-foreground stroke-background"
+          strokeWidth="1.4"
+          strokeLinejoin="round"
+        />
+      </motion.svg>
+    </motion.div>
+  );
+}
+
+function AppSidebar() {
+  return (
+    <div className="bg-muted/30 hidden w-14 shrink-0 flex-col items-center border-r sm:flex">
+      <span className="text-muted-foreground flex h-13 items-center">
+        <MenuIcon size={18} animate={false} />
+      </span>
+      <span className="bg-border h-px w-full" />
+      <div className="flex flex-1 flex-col items-center gap-0.5 py-2">
+        {sidebarGroups.map((group, g) => (
+          <div key={g} className="flex flex-col items-center gap-0.5">
+            {g > 0 && <span className="bg-border my-1.5 h-px w-5" />}
+            {group.map((Icon, i) => {
+              const active = Icon === CalendarIcon;
+              return (
+                <span
+                  key={i}
+                  className={cn(
+                    "relative flex size-8 items-center justify-center rounded-lg",
+                    active
+                      ? "bg-card text-foreground ring-border shadow-xs ring-1"
+                      : "text-muted-foreground",
+                  )}
+                >
+                  <Icon
+                    size={16}
+                    variant={active ? "tile" : "line"}
+                    animate={active ? "play" : false}
+                  />
+                  {Icon === BellIcon && (
+                    <span className="bg-primary ring-background absolute top-1.5 right-1.5 size-1.5 rounded-full ring-2" />
+                  )}
+                </span>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <span className="bg-border h-px w-full" />
+      <span
+        className="my-2.5 flex size-8 items-center justify-center rounded-full text-[10px] font-bold text-white"
+        style={{ backgroundColor: "var(--viz-1)" }}
+      >
+        AN
+      </span>
     </div>
   );
 }
@@ -510,45 +679,41 @@ function Tile({
   visit,
   color,
   dragging,
-  conflict,
-  onMoveStart,
-  onResizeStart,
+  fresh,
+  warning,
 }: {
   visit: DemoVisit;
   color: string;
   dragging: boolean;
-  conflict: boolean;
-  onMoveStart: (e: React.PointerEvent) => void;
-  onResizeStart: (e: React.PointerEvent) => void;
+  fresh: boolean;
+  warning: string | null;
 }) {
   const height = (visit.duration / 60) * ROW;
   const compact = height < 40;
   const time = `${formatTime(visit.start)} – ${formatTime(visit.start + visit.duration)}`;
+  const pos = { x: `${visit.employee * 100}%`, y: toY(visit.start), height };
 
   return (
     <motion.div
-      layout="position"
-      transition={{ type: "spring", stiffness: 500, damping: 38, mass: 0.8 }}
-      onPointerDown={onMoveStart}
-      className="group/tile @container/tile absolute cursor-grab touch-none select-none active:cursor-grabbing"
-      style={{
-        top: toY(visit.start),
-        height,
-        left: `calc(${(visit.employee * 100) / staff.length}% + 3px)`,
-        width: `calc(${100 / staff.length}% - 6px)`,
-        zIndex: dragging ? 50 : 10,
-      }}
+      className="@container/tile absolute top-0 left-0 px-[3px] will-change-transform"
+      initial={fresh ? { ...pos, opacity: 0, scale: 0.6 } : false}
+      animate={{ ...pos, opacity: 1, scale: 1 }}
+      transition={dragging ? GLIDE : SETTLE}
+      style={{ width: COL_WIDTH, zIndex: dragging ? 50 : 10 }}
     >
       <motion.div
+        transition={{ type: "spring", stiffness: 400, damping: 28 }}
         animate={{
-          scale: dragging ? 1.04 : 1,
+          scale: dragging ? 1.05 : 1,
+          rotate: dragging ? -1 : 0,
           boxShadow: dragging
             ? "0 12px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08)"
             : "0 1px 3px rgba(0,0,0,0.06)",
         }}
         className={cn(
           "bg-card relative h-full overflow-hidden rounded-md border border-l-[3px] border-transparent",
-          conflict && "ring-destructive ring-2",
+          warning && "ring-destructive ring-2",
+          fresh && "ring-primary ring-2 motion-safe:animate-pulse",
         )}
         style={{ borderLeftColor: `var(${color})` }}
       >
@@ -596,21 +761,16 @@ function Tile({
           )}
         </div>
       </motion.div>
-      {conflict && (
-        <span className="bg-destructive absolute -top-5 left-0 z-30 rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold whitespace-nowrap text-white shadow-sm">
-          Pracownik ma wtedy wizytę
+      {warning && (
+        <span className="bg-destructive absolute -top-5 left-[3px] z-30 rounded px-1.5 py-0.5 text-[10px] leading-none font-semibold whitespace-nowrap text-white shadow-sm">
+          {warning}
         </span>
       )}
-      <div
-        aria-hidden
-        onPointerDown={onResizeStart}
-        className={cn(
-          "absolute inset-x-0 -bottom-0.5 z-20 flex h-2 cursor-ns-resize touch-none justify-center opacity-0 transition-opacity group-hover/tile:opacity-100",
-          dragging && "opacity-100",
-        )}
-      >
-        <span className="bg-foreground/40 mt-0.5 h-1 w-6 rounded-full" />
-      </div>
+      {dragging && (
+        <span className="absolute inset-x-0 -bottom-0.5 z-20 flex h-2 justify-center">
+          <span className="bg-foreground/40 mt-0.5 h-1 w-6 rounded-full" />
+        </span>
+      )}
     </motion.div>
   );
 }
