@@ -1,33 +1,37 @@
 import {
-  CalendarDays,
-  ChartColumn,
-  ClipboardList,
-  Images,
-  LayoutDashboard,
-  MessageSquareText,
-  Package,
-  Scissors,
-  Smartphone,
-  Store,
-  UserCog,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+  CalendarPlusIcon,
+  ContactlessIcon,
+  ReceiptIcon,
+  CalendarIcon,
+  ChartColumnIcon,
+  ClipboardListIcon,
+  ImagesIcon,
+  DashboardIcon,
+  MessageSquareTextIcon,
+  ScissorsIcon,
+  SmartphoneIcon,
+  StoreIcon,
+  UserCogIcon,
+  UsersIcon,
+  WarehouseIcon,
+  type AtelierIconComponent,
+} from "@/components/ui/icons";
 
 export type Feature = {
   id: string;
-  icon: LucideIcon;
+  icon: AtelierIconComponent;
   title: string;
   summary: string;
   description: string;
   points: string[];
   soon?: boolean;
+  photo?: { src: string; alt: string; caption?: string };
 };
 
 export const features: Feature[] = [
   {
     id: "kalendarz",
-    icon: CalendarDays,
+    icon: CalendarIcon,
     title: "Kalendarz wizyt",
     summary:
       "Grafik całego zespołu na jednym ekranie. Przeciągasz wizytę — gotowe.",
@@ -44,7 +48,7 @@ export const features: Feature[] = [
   },
   {
     id: "klienci",
-    icon: Users,
+    icon: UsersIcon,
     title: "Kartoteka klienta",
     summary:
       "Wizyty, karty zabiegowe, zdjęcia i opinie klienta — w jednym oknie.",
@@ -60,7 +64,7 @@ export const features: Feature[] = [
   },
   {
     id: "karty-zabiegowe",
-    icon: ClipboardList,
+    icon: ClipboardListIcon,
     title: "Karty zabiegowe",
     summary:
       "Klient dostaje kartę mailem przed wizytą, a Ty dodajesz skan wypełnionej.",
@@ -77,7 +81,7 @@ export const features: Feature[] = [
   },
   {
     id: "zdjecia",
-    icon: Images,
+    icon: ImagesIcon,
     title: "Zdjęcia przed i po",
     summary: "Efekt zabiegu w parach przed/po — przy każdej usłudze wizyty.",
     description:
@@ -92,21 +96,26 @@ export const features: Feature[] = [
   },
   {
     id: "przypomnienia",
-    icon: MessageSquareText,
+    icon: MessageSquareTextIcon,
     title: "Przypomnienia SMS i e-mail",
     summary: "Mniej nieodbytych wizyt dzięki automatycznym przypomnieniom.",
     description:
       "Saloonik sam wysyła klientom przypomnienie przed wizytą — SMS-em lub e-mailem, zgodnie ze zgodami zapisanymi na karcie klienta.",
     points: [
       "Automatyczne przypomnienie przed każdą wizytą",
-      "200 SMS-ów na osobę miesięcznie w cenie abonamentu",
+      "400 SMS-ów na osobę miesięcznie w cenie abonamentu",
       "Historia wysłanych wiadomości z filtrami",
       "Ręczna wysyłka SMS, gdy trzeba coś przekazać",
     ],
   },
   {
     id: "zespol",
-    icon: UserCog,
+    photo: {
+      src: "/images/zespol.jpg",
+      alt: "Trzy fryzjerki z nożyczkami i szczotkami w salonie",
+      caption: "Anna Nowak: urlop 20–24.10, rezerwacje zablokowane",
+    },
+    icon: UserCogIcon,
     title: "Zespół i uprawnienia",
     summary: "Każdy widzi to, co powinien. Ty widzisz wszystko.",
     description:
@@ -120,7 +129,12 @@ export const features: Feature[] = [
   },
   {
     id: "uslugi",
-    icon: Scissors,
+    photo: {
+      src: "/images/uslugi.jpg",
+      alt: "Dłonie trzymające nożyczki, szczotki i pędzel do farbowania",
+      caption: "Balayage: 3 h, 450 zł, wykonuje Anna i Julia",
+    },
+    icon: ScissorsIcon,
     title: "Usługi i cennik",
     summary: "Gotowy cennik dla Twojej branży już przy rejestracji.",
     description:
@@ -134,7 +148,7 @@ export const features: Feature[] = [
   },
   {
     id: "statystyki",
-    icon: ChartColumn,
+    icon: ChartColumnIcon,
     title: "Statystyki",
     summary:
       "Przychód, obłożenie i lojalność klientów — bez arkuszy kalkulacyjnych.",
@@ -150,7 +164,12 @@ export const features: Feature[] = [
   },
   {
     id: "oddzialy",
-    icon: Store,
+    photo: {
+      src: "/images/oddzialy.jpg",
+      alt: "Wnętrze nowoczesnego salonu z rzędem stanowisk",
+      caption: "Oddział Kraków: otwarte 9:00–19:00",
+    },
+    icon: StoreIcon,
     title: "Wiele oddziałów",
     summary: "Kilka lokali w jednym systemie, z widokiem całej firmy.",
     description:
@@ -164,7 +183,12 @@ export const features: Feature[] = [
   },
   {
     id: "panel",
-    icon: LayoutDashboard,
+    photo: {
+      src: "/images/panel.jpg",
+      alt: "Stanowiska w jasnym salonie fryzjerskim",
+      caption: "Dziś 18 wizyt, najbliższy wolny termin 13:30",
+    },
+    icon: DashboardIcon,
     title: "Panel główny",
     summary: "Dzień firmy w pigułce — od razu po zalogowaniu.",
     description:
@@ -175,12 +199,33 @@ export const features: Feature[] = [
       "Szybkie akcje i ostatnia aktywność zespołu",
     ],
   },
+  {
+    id: "magazyn",
+    photo: {
+      src: "/images/magazyn.jpg",
+      alt: "Kosmetyki do pielęgnacji ułożone na blacie",
+      caption: "Szampon regenerujący: zostały 3 sztuki",
+    },
+    icon: WarehouseIcon,
+    title: "Magazyn i sprzedaż",
+    summary: "Wiesz, co jest na półce, zanim czegoś zabraknie.",
+    description:
+      "Produkty na sprzedaż i do zabiegów w jednym miejscu. Przyjmujesz dostawy, sprzedajesz kosmetyki przy wizycie, a Saloonik pokazuje, co się kończy w każdym oddziale.",
+    points: [
+      "Stany produktów w każdym oddziale z historią ruchów",
+      "Przyjęcie dostawy i inwentaryzacja z zapisem różnic",
+      "Alert, gdy produkt spada poniżej ustawionego minimum",
+      "Materiały przypisane do usług i zużycie przy zabiegach",
+      "Sprzedaż produktów klientom przy wizycie albo osobno",
+      "Osobne stany na sprzedaż i do zabiegów",
+    ],
+  },
 ];
 
 export const upcomingFeatures: Feature[] = [
   {
     id: "aplikacja-mobilna",
-    icon: Smartphone,
+    icon: SmartphoneIcon,
     title: "Aplikacja mobilna",
     summary: "Kalendarz i klienci zawsze pod ręką — na telefonie i tablecie.",
     description:
@@ -189,13 +234,42 @@ export const upcomingFeatures: Feature[] = [
     soon: true,
   },
   {
-    id: "magazyn",
-    icon: Package,
-    title: "Magazyn",
-    summary: "Stany produktów i kosmetyków pod kontrolą.",
+    id: "terminale",
+    icon: ContactlessIcon,
+    title: "Płatności terminalem",
+    summary: "Kwota z wizyty trafia prosto na terminal.",
     description:
-      "Ewidencja produktów i materiałów zużywanych podczas zabiegów.",
-    points: ["Stany magazynowe", "Zużycie materiałów"],
+      "Przy zamykaniu wizyty kwota trafi na terminal płatniczy, a status transakcji zapisze się przy wizycie. Bez przepisywania kwot i pomyłek.",
+    points: [
+      "Kwota wysyłana na terminal jednym kliknięciem",
+      "Status płatności zapisany przy wizycie",
+    ],
+    soon: true,
+  },
+  {
+    id: "kasa-fiskalna",
+    icon: ReceiptIcon,
+    title: "Kasa fiskalna",
+    summary: "Paragon po wizycie bez wpisywania pozycji.",
+    description:
+      "Usługi i produkty z wizyty trafią na kasę fiskalną, więc paragon wydrukujesz bez ręcznego wpisywania pozycji.",
+    points: [
+      "Pozycje paragonu prosto z wizyty i sprzedaży",
+      "Mniej pracy przy recepcji na koniec dnia",
+    ],
+    soon: true,
+  },
+  {
+    id: "rezerwacja-online",
+    icon: CalendarPlusIcon,
+    title: "Rezerwacja online",
+    summary: "Klienci umówią się sami, także po godzinach.",
+    description:
+      "Strona rezerwacji Twojej firmy: klient wybiera usługę, pracownika i wolny termin, a wizyta od razu pojawia się w kalendarzu.",
+    points: [
+      "Wolne terminy liczone z grafiku i godzin otwarcia",
+      "Wizyta od razu w kalendarzu i przypomnienie SMS",
+    ],
     soon: true,
   },
 ];

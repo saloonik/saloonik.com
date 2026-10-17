@@ -57,7 +57,7 @@ export const pricingFaq: FaqItem[] = [
   {
     question: "Czy SMS-y są w cenie?",
     answer:
-      "Tak. Abonament obejmuje 200 SMS-ów miesięcznie na każdą osobę w firmie — właściciela i każdego pracownika.",
+      "Tak. Abonament obejmuje 400 SMS-ów miesięcznie na każdą osobę w firmie — właściciela i każdego pracownika.",
   },
   {
     question: "Jak mogę zapłacić?",

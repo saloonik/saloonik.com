@@ -16,6 +16,9 @@ export function buildMetadata({
 }: PageMeta): Metadata {
   const desc = description ?? siteConfig.description;
   const url = new URL(path, siteConfig.url).toString();
+  const socialTitle = title
+    ? `${title} | ${siteConfig.name}`
+    : `${siteConfig.name} — ${siteConfig.tagline}`;
   return {
     title: title ?? undefined,
     description: desc,
@@ -25,12 +28,12 @@ export function buildMetadata({
       locale: siteConfig.locale,
       siteName: siteConfig.name,
       url,
-      title: title ?? siteConfig.tagline,
+      title: socialTitle,
       description: desc,
     },
     twitter: {
       card: "summary_large_image",
-      title: title ?? siteConfig.tagline,
+      title: socialTitle,
       description: desc,
     },
   };
@@ -73,13 +76,23 @@ export function websiteJsonLd() {
   };
 }
 
-export function softwareJsonLd() {
+export function softwareJsonLd(industry?: {
+  name: string;
+  slug: string;
+  metaDescription: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.url,
+    description: industry?.metaDescription ?? siteConfig.description,
+    url: industry ? abs(`/dla/${industry.slug}`) : siteConfig.url,
+    ...(industry && {
+      audience: { "@type": "BusinessAudience", name: industry.name },
+    }),
+    image: abs(
+      industry ? `/dla/${industry.slug}/opengraph-image` : "/opengraph-image",
+    ),
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "Appointment scheduling software",
     operatingSystem: "Web",

@@ -6,7 +6,7 @@ export const siteConfig = {
   locale: "pl_PL",
   tagline: "Program do umawiania wizyt dla firm usługowych",
   description:
-    "Program do umawiania wizyt dla salonów, gabinetów i studiów: kalendarz zespołu, baza klientów, karty zabiegowe, przypomnienia SMS i statystyki. 7 dni za darmo.",
+    "Program do umawiania wizyt dla salonów, gabinetów i studiów: kalendarz zespołu, baza klientów, karty zabiegowe i przypomnienia SMS. 7 dni za darmo.",
   appUrl,
   registerUrl: `${appUrl}/register`,
   loginUrl: appUrl,
