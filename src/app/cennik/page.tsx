@@ -13,9 +13,9 @@ import { formatPln, monthlyPrice } from "@/lib/pricing";
 import { breadcrumbJsonLd, buildMetadata, softwareJsonLd } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Cennik — program do umawiania wizyt od 79 zł/mies.",
+  title: "Cennik — program do wizyt od 79 zł/mies.",
   description:
-    "Cennik Saloonika: 79 zł netto miesięcznie za właściciela i jeden lokal, 35 zł za pracownika (od 6. osoby 25 zł, powyżej 15 za darmo). Rocznie 2 miesiące gratis. 7 dni za darmo.",
+    "Cennik Saloonika: 79 zł netto miesięcznie za właściciela i lokal, 35 zł za pracownika, powyżej 15 osób za darmo. Rocznie 2 miesiące gratis.",
   path: "/cennik",
 });
 

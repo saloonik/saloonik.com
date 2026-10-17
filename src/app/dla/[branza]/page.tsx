@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, XIcon } from "@/components/ui/icons";
+import * as motion from "motion/react-client";
 import { JsonLd } from "@/components/json-ld";
 import {
   Container,
@@ -14,6 +15,7 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
 import { HeroBackground } from "@/components/sections/hero-background";
 import { trustPoints } from "@/components/sections/hero";
+import { Photo, revealGroup, revealItem } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
@@ -75,7 +77,7 @@ export default async function IndustryPage({ params }: Props) {
               <Button asChild size="xl">
                 <a href={siteConfig.registerUrl}>
                   Wypróbuj {siteConfig.trialDays} dni za darmo{" "}
-                  <ArrowRight className="size-5" />
+                  <ArrowRightIcon className="size-5" />
                 </a>
               </Button>
               <Button asChild size="xl" variant="outline">
@@ -85,7 +87,7 @@ export default async function IndustryPage({ params }: Props) {
             <ul className="text-muted-foreground mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
               {trustPoints.map((p) => (
                 <li key={p} className="flex items-center gap-1.5">
-                  <Check className="text-primary size-4" /> {p}
+                  <CheckIcon className="text-primary size-4" /> {p}
                 </li>
               ))}
             </ul>
@@ -99,23 +101,28 @@ export default async function IndustryPage({ params }: Props) {
           eyebrow="Znasz to?"
           title="Codzienne wyzwania — i jak rozwiązuje je Saloonik"
         />
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <motion.div
+          {...revealGroup}
+          className="mt-14 grid gap-6 md:grid-cols-3"
+        >
           {industry.pains.map((pain) => (
-            <div
+            <motion.div
               key={pain.problem}
+              variants={revealItem}
+              data-spotlight
               className="bg-background flex flex-col rounded-xl border p-6"
             >
               <p className="text-muted-foreground flex items-start gap-2 text-sm font-medium">
-                <X className="text-destructive mt-0.5 size-4 shrink-0" />{" "}
+                <XIcon className="text-destructive mt-0.5 size-4 shrink-0" />{" "}
                 {pain.problem}
               </p>
               <p className="mt-4 flex items-start gap-2 leading-relaxed">
-                <Check className="text-primary mt-1 size-4 shrink-0" />{" "}
+                <CheckIcon className="text-primary mt-1 size-4 shrink-0" />{" "}
                 {pain.solution}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Section>
 
       <Section>
@@ -126,12 +133,17 @@ export default async function IndustryPage({ params }: Props) {
               eyebrow="Najważniejsze funkcje"
               title="Funkcje, które docenisz na co dzień"
             />
-            <div className="mt-10 space-y-6">
+            <motion.div {...revealGroup} className="mt-10 space-y-6">
               {industry.featureIds.map((id) => {
                 const f = getFeature(id);
                 if (!f) return null;
                 return (
-                  <div key={id} className="flex gap-4">
+                  <motion.div
+                    key={id}
+                    variants={revealItem}
+                    data-atelier-hover
+                    className="flex gap-4"
+                  >
                     <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-10 shrink-0 items-center justify-center rounded-lg">
                       <f.icon className="size-5" />
                     </span>
@@ -141,55 +153,70 @@ export default async function IndustryPage({ params }: Props) {
                         {f.description}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
             <Link
               href="/funkcje"
               className="text-primary mt-8 inline-flex items-center gap-1.5 font-medium hover:underline"
             >
-              Wszystkie funkcje <ArrowRight className="size-4" />
+              Wszystkie funkcje <ArrowRightIcon className="size-4" />
             </Link>
           </div>
 
-          <div className="bg-card h-fit rounded-xl border p-6 shadow-sm">
-            <Badge className="mb-3">Gotowy szablon</Badge>
-            <h3 className="text-lg font-semibold">
-              Usługi gotowe od pierwszego dnia
-            </h3>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Wybierz branżę „{industry.name}” przy rejestracji, a Saloonik doda
-              przykładowe usługi. Czasy i ceny zmienisz w każdej chwili.
-            </p>
-            <table className="mt-5 w-full text-sm">
-              <thead className="sr-only">
-                <tr>
-                  <th scope="col">Usługa</th>
-                  <th scope="col">Czas</th>
-                  <th scope="col">Cena</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {industry.services.map((s) => (
-                  <tr key={s.name}>
-                    <td className="py-2.5 pr-2">
-                      <span
-                        className="mr-2 inline-block size-2 rounded-full align-middle"
-                        style={{ backgroundColor: industry.color }}
-                      />
-                      {s.name}
-                    </td>
-                    <td className="text-muted-foreground py-2.5 text-right font-mono">
-                      {s.duration} min
-                    </td>
-                    <td className="py-2.5 pl-4 text-right font-mono">
-                      {formatPln(s.price)}
-                    </td>
+          <div className="bg-card h-fit overflow-hidden rounded-2xl border shadow-sm lg:sticky lg:top-24">
+            {industry.photo && (
+              <div className="relative">
+                <Photo
+                  {...industry.photo}
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="aspect-[16/9] rounded-none"
+                />
+                <span className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+                <p className="absolute bottom-4 left-6 text-xl font-semibold text-white">
+                  {industry.name}
+                </p>
+              </div>
+            )}
+            <div className="p-6">
+              <Badge className="mb-3">Gotowy szablon</Badge>
+              <h3 className="text-lg font-semibold">
+                Usługi gotowe od pierwszego dnia
+              </h3>
+              <p className="text-muted-foreground mt-1 text-sm">
+                Wybierz branżę „{industry.name}” przy rejestracji, a Saloonik
+                doda przykładowe usługi. Czasy i ceny zmienisz w każdej chwili.
+              </p>
+              <table className="mt-5 w-full text-sm">
+                <thead className="sr-only">
+                  <tr>
+                    <th scope="col">Usługa</th>
+                    <th scope="col">Czas</th>
+                    <th scope="col">Cena</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <motion.tbody {...revealGroup} className="divide-y">
+                  {industry.services.map((s) => (
+                    <motion.tr key={s.name} variants={revealItem}>
+                      <td className="py-2.5 pr-2">
+                        <span
+                          className="mr-2 inline-block size-2 rounded-full align-middle"
+                          style={{ backgroundColor: industry.color }}
+                        />
+                        {s.name}
+                      </td>
+                      <td className="text-muted-foreground py-2.5 text-right font-mono">
+                        {s.duration} min
+                      </td>
+                      <td className="py-2.5 pl-4 text-right font-mono">
+                        {formatPln(s.price)}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </motion.tbody>
+              </table>
+            </div>
           </div>
         </div>
       </Section>
@@ -222,7 +249,7 @@ export default async function IndustryPage({ params }: Props) {
       <CtaSection title={`${industry.h1}, który działa od pierwszego dnia`} />
       <JsonLd
         data={[
-          softwareJsonLd(),
+          softwareJsonLd(industry),
           breadcrumbJsonLd([
             { name: industry.name, path: `/dla/${industry.slug}` },
           ]),

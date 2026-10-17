@@ -1,7 +1,27 @@
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRightIcon } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/section";
 import { siteConfig } from "@/config/site";
+
+const collage = [
+  {
+    src: "/images/salon-fryzjerski.jpg",
+    className: "top-10 -left-6 w-40 -rotate-6",
+  },
+  {
+    src: "/images/stylizacja-paznokci.jpg",
+    className: "bottom-8 left-20 w-32 rotate-3 [animation-delay:-2s]",
+  },
+  {
+    src: "/images/barber.jpg",
+    className: "top-8 -right-4 w-36 rotate-6 [animation-delay:-4s]",
+  },
+  {
+    src: "/images/gabinet-masazu.jpg",
+    className: "bottom-10 right-24 w-32 -rotate-3 [animation-delay:-1s]",
+  },
+];
 
 export function CtaSection({
   title = "Sprawdź Saloonika w swojej firmie",
@@ -25,8 +45,25 @@ export function CtaSection({
           />
           <div
             aria-hidden
-            className="absolute -top-24 -right-24 -z-10 size-96 rounded-full bg-rose-400/30 blur-3xl"
+            className="motion-safe:animate-drift-b absolute -top-24 -right-24 -z-10 size-96 rounded-full bg-rose-400/30 blur-3xl"
           />
+          {collage.map((p) => (
+            <div
+              key={p.src}
+              aria-hidden
+              className={`absolute -z-10 hidden xl:block ${p.className}`}
+            >
+              <div className="motion-safe:animate-float relative aspect-[4/3] overflow-hidden rounded-xl shadow-2xl ring-4 ring-white/20">
+                <Image
+                  src={p.src}
+                  alt=""
+                  fill
+                  sizes="160px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          ))}
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
             {title}
           </h2>
@@ -39,7 +76,7 @@ export function CtaSection({
             className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 dark:bg-primary dark:text-primary-foreground mt-8"
           >
             <a href={siteConfig.registerUrl}>
-              Załóż darmowe konto <ArrowRight className="size-5" />
+              Załóż darmowe konto <ArrowRightIcon className="size-5" />
             </a>
           </Button>
         </div>

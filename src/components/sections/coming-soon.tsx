@@ -1,3 +1,5 @@
+import * as motion from "motion/react-client";
+import { revealGroup, revealItem } from "@/components/ui/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Section } from "@/components/layout/section";
 import { PhoneMockup } from "@/components/mockups/phone-mockup";
@@ -18,10 +20,13 @@ export function ComingSoon() {
             Regularnie dodajemy nowe funkcje — każda trafia do abonamentu bez
             dopłat.
           </p>
-          <div className="mt-8 space-y-4">
+          <motion.div {...revealGroup} className="mt-8 space-y-4">
             {upcomingFeatures.map((f) => (
-              <div
+              <motion.div
                 key={f.id}
+                variants={revealItem}
+                data-atelier-hover
+                data-spotlight
                 className="bg-background flex gap-4 rounded-xl border p-5"
               >
                 <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-10 shrink-0 items-center justify-center rounded-lg">
@@ -35,9 +40,9 @@ export function ComingSoon() {
                     {f.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
         <PhoneMockup className="motion-safe:-rotate-3" />
       </div>

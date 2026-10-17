@@ -1,4 +1,4 @@
-import { Mail, MessageSquareText } from "lucide-react";
+import { MailIcon, MessageSquareTextIcon } from "@/components/ui/icons";
 import { JsonLd } from "@/components/json-ld";
 import {
   heroScreen,
@@ -10,7 +10,7 @@ import { siteConfig } from "@/config/site";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Kontakt",
+  title: "Kontakt — pytania, oferta dla sieci i pomoc",
   description:
     "Skontaktuj się z zespołem Saloonik — pytania o program, wdrożenie w Twojej firmie, ofertę dla sieci lokali i pomoc techniczną.",
   path: "/kontakt",
@@ -18,14 +18,14 @@ export const metadata = buildMetadata({
 
 const channels = [
   {
-    icon: Mail,
+    icon: MailIcon,
     title: "Napisz do nas",
     text: "Pytania o program, ofertę dla sieci lokali i współpracę.",
     href: `mailto:${siteConfig.contactEmail}`,
     cta: siteConfig.contactEmail,
   },
   {
-    icon: MessageSquareText,
+    icon: MessageSquareTextIcon,
     title: "Masz już konto?",
     text: "Skorzystaj z formularza „Zgłoś uwagę” w aplikacji — trafia prosto do naszego zespołu.",
     href: siteConfig.loginUrl,
@@ -49,6 +49,8 @@ export default function ContactPage() {
             <a
               key={c.title}
               href={c.href}
+              data-spotlight
+              data-atelier-hover
               className="bg-card group flex flex-col rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 items-center justify-center rounded-xl">

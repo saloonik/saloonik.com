@@ -1,6 +1,8 @@
-import { Check } from "lucide-react";
+import * as motion from "motion/react-client";
+import { CheckIcon } from "@/components/ui/icons";
 import { Badge } from "@/components/ui/badge";
 import type { Feature } from "@/content/features";
+import { Photo, revealGroup, revealItem } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 export function FeatureDetail({
@@ -18,38 +20,72 @@ export function FeatureDetail({
       id={feature.id}
       className="grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16"
     >
-      <div className={cn(reverse && "lg:order-2")}>
-        <h2 className="flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+      <motion.div
+        {...revealGroup}
+        data-atelier-hover
+        className={cn(reverse && "lg:order-2")}
+      >
+        <motion.h2
+          variants={revealItem}
+          className="flex flex-wrap items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
           <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-11 shrink-0 items-center justify-center rounded-xl">
             <Icon className="size-5" />
           </span>
           {feature.title}
           {feature.soon && <Badge variant="warning">Wkrótce</Badge>}
-        </h2>
-        <p className="text-muted-foreground mt-4 text-lg leading-relaxed">
+        </motion.h2>
+        <motion.p
+          variants={revealItem}
+          className="text-muted-foreground mt-4 text-lg leading-relaxed"
+        >
           {feature.description}
-        </p>
+        </motion.p>
         <ul className="mt-6 space-y-3">
           {feature.points.map((p) => (
-            <li key={p} className="flex gap-3">
-              <Check className="text-primary mt-0.5 size-5 shrink-0" />
+            <motion.li key={p} variants={revealItem} className="flex gap-3">
+              <CheckIcon className="text-primary mt-0.5 size-5 shrink-0" />
               <span>{p}</span>
-            </li>
+            </motion.li>
           ))}
         </ul>
-      </div>
+      </motion.div>
       {visual ? (
         <div className={cn(reverse && "lg:order-1")}>{visual}</div>
       ) : (
-        <div
-          aria-hidden
-          className={cn(
-            "from-primary/10 to-accent/40 hidden aspect-[4/3] items-center justify-center rounded-2xl border bg-linear-to-br lg:flex",
-            reverse && "lg:order-1",
-          )}
-        >
-          <Icon className="text-primary/40 size-24" strokeWidth={1.25} />
-        </div>
+        feature.photo && (
+          <div className={cn("relative", reverse && "lg:order-1")}>
+            <Photo
+              src={feature.photo.src}
+              alt={feature.photo.alt}
+              className="aspect-[16/11] shadow-xl"
+            />
+            {feature.photo.caption && (
+              <motion.div
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{
+                  delay: 0.6,
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 22,
+                }}
+                className={cn(
+                  "absolute -bottom-5 max-w-[85%]",
+                  reverse ? "-right-3 sm:-right-5" : "-left-3 sm:-left-5",
+                )}
+              >
+                <p className="bg-card/90 motion-safe:animate-float flex items-center gap-3 rounded-xl border p-3 pr-4 text-sm font-medium shadow-xl backdrop-blur">
+                  <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
+                    <Icon className="size-4" />
+                  </span>
+                  {feature.photo.caption}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        )
       )}
     </article>
   );

@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
 import * as motion from "motion/react-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GradientText } from "@/components/ui/gradient-text";
 import { Container, heroScreen } from "@/components/layout/section";
 import { cn } from "@/lib/utils";
-import { CalendarMockup } from "@/components/mockups/calendar-mockup";
-import { SmsMockup } from "@/components/mockups/sms-mockup";
 import { siteConfig } from "@/config/site";
 import { HeroBackground } from "./hero-background";
+import { HeroVisual } from "./hero-visual";
 
 const stagger = { show: { transition: { staggerChildren: 0.08 } } };
 const item = {
@@ -66,7 +65,7 @@ export function Hero() {
             <Button asChild size="xl">
               <a href={siteConfig.registerUrl}>
                 Wypróbuj {siteConfig.trialDays} dni za darmo{" "}
-                <ArrowRight className="size-5" />
+                <ArrowRightIcon className="size-5" />
               </a>
             </Button>
             <Button asChild size="xl" variant="outline">
@@ -79,21 +78,13 @@ export function Hero() {
           >
             {trustPoints.map((p) => (
               <li key={p} className="flex items-center gap-1.5">
-                <Check className="text-primary size-4" /> {p}
+                <CheckIcon className="text-primary size-4" /> {p}
               </li>
             ))}
           </motion.ul>
         </motion.div>
 
-        <motion.div
-          className="relative min-w-0"
-          initial={{ opacity: 0, y: 32, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <CalendarMockup captionClassName="lg:pl-80" />
-          <SmsMockup className="absolute -bottom-5 left-4 z-30 hidden w-72 lg:block" />
-        </motion.div>
+        <HeroVisual />
       </Container>
     </section>
   );

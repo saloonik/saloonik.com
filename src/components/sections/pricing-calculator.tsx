@@ -2,14 +2,14 @@
 
 import { useId, useState } from "react";
 import {
-  Check,
-  FileSpreadsheet,
-  Gift,
-  Globe,
-  Minus,
-  Plus,
-  ShieldCheck,
-} from "lucide-react";
+  CheckIcon,
+  FileSpreadsheetIcon,
+  GiftIcon,
+  GlobeIcon,
+  MinusIcon,
+  PlusIcon,
+  ShieldUserIcon,
+} from "@/components/ui/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -29,16 +29,17 @@ const included = [
   "Kalendarz wizyt i baza klientów",
   "Karty zabiegowe i zdjęcia przed/po",
   `Przypomnienia SMS — ${plan.smsPerPersonMonth} SMS na osobę/mies.`,
+  "Magazyn i sprzedaż produktów",
   "Statystyki, role i dziennik aktywności",
   "Import i eksport z Excela",
   "Wszystkie przyszłe funkcje",
 ];
 
 const guarantees = [
-  { icon: Gift, text: "7 dni za darmo, bez karty" },
-  { icon: FileSpreadsheet, text: "Import klientów z Excela" },
-  { icon: Globe, text: "Działa w przeglądarce" },
-  { icon: ShieldCheck, text: "Płatności przez Przelewy24" },
+  { icon: GiftIcon, text: "7 dni za darmo, bez karty" },
+  { icon: FileSpreadsheetIcon, text: "Import klientów z Excela" },
+  { icon: GlobeIcon, text: "Działa w przeglądarce" },
+  { icon: ShieldUserIcon, text: "Płatności przez Przelewy24" },
 ];
 
 type Props = { registerUrl: string; contactEmail: string };
@@ -188,7 +189,7 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
           <ul className="space-y-2 text-sm">
             {included.map((item) => (
               <li key={item} className="flex gap-2">
-                <Check className="mt-0.5 size-4 shrink-0" /> {item}
+                <CheckIcon className="mt-0.5 size-4 shrink-0" /> {item}
               </li>
             ))}
           </ul>
@@ -273,7 +274,7 @@ function Stepper({
           disabled={value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
         >
-          <Minus />
+          <MinusIcon />
         </Button>
         <output
           aria-live="polite"
@@ -288,7 +289,7 @@ function Stepper({
           disabled={value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
         >
-          <Plus />
+          <PlusIcon />
         </Button>
       </div>
     </div>

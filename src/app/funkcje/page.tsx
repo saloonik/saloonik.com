@@ -1,7 +1,12 @@
+import * as motion from "motion/react-client";
 import { JsonLd } from "@/components/json-ld";
+import { Badge } from "@/components/ui/badge";
+import { CheckIcon } from "@/components/ui/icons";
+import { revealGroup, revealItem } from "@/components/ui/reveal";
 import {
   Container,
   heroScreen,
+  Section,
   SectionHeading,
 } from "@/components/layout/section";
 import { CalendarMockup } from "@/components/mockups/calendar-mockup";
@@ -39,6 +44,9 @@ const visuals: Record<string, React.ReactNode> = {
 
 export default function FeaturesPage() {
   const all = [...features, ...upcomingFeatures];
+  // features without a visual would leave half a row empty, so they share one card grid
+  const detailed = all.filter((f) => visuals[f.id] || f.photo);
+  const cards = all.filter((f) => !visuals[f.id] && !f.photo);
   return (
     <>
       <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
@@ -67,8 +75,8 @@ export default function FeaturesPage() {
         </Container>
       </section>
 
-      <Container className="space-y-24 py-16 sm:space-y-32 sm:py-24">
-        {all.map((feature, i) => (
+      <Container className="space-y-20 py-16 sm:space-y-24 sm:py-24">
+        {detailed.map((feature, i) => (
           <FeatureDetail
             key={feature.id}
             feature={feature}
@@ -77,6 +85,50 @@ export default function FeaturesPage() {
           />
         ))}
       </Container>
+
+      {cards.length > 0 && (
+        <Section className="bg-card/50 border-y">
+          <SectionHeading
+            eyebrow="Wkrótce"
+            title="Nad tym pracujemy"
+            description="Każda nowa funkcja trafia do abonamentu bez dopłat."
+          />
+          <motion.div
+            {...revealGroup}
+            className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {cards.map((f) => (
+              <motion.article
+                key={f.id}
+                id={f.id}
+                variants={revealItem}
+                data-spotlight
+                data-atelier-hover
+                className="bg-background scroll-mt-24 rounded-xl border p-6"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-10 items-center justify-center rounded-lg">
+                    <f.icon className="size-5" />
+                  </span>
+                  <Badge variant="warning">Wkrótce</Badge>
+                </div>
+                <h2 className="mt-4 text-lg font-semibold">{f.title}</h2>
+                <p className="text-muted-foreground mt-2 leading-relaxed">
+                  {f.description}
+                </p>
+                <ul className="mt-4 space-y-2 text-sm">
+                  {f.points.map((p) => (
+                    <li key={p} className="flex gap-2">
+                      <CheckIcon className="text-primary mt-0.5 size-4 shrink-0" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </motion.article>
+            ))}
+          </motion.div>
+        </Section>
+      )}
 
       <CtaSection />
       <JsonLd
