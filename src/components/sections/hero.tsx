@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
-import * as motion from "motion/react-client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GradientText } from "@/components/ui/gradient-text";
@@ -10,15 +9,13 @@ import { siteConfig } from "@/config/site";
 import { HeroBackground } from "./hero-background";
 import { HeroVisual } from "./hero-visual";
 
-const stagger = { show: { transition: { staggerChildren: 0.08 } } };
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
+// Entrance runs in CSS ([data-rise] in globals.css), so the headline is
+// visible on first paint even before (or without) JavaScript.
+const rise = (i: number) =>
+  ({
+    "data-rise": "",
+    style: { "--i": i },
+  }) as React.HTMLAttributes<HTMLElement>;
 
 export const trustPoints = [
   "7 dni za darmo",
@@ -30,38 +27,30 @@ export function Hero() {
   return (
     <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
       <HeroBackground />
-      <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-10">
-        <motion.div
-          className="max-w-2xl"
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-        >
-          <motion.div variants={item}>
+      <Container className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-10">
+        <div className="max-w-2xl">
+          <div {...rise(0)}>
             <Badge className="mb-6 px-3 py-1 text-[13px]">
               Dla salonów, gabinetów i studiów
             </Badge>
-          </motion.div>
-          <motion.h1
-            variants={item}
+          </div>
+          <h1
+            {...rise(1)}
             className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl xl:text-6xl"
           >
             Program do umawiania wizyt,{" "}
             <GradientText>który porządkuje Twój dzień</GradientText>
-          </motion.h1>
-          <motion.p
-            variants={item}
+          </h1>
+          <p
+            {...rise(2)}
             className="text-muted-foreground mt-6 text-lg leading-relaxed text-pretty sm:text-xl"
           >
             Kalendarz wizyt całego zespołu, karta klienta z historią zabiegów i
             automatyczne przypomnienia SMS — w każdej branży, w której pracujesz
             z klientem na wizyty. Saloonik ogarnia grafik, a Ty zajmujesz się
             klientami.
-          </motion.p>
-          <motion.div
-            variants={item}
-            className="mt-8 flex flex-col gap-3 sm:flex-row"
-          >
+          </p>
+          <div {...rise(3)} className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="xl">
               <a href={siteConfig.registerUrl}>
                 Wypróbuj {siteConfig.trialDays} dni za darmo{" "}
@@ -71,9 +60,9 @@ export function Hero() {
             <Button asChild size="xl" variant="outline">
               <Link href="/cennik">Zobacz cennik</Link>
             </Button>
-          </motion.div>
-          <motion.ul
-            variants={item}
+          </div>
+          <ul
+            {...rise(4)}
             className="text-muted-foreground mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm"
           >
             {trustPoints.map((p) => (
@@ -81,8 +70,8 @@ export function Hero() {
                 <CheckIcon className="text-primary size-4" /> {p}
               </li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </ul>
+        </div>
 
         <HeroVisual />
       </Container>

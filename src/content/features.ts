@@ -16,6 +16,7 @@ import {
   WarehouseIcon,
   type AtelierIconComponent,
 } from "@/components/ui/icons";
+import type { FaqItem } from "./faq";
 
 export type Feature = {
   id: string;
@@ -26,6 +27,14 @@ export type Feature = {
   points: string[];
   soon?: boolean;
   photo?: { src: string; alt: string; caption?: string };
+  // features with a page get their own URL under /funkcje/[id]
+  page?: {
+    h1: string;
+    metaTitle: string;
+    metaDescription: string;
+    intro: string[];
+    faq: FaqItem[];
+  };
 };
 
 export const features: Feature[] = [
@@ -45,6 +54,39 @@ export const features: Feature[] = [
       "Statusy wizyty i płatności, filtry po pracowniku i usłudze",
       "Wydruk dziennego grafiku pracownika do PDF",
     ],
+    page: {
+      h1: "Kalendarz wizyt online dla całego zespołu",
+      metaTitle: "Kalendarz wizyt online dla salonu i gabinetu",
+      metaDescription:
+        "Kalendarz wizyt online w przeglądarce: grafik całego zespołu, przeciąganie wizyt, ostrzeżenia o nakładaniu się terminów i przypomnienia SMS. 7 dni za darmo.",
+      intro: [
+        "Zeszyt i telefon wystarczą, dopóki pracujesz sama. Gdy dochodzi drugi pracownik, długie usługi i odwołania, papierowy grafik zaczyna się rozjeżdżać. Kalendarz Saloonika pokazuje dzień całego zespołu na jednym ekranie — każdy pracownik ma własną kolumnę z godzinami pracy i nieobecnościami.",
+        "Usługi mają zapisany czas trwania, więc nowa wizyta od razu zajmuje tyle miejsca, ile trzeba. Gdy termin nachodzi na inną wizytę pracownika, kalendarz ostrzeże Cię przed zapisaniem. Wizytę przesuwasz i wydłużasz myszką, a pomyłkę cofniesz jednym przyciskiem.",
+        "Kalendarz działa w przeglądarce na komputerze, bez instalacji. Do każdej wizyty Saloonik sam wysyła klientowi przypomnienie SMS lub e-mail, zgodnie ze zgodami zapisanymi w kartotece.",
+      ],
+      faq: [
+        {
+          question: "Czy każdy pracownik może mieć własny grafik?",
+          answer:
+            "Tak. W widoku dnia każdy pracownik ma osobną kolumnę, własne godziny pracy i nieobecności. Uprawnienia decydują, czy widzi tylko swoje wizyty, czy cały kalendarz firmy.",
+        },
+        {
+          question: "Jakie widoki ma kalendarz?",
+          answer:
+            "Dzień z kolumnami pracowników, tydzień, miesiąc i lista wizyt. Wizyty filtrujesz po pracowniku i usłudze, a dzienny grafik pracownika wydrukujesz do PDF.",
+        },
+        {
+          question: "Czy klienci mogą umawiać się sami przez internet?",
+          answer:
+            "Rezerwacja online jest w przygotowaniu — klient wybierze usługę, pracownika i wolny termin, a wizyta od razu trafi do kalendarza. Dziś wizyty wpisuje zespół, a klienci dostają automatyczne przypomnienia.",
+        },
+        {
+          question: "Co się dzieje, gdy klient odwoła wizytę?",
+          answer:
+            "Zwolnione miejsce od razu widać w kalendarzu, a nową wizytę wstawisz w nie jednym kliknięciem. Panel główny pokazuje też najbliższe wolne terminy.",
+        },
+      ],
+    },
   },
   {
     id: "klienci",
@@ -58,7 +100,6 @@ export const features: Feature[] = [
       "Zakładki: dane, wizyty, karty zabiegowe, zdjęcia, opinia klienta",
       "Import i eksport klientów z Excela (z gotowym szablonem)",
       "Zgody na przypomnienia SMS i e-mail zapisane przy kliencie",
-      "Wysyłka SMS prosto z karty klienta lub z wizyty",
       "Opinie klientów o pracownikach po wizycie i wewnętrzna ocena klienta widoczna tylko dla zespołu",
     ],
   },
@@ -78,6 +119,39 @@ export const features: Feature[] = [
       "Ostrzeżenie w wizycie, gdy brakuje wymaganej karty",
       "Druk pustej karty dla klienta bez adresu e-mail",
     ],
+    page: {
+      h1: "Karty zabiegowe online — wysyłane klientom przed wizytą",
+      metaTitle: "Karta zabiegowa online — wywiady i zgody klientów",
+      metaDescription:
+        "Karty zabiegowe online: własne wzory wywiadów i zgód przypisane do usług, wysyłka mailem przed wizytą i skany w kartotece klienta. Wypróbuj 7 dni za darmo.",
+      intro: [
+        "Wywiad przed zabiegiem, zgoda na zabieg, ankieta przed pierwszą konsultacją — w salonie kosmetycznym, gabinecie medycyny estetycznej czy studiu tatuażu to codzienność. Na papierze karty giną, a przed wizytą nikt nie wie, czy klient w ogóle ją wypełnił.",
+        "W Saloonik wgrywasz własne wzory kart (PDF, JPG, PNG, DOC, DOCX) i przypisujesz je do usług. Gdy zapisujesz wizytę na usługę wymagającą karty, a klient nie ma jeszcze wypełnionej, Saloonik wyśle mu ją mailem. Wypełnioną kartę dodasz jako skan — wystarczy zdjęcie telefonem.",
+        "W kartotece klienta każda karta ma status „Wysłana” albo „Wypełniona”, a wizyta ostrzeże Cię, jeśli wymaganej karty brakuje. Klientowi bez adresu e-mail wydrukujesz pustą kartę na miejscu.",
+      ],
+      faq: [
+        {
+          question: "Czy mogę używać własnych wzorów kart zabiegowych?",
+          answer:
+            "Tak. Wgrywasz własne pliki — PDF, JPG, PNG, DOC lub DOCX — i przypisujesz je do usług, które ich wymagają.",
+        },
+        {
+          question: "Jak klient dostaje kartę przed wizytą?",
+          answer:
+            "Przy zapisie wizyty Saloonik wysyła kartę mailem, jeśli klient nie ma jeszcze wypełnionej karty dla tej usługi. Klientowi bez e-maila wydrukujesz pustą kartę.",
+        },
+        {
+          question: "Gdzie przechowywane są wypełnione karty?",
+          answer:
+            "W kartotece klienta, w zakładce kart zabiegowych. Skan dodasz zdjęciem z telefonu, a dostęp do kartotek ograniczysz rolami i uprawnieniami.",
+        },
+        {
+          question: "Skąd wiem, że klientowi brakuje karty?",
+          answer:
+            "Wizyta pokazuje ostrzeżenie, gdy brakuje wymaganej karty, a w kartotece widać status każdej karty: „Wysłana” lub „Wypełniona”.",
+        },
+      ],
+    },
   },
   {
     id: "zdjecia",
@@ -105,14 +179,41 @@ export const features: Feature[] = [
       "Automatyczne przypomnienie przed każdą wizytą",
       "400 SMS-ów na osobę miesięcznie w cenie abonamentu",
       "Historia wysłanych wiadomości z filtrami",
-      "Ręczna wysyłka SMS, gdy trzeba coś przekazać",
     ],
+    page: {
+      h1: "Przypomnienia SMS o wizycie — automatycznie",
+      metaTitle: "Przypomnienia SMS o wizycie dla salonu i gabinetu",
+      metaDescription:
+        "Automatyczne przypomnienia SMS i e-mail o wizycie: mniej nieodbytych wizyt, 400 SMS-ów na osobę miesięcznie w cenie abonamentu. Wypróbuj 7 dni za darmo.",
+      intro: [
+        "Nieodbyta wizyta to pusty fotel i stracony przychód — a najczęstszy powód jest prosty: klient zapomniał. Ręczne pisanie wiadomości wieczorem przed każdym dniem pracy zajmuje czas, którego w salonie zwykle brakuje.",
+        "Saloonik sam wysyła klientowi przypomnienie przed każdą wizytą — SMS-em lub e-mailem, zgodnie ze zgodami zapisanymi w jego kartotece. Nie musisz o niczym pamiętać, a historia wysłanych wiadomości pokazuje, co i kiedy wyszło.",
+        "SMS-y są w cenie abonamentu: 400 wiadomości miesięcznie na każdą osobę w firmie, czyli właściciela i każdego pracownika.",
+      ],
+      faq: [
+        {
+          question: "Ile SMS-ów jest w cenie?",
+          answer:
+            "400 SMS-ów miesięcznie na każdą osobę w firmie — właściciela i każdego pracownika — bez dodatkowych opłat.",
+        },
+        {
+          question: "Czy klient musi zgodzić się na przypomnienia?",
+          answer:
+            "Zgody na przypomnienia SMS i e-mail zapisujesz w kartotece klienta, a Saloonik wysyła wiadomości zgodnie z tymi zgodami.",
+        },
+        {
+          question: "Czy przypomnienie może przyjść e-mailem?",
+          answer:
+            "Tak. Przypomnienie wychodzi SMS-em lub e-mailem, w zależności od zgód zapisanych przy kliencie.",
+        },
+      ],
+    },
   },
   {
     id: "zespol",
     photo: {
       src: "/images/zespol.jpg",
-      alt: "Trzy fryzjerki z nożyczkami i szczotkami w salonie",
+      alt: "Nożyczki fryzjerskie zawieszone na ścianie salonu",
       caption: "Anna Nowak: urlop 20–24.10, rezerwacje zablokowane",
     },
     icon: UserCogIcon,
@@ -201,11 +302,6 @@ export const features: Feature[] = [
   },
   {
     id: "magazyn",
-    photo: {
-      src: "/images/magazyn.jpg",
-      alt: "Kosmetyki do pielęgnacji ułożone na blacie",
-      caption: "Szampon regenerujący: zostały 3 sztuki",
-    },
     icon: WarehouseIcon,
     title: "Magazyn i sprzedaż",
     summary: "Wiesz, co jest na półce, zanim czegoś zabraknie.",
@@ -219,6 +315,39 @@ export const features: Feature[] = [
       "Sprzedaż produktów klientom przy wizycie albo osobno",
       "Osobne stany na sprzedaż i do zabiegów",
     ],
+    page: {
+      h1: "Magazyn i sprzedaż kosmetyków w salonie",
+      metaTitle: "Program magazynowy dla salonu — stany i sprzedaż",
+      metaDescription:
+        "Magazyn salonu w programie do wizyt: stany produktów w każdym oddziale, dostawy, inwentaryzacja, alerty o niskim stanie i sprzedaż kosmetyków przy wizycie.",
+      intro: [
+        "Farba kończy się w środku koloryzacji, a szampon na sprzedaż leży w szafce od roku — tak wygląda magazyn prowadzony na oko. Saloonik trzyma produkty do zabiegów i na sprzedaż w jednym miejscu, z osobnymi stanami dla każdego oddziału.",
+        "Dostawę przyjmujesz w kilka kliknięć, a inwentaryzacja zapisuje różnice między stanem w systemie a tym na półce. Materiały przypisujesz do usług, więc zużycie przy zabiegach odejmuje się od stanu, a historia ruchów pokazuje, co i kiedy zeszło.",
+        "Gdy produkt spada poniżej ustawionego minimum, Saloonik pokaże alert, zanim czegoś zabraknie. Kosmetyki sprzedasz klientowi przy wizycie albo osobno.",
+      ],
+      faq: [
+        {
+          question: "Czy magazyn jest w cenie abonamentu?",
+          answer:
+            "Tak. Magazyn i sprzedaż, tak jak pozostałe funkcje, są w cenie abonamentu, bez dodatkowych modułów.",
+        },
+        {
+          question: "Czy rozróżnię produkty na sprzedaż i do zabiegów?",
+          answer:
+            "Tak. Saloonik prowadzi osobne stany produktów na sprzedaż i do zabiegów.",
+        },
+        {
+          question: "Mam kilka lokali. Czy każdy ma własny magazyn?",
+          answer:
+            "Tak. Stany produktów są prowadzone osobno dla każdego oddziału, z historią ruchów.",
+        },
+        {
+          question: "Skąd wiem, że coś się kończy?",
+          answer:
+            "Dla każdego produktu ustawiasz minimum, a Saloonik pokaże alert, gdy stan spadnie poniżej tej wartości.",
+        },
+      ],
+    },
   },
 ];
 

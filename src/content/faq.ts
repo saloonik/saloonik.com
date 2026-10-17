@@ -1,3 +1,5 @@
+import { grossPln, plan } from "@/lib/pricing";
+
 export type FaqItem = { question: string; answer: string };
 
 export const generalFaq: FaqItem[] = [
@@ -36,18 +38,15 @@ export const generalFaq: FaqItem[] = [
 export const pricingFaq: FaqItem[] = [
   {
     question: "Czy właściciel liczy się jako pracownik?",
-    answer:
-      "Nie. Cena bazowa 79 zł netto obejmuje konto właściciela i jeden oddział. Płacisz tylko za zatrudnionych pracowników.",
+    answer: `Nie. Cena bazowa ${grossPln(plan.monthlyPrice)} brutto miesięcznie obejmuje konto właściciela i jeden oddział. Płacisz tylko za zatrudnionych pracowników.`,
   },
   {
     question: "Ile kosztuje każdy kolejny pracownik?",
-    answer:
-      "Pierwszych 5 pracowników kosztuje po 35 zł netto miesięcznie, każdy kolejny 25 zł. Powyżej 15 pracowników następni są bezpłatni.",
+    answer: `Pierwszych ${plan.extraEmployeeTierSize} pracowników kosztuje po ${grossPln(plan.pricePerExtraEmployee)} brutto miesięcznie, każdy kolejny ${grossPln(plan.pricePerExtraEmployeeAboveTier)}. Powyżej ${plan.maxEmployees} pracowników następni są bezpłatni.`,
   },
   {
     question: "Ile kosztuje dodatkowy oddział?",
-    answer:
-      "Każdy kolejny oddział to 59 zł netto miesięcznie. Dla firm z więcej niż 5 oddziałami przygotowujemy indywidualną wycenę.",
+    answer: `Każdy kolejny oddział to ${grossPln(plan.pricePerExtraBranch)} brutto miesięcznie. Dla firm z więcej niż ${plan.maxBranches} oddziałami przygotowujemy indywidualną wycenę.`,
   },
   {
     question: "Czy płatność roczna jest tańsza?",
@@ -62,7 +61,7 @@ export const pricingFaq: FaqItem[] = [
   {
     question: "Jak mogę zapłacić?",
     answer:
-      "Płatności obsługuje Przelewy24, m.in. BLIK i karta. Do ceny netto doliczany jest VAT 23%.",
+      "Płatności obsługuje Przelewy24, m.in. BLIK i karta. Wszystkie ceny na stronie są cenami brutto i zawierają 23% VAT.",
   },
   {
     question: "Co się stanie po zakończeniu okresu próbnego?",

@@ -4,18 +4,14 @@ import { cn } from "@/lib/utils";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Spread on a motion container; children with `variants={revealItem}` enter in sequence.
-export const revealGroup = {
-  initial: "hidden",
-  whileInView: "show",
-  viewport: { once: true, amount: 0.15 },
-  variants: { show: { transition: { staggerChildren: 0.08 } } },
-} as const;
+// Spread on a container: its children fade in as they scroll into view.
+// Content is server-rendered visible and the animation is pure CSS
+// (scroll-driven, see globals.css), so it never hides text from slow devices,
+// no-JS readers or translators. Browsers without support just show it.
+export const revealGroup = { "data-reveal": "" } as const;
 
-export const revealItem = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
-};
+/** Kept so children can stay tagged; the CSS on the group does the work. */
+export const revealItem = undefined;
 
 export function Photo({
   src,

@@ -4,6 +4,7 @@ import {
   monthlyPrice,
   periodPrice,
   withVat,
+  grossPln,
   isEnterprise,
 } from "./pricing";
 
@@ -46,6 +47,11 @@ describe("periodPrice", () => {
 });
 
 describe("VAT i Enterprise", () => {
+  it("pokazuje cenę brutto z groszami", () => {
+    expect(grossPln(79)).toBe("97,17 zł");
+    expect(grossPln(25)).toBe("30,75 zł");
+  });
+
   it("dolicza 23% VAT z zaokrągleniem do grosza", () => {
     expect(withVat(79)).toBe(97.17);
     expect(withVat(184)).toBe(226.32);

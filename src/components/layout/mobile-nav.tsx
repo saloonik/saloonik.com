@@ -6,6 +6,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { MenuIcon, XIcon } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { ThemeToggle } from "./theme";
 import type { NavLink } from "@/config/site";
 
 type Props = {
@@ -25,7 +26,7 @@ export function MobileNav({ links, industries, registerUrl, loginUrl }: Props) {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden"
+          className="lg:hidden"
           aria-label="Otwórz menu"
         >
           <MenuIcon className="size-5" />
@@ -36,11 +37,15 @@ export function MobileNav({ links, industries, registerUrl, loginUrl }: Props) {
         <Dialog.Content className="bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed inset-y-0 right-0 z-50 flex w-[85%] max-w-sm flex-col gap-6 overflow-y-auto border-l p-6 shadow-xl">
           <div className="flex items-center justify-between">
             <Logo onClick={close} />
-            <Dialog.Close asChild>
-              <Button variant="ghost" size="icon" aria-label="Zamknij menu">
-                <XIcon className="size-5" />
-              </Button>
-            </Dialog.Close>
+            <div className="flex items-center gap-2">
+              {/* phones only: the header has no room for it there */}
+              <ThemeToggle className="sm:hidden" />
+              <Dialog.Close asChild>
+                <Button variant="ghost" size="icon" aria-label="Zamknij menu">
+                  <XIcon className="size-5" />
+                </Button>
+              </Dialog.Close>
+            </div>
           </div>
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
           <Dialog.Description className="sr-only">

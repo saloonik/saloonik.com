@@ -17,7 +17,7 @@ export function SiteHeader() {
 
         <nav
           aria-label="Główna nawigacja"
-          className="ml-6 hidden items-center md:flex"
+          className="ml-6 hidden items-center lg:flex"
         >
           <NavItem href={features.href}>{features.label}</NavItem>
           <IndustriesMenu
@@ -35,12 +35,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
-          <ThemeToggle />
-          <Button asChild variant="ghost" className="hidden sm:inline-flex">
+          {/* on phones the toggle lives in the menu to leave room for the CTA */}
+          <ThemeToggle className="hidden sm:grid" />
+          <Button asChild variant="ghost" className="hidden lg:inline-flex">
             <a href={siteConfig.loginUrl}>Zaloguj się</a>
           </Button>
-          <Button asChild className="hidden sm:inline-flex">
-            <a href={siteConfig.registerUrl}>Wypróbuj za darmo</a>
+          <Button asChild className="h-8 px-3 sm:h-9 sm:px-4">
+            <a href={siteConfig.registerUrl}>
+              <span>
+                Wypróbuj<span className="hidden sm:inline"> za darmo</span>
+              </span>
+            </a>
           </Button>
           <MobileNav
             links={mainNav}

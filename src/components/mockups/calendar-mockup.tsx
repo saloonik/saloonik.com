@@ -9,22 +9,10 @@ import {
 } from "motion/react";
 import { toast } from "sonner";
 import {
-  BellIcon,
-  BookOpenIcon,
-  BuildingIcon,
   CalendarIcon,
-  ChartColumnIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ClipboardListIcon,
-  DashboardIcon,
-  HistoryIcon,
   InfoIcon,
-  MenuIcon,
-  TagIcon,
-  UserLockIcon,
-  UsersIcon,
-  WarehouseIcon,
 } from "@/components/ui/icons";
 import {
   formatDuration,
@@ -37,6 +25,7 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { AppWindow } from "./app-window";
+import { AppSidebar, LiveCaption } from "./demo";
 
 const ROW = 48;
 const GRID = { from: 9 * 60, to: 18 * 60 };
@@ -170,21 +159,6 @@ const initialVisits: DemoVisit[] = [
 
 const HATCH =
   "repeating-linear-gradient(135deg, transparent, transparent 6px, color-mix(in oklab, var(--muted-foreground) 25%, transparent) 6px, color-mix(in oklab, var(--muted-foreground) 25%, transparent) 7px)";
-
-// Same groups as the collapsed sidebar in system.saloonik.com.
-const sidebarGroups = [
-  [DashboardIcon, BellIcon],
-  [
-    UserLockIcon,
-    UsersIcon,
-    CalendarIcon,
-    TagIcon,
-    WarehouseIcon,
-    ClipboardListIcon,
-    BuildingIcon,
-  ],
-  [BookOpenIcon, HistoryIcon, ChartColumnIcon],
-];
 
 const toY = (minute: number) => ((minute - GRID.from) / 60) * ROW;
 
@@ -355,7 +329,7 @@ export function CalendarMockup({
       <div className="relative">
         <AppWindow label="Kalendarz wizyt Saloonik: widok dnia z osobną kolumną dla każdego pracownika">
           <div className="flex text-left">
-            <AppSidebar />
+            <AppSidebar active={CalendarIcon} />
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 border-b px-4 py-3">
@@ -368,24 +342,7 @@ export function CalendarMockup({
                 <span className="ml-1 text-sm font-semibold">
                   Wtorek, 14 października
                 </span>
-                <span className="text-muted-foreground ml-auto hidden min-w-0 items-center gap-2 text-[11px] md:flex">
-                  <span className="relative flex size-2 shrink-0">
-                    <span className="bg-primary absolute inset-0 rounded-full motion-safe:animate-ping" />
-                    <span className="bg-primary relative size-2 rounded-full" />
-                  </span>
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.span
-                      key={caption ?? "idle"}
-                      className="truncate"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      {caption ?? "Podgląd na żywo"}
-                    </motion.span>
-                  </AnimatePresence>
-                </span>
+                <LiveCaption caption={caption} className="ml-auto" />
               </div>
 
               <div className="flex border-b">
@@ -591,54 +548,6 @@ function DemoCursor({ cursor }: { cursor: Cursor }) {
         />
       </motion.svg>
     </motion.div>
-  );
-}
-
-function AppSidebar() {
-  return (
-    <div className="bg-muted/30 hidden w-14 shrink-0 flex-col items-center border-r sm:flex">
-      <span className="text-muted-foreground flex h-13 items-center">
-        <MenuIcon size={18} animate={false} />
-      </span>
-      <span className="bg-border h-px w-full" />
-      <div className="flex flex-1 flex-col items-center gap-0.5 py-2">
-        {sidebarGroups.map((group, g) => (
-          <div key={g} className="flex flex-col items-center gap-0.5">
-            {g > 0 && <span className="bg-border my-1.5 h-px w-5" />}
-            {group.map((Icon, i) => {
-              const active = Icon === CalendarIcon;
-              return (
-                <span
-                  key={i}
-                  className={cn(
-                    "relative flex size-8 items-center justify-center rounded-lg",
-                    active
-                      ? "bg-card text-foreground ring-border shadow-xs ring-1"
-                      : "text-muted-foreground",
-                  )}
-                >
-                  <Icon
-                    size={16}
-                    variant={active ? "tile" : "line"}
-                    animate={active ? "play" : false}
-                  />
-                  {Icon === BellIcon && (
-                    <span className="bg-primary ring-background absolute top-1.5 right-1.5 size-1.5 rounded-full ring-2" />
-                  )}
-                </span>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-      <span className="bg-border h-px w-full" />
-      <span
-        className="my-2.5 flex size-8 items-center justify-center rounded-full text-[10px] font-bold text-white"
-        style={{ backgroundColor: "var(--viz-1)" }}
-      >
-        AN
-      </span>
-    </div>
   );
 }
 

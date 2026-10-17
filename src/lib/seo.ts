@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import type { FaqItem } from "@/content/faq";
-import { plan } from "@/lib/pricing";
+import { plan, withVat } from "@/lib/pricing";
 
 type PageMeta = {
   title?: string;
@@ -20,7 +20,8 @@ export function buildMetadata({
     ? `${title} | ${siteConfig.name}`
     : `${siteConfig.name} — ${siteConfig.tagline}`;
   return {
-    title: title ?? undefined,
+    // an explicit undefined title would wipe the layout default
+    ...(title && { title }),
     description: desc,
     alternates: { canonical: path },
     openGraph: {
@@ -49,9 +50,16 @@ export function organizationJsonLd() {
     "@type": "Organization",
     "@id": abs("/#organization"),
     name: siteConfig.name,
-    ...(company.legalName ? { legalName: company.legalName } : {}),
-    ...(company.nip ? { vatID: `PL${company.nip}` } : {}),
-    ...(company.address ? { address: company.address } : {}),
+    legalName: company.legalName,
+    vatID: `PL${company.nip}`,
+    taxID: company.nip,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: company.street,
+      postalCode: company.postalCode,
+      addressLocality: company.city,
+      addressCountry: "PL",
+    },
     url: siteConfig.url,
     logo: abs("/icon.svg"),
     email: siteConfig.contactEmail,
@@ -100,15 +108,15 @@ export function softwareJsonLd(industry?: {
     publisher: { "@id": abs("/#organization") },
     offers: {
       "@type": "Offer",
-      price: plan.monthlyPrice,
+      price: withVat(plan.monthlyPrice),
       priceCurrency: "PLN",
       url: abs("/cennik"),
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: plan.monthlyPrice,
+        price: withVat(plan.monthlyPrice),
         priceCurrency: "PLN",
         unitCode: "MON",
-        valueAddedTaxIncluded: false,
+        valueAddedTaxIncluded: true,
       },
     },
   };

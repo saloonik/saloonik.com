@@ -15,6 +15,8 @@ type Tile = {
   id: string;
   wide?: boolean;
   full?: boolean;
+  /** Fills the row on two-column tablets, where it would otherwise sit alone. */
+  mdWide?: boolean;
   points?: boolean;
   bullets?: string[];
   bulletCount?: number;
@@ -42,7 +44,7 @@ const tiles: Tile[] = [
   },
   { id: "uslugi" },
   { id: "oddzialy" },
-  { id: "panel" },
+  { id: "panel", mdWide: true },
   {
     id: "magazyn",
     wide: true,
@@ -66,7 +68,7 @@ export function FeaturesBento() {
       />
       <motion.div
         {...revealGroup}
-        className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
       >
         {tiles.map((tile) => {
           const feature = getFeature(tile.id);
@@ -91,6 +93,7 @@ function FeatureTile({
   feature,
   wide,
   full,
+  mdWide,
   points,
   bullets,
   bulletCount,
@@ -98,7 +101,7 @@ function FeatureTile({
 }: { feature: Feature } & Tile) {
   const Icon = feature.icon;
   if (!visual && !points && feature.photo)
-    return <PhotoTile feature={feature} />;
+    return <PhotoTile feature={feature} mdWide={mdWide} />;
   return (
     <motion.article
       variants={revealItem}
@@ -107,7 +110,7 @@ function FeatureTile({
       className={cn(
         "bg-card group flex min-w-0 flex-col gap-4 rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md",
         wide &&
-          "md:col-span-2 lg:grid lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-8",
+          "md:col-span-2 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] xl:items-start xl:gap-8",
         full && "lg:col-span-3",
       )}
     >
@@ -133,7 +136,7 @@ function FeatureTile({
         )}
       </div>
       {visual && (
-        <div className={cn("mt-2", wide ? "lg:mt-0" : "mt-auto pt-2")}>
+        <div className={cn("mt-2", wide ? "xl:mt-0" : "mt-auto pt-2")}>
           {visual}
         </div>
       )}
@@ -142,13 +145,22 @@ function FeatureTile({
 }
 
 // Photo fills the tile and the copy sits on it, so the picture costs no extra height.
-function PhotoTile({ feature }: { feature: Feature }) {
+function PhotoTile({
+  feature,
+  mdWide,
+}: {
+  feature: Feature;
+  mdWide?: boolean;
+}) {
   const Icon = feature.icon;
   return (
     <motion.article
       variants={revealItem}
       data-atelier-hover
-      className="group relative isolate flex min-h-72 overflow-hidden rounded-xl border shadow-sm"
+      className={cn(
+        "group relative isolate flex min-h-72 overflow-hidden rounded-xl border shadow-sm",
+        mdWide && "md:col-span-2 lg:col-span-1",
+      )}
     >
       <Image
         src={feature.photo!.src}

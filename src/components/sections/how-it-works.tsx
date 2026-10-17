@@ -70,7 +70,10 @@ export function HowItWorks() {
           </motion.span>
         ))}
       </motion.div>
-      <motion.ol {...revealGroup} className="mt-6 grid gap-6 md:grid-cols-3">
+      <motion.ol
+        {...revealGroup}
+        className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3"
+      >
         {steps.map((step, i) => (
           <motion.li
             key={step.title}

@@ -16,9 +16,13 @@ export const siteConfig = {
   trialDays: 7,
 
   company: {
-    legalName: "",
-    nip: "",
-    address: "",
+    legalName: "Saloonik sp. z o.o.",
+    street: "Chlebowa 4",
+    postalCode: "32-590",
+    city: "Libiąż",
+    nip: "6282307496",
+    krs: "0001272637",
+    regon: "545945690",
   },
 } as const;
 

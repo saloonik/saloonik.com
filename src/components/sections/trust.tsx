@@ -41,7 +41,7 @@ export function Trust() {
       />
       <motion.div
         {...revealGroup}
-        className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
         {items.map((item) => (
           <motion.div

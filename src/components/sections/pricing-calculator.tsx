@@ -48,7 +48,7 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
   const [employees, setEmployees] = useState(2);
   const [branches, setBranches] = useState(1);
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
-  const [gross, setGross] = useState(false);
+  const [gross, setGross] = useState(true);
   const yearlyId = useId();
   const grossId = useId();
 
@@ -59,7 +59,7 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
   const extraBranches = Math.max(0, branches - plan.includedBranches);
 
   return (
-    <div className="bg-card grid overflow-hidden rounded-2xl border shadow-xl lg:grid-cols-[1.1fr_1fr] lg:grid-rows-[auto_1fr_auto]">
+    <div className="bg-card grid grid-cols-1 overflow-hidden rounded-2xl border shadow-xl lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:grid-rows-[auto_1fr_auto]">
       <div className="flex flex-col gap-6 p-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
         <div>
           <h3 className="text-xl font-semibold">Skonfiguruj swój abonament</h3>
@@ -210,7 +210,10 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
             )}
           </Button>
           <p className="text-center text-xs opacity-80">
-            Bez karty płatniczej. Ceny netto, do których doliczamy 23% VAT.
+            Bez karty płatniczej.{" "}
+            {gross
+              ? "Ceny brutto, z 23% VAT."
+              : "Ceny netto, do których doliczamy 23% VAT."}
           </p>
         </div>
       </div>

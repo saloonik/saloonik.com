@@ -9,7 +9,9 @@ import { IndustriesStrip } from "@/components/sections/industries-strip";
 import { PricingSection } from "@/components/sections/pricing-section";
 import { Trust } from "@/components/sections/trust";
 import { generalFaq } from "@/content/faq";
-import { softwareJsonLd } from "@/lib/seo";
+import { buildMetadata, softwareJsonLd } from "@/lib/seo";
+
+export const metadata = buildMetadata({ path: "/" });
 
 export default function HomePage() {
   return (

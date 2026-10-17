@@ -8,7 +8,7 @@ import { upcomingFeatures } from "@/content/features";
 export function ComingSoon() {
   return (
     <Section className="bg-card/50 overflow-hidden border-y">
-      <div className="grid items-center gap-14 lg:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
         <div>
           <p className="text-primary mb-3 text-xs font-bold tracking-wide uppercase">
             Wkrótce

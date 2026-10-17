@@ -1,6 +1,6 @@
 import { Section, SectionHeading } from "@/components/layout/section";
 import { siteConfig } from "@/config/site";
-import { plan } from "@/lib/pricing";
+import { grossPln, plan } from "@/lib/pricing";
 import { PricingCalculator } from "./pricing-calculator";
 
 export function PricingSection({
@@ -25,7 +25,7 @@ export function PricingSection({
             ? "Cennik programu Saloonik"
             : "Prosty cennik bez ukrytych opłat"
         }
-        description={`Od ${plan.monthlyPrice} zł netto miesięcznie za właściciela i jeden lokal. Każdy kolejny pracownik od ${plan.pricePerExtraEmployeeAboveTier} zł, a powyżej ${plan.maxEmployees} osób — za darmo.`}
+        description={`Od ${grossPln(plan.monthlyPrice)} brutto miesięcznie za właściciela i jeden lokal. Każdy kolejny pracownik od ${grossPln(plan.pricePerExtraEmployeeAboveTier)}, a powyżej ${plan.maxEmployees} osób — za darmo.`}
       />
       <div
         className={

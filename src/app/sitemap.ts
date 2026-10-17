@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
+import { features } from "@/content/features";
 import { industries } from "@/content/industries";
 
 // No lastModified: a build timestamp on every URL tells crawlers nothing.
@@ -9,6 +10,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: url("/"), changeFrequency: "weekly", priority: 1 },
     { url: url("/funkcje"), changeFrequency: "monthly", priority: 0.9 },
+    ...features
+      .filter((f) => f.page)
+      .map((f) => ({
+        url: url(`/funkcje/${f.id}`),
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      })),
     { url: url("/cennik"), changeFrequency: "monthly", priority: 0.9 },
     ...industries.map((i) => ({
       url: url(`/dla/${i.slug}`),

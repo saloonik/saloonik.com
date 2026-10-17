@@ -62,3 +62,6 @@ const plnCents = new Intl.NumberFormat("pl-PL", {
 
 export const formatPln = (value: number) =>
   `${(Number.isInteger(round(value)) ? plnWhole : plnCents).format(value)} zł`;
+
+/** Gross price label, e.g. 79 → "97,17 zł". We are a VAT payer, so this is what we show by default. */
+export const grossPln = (net: number) => formatPln(withVat(net));

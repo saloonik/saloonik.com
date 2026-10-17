@@ -1,5 +1,6 @@
+import Link from "next/link";
 import * as motion from "motion/react-client";
-import { CheckIcon } from "@/components/ui/icons";
+import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
 import { Badge } from "@/components/ui/badge";
 import type { Feature } from "@/content/features";
 import { Photo, revealGroup, revealItem } from "@/components/ui/reveal";
@@ -9,16 +10,18 @@ export function FeatureDetail({
   feature,
   visual,
   reverse,
+  moreLink,
 }: {
   feature: Feature;
   visual?: React.ReactNode;
   reverse?: boolean;
+  moreLink?: boolean;
 }) {
   const Icon = feature.icon;
   return (
     <article
       id={feature.id}
-      className="grid scroll-mt-24 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+      className="grid scroll-mt-24 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
     >
       <motion.div
         {...revealGroup}
@@ -49,6 +52,15 @@ export function FeatureDetail({
             </motion.li>
           ))}
         </ul>
+        {moreLink && feature.page && (
+          <Link
+            href={`/funkcje/${feature.id}`}
+            className="text-primary mt-6 inline-flex items-center gap-1.5 font-medium hover:underline"
+          >
+            Więcej: {feature.title.toLowerCase()}{" "}
+            <ArrowRightIcon className="size-4" />
+          </Link>
+        )}
       </motion.div>
       {visual ? (
         <div className={cn(reverse && "lg:order-1")}>{visual}</div>
@@ -61,16 +73,8 @@ export function FeatureDetail({
               className="aspect-[16/11] shadow-xl"
             />
             {feature.photo.caption && (
-              <motion.div
-                initial={{ opacity: 0, y: 16, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{
-                  delay: 0.6,
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 22,
-                }}
+              <div
+                data-reveal-self
                 className={cn(
                   "absolute -bottom-5 max-w-[85%]",
                   reverse ? "-right-3 sm:-right-5" : "-left-3 sm:-left-5",
@@ -82,7 +86,7 @@ export function FeatureDetail({
                   </span>
                   {feature.photo.caption}
                 </p>
-              </motion.div>
+              </div>
             )}
           </div>
         )

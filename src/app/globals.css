@@ -249,6 +249,34 @@
   opacity: 1;
 }
 
+/* Scroll reveal (revealGroup / SectionHeading). Progressive enhancement:
+   everything is visible by default; browsers with scroll-driven animations
+   fade content in as it enters the viewport. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+/* Hero entrance: plain CSS so it plays on first paint, JS or not. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-rise] {
+    animation: reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] > *,
+    [data-reveal-self] {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

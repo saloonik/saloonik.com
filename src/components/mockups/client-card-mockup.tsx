@@ -11,6 +11,7 @@ import {
   UploadIcon,
   UserIcon,
 } from "@/components/ui/icons";
+import { formatPln } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { BeforeAfter } from "./before-after";
 
@@ -21,6 +22,158 @@ const tabs = [
   { label: "Zdjęcia", icon: ImagesIcon },
   { label: "Opinia klienta", icon: StarIcon },
 ];
+
+// Mirrors the "Wizyty" tab of the customer record in the app (customer-visits-timeline).
+type Visit = {
+  date: string;
+  time: string;
+  duration: string;
+  services: string;
+  employee: string;
+  price: number;
+  status: "planned" | "completed" | "cancelled";
+  paid: boolean;
+  color: string;
+};
+
+const visits: Visit[] = [
+  {
+    date: "11 listopada 2025",
+    time: "10:00 – 10:45",
+    duration: "45min",
+    services: "Strzyżenie damskie",
+    employee: "Julia Kamińska",
+    price: 120,
+    status: "planned",
+    paid: false,
+    color: "--viz-2",
+  },
+  {
+    date: "30 września 2025",
+    time: "09:00 – 11:00",
+    duration: "2h",
+    services: "Koloryzacja",
+    employee: "Anna Nowak",
+    price: 320,
+    status: "completed",
+    paid: true,
+    color: "--viz-1",
+  },
+  {
+    date: "2 września 2025",
+    time: "16:00 – 17:00",
+    duration: "1h",
+    services: "Regeneracja włosów",
+    employee: "Ola Zielińska",
+    price: 150,
+    status: "cancelled",
+    paid: false,
+    color: "--viz-3",
+  },
+
+];
+
+const pill =
+  "inline-flex w-fit shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium";
+
+const statusPill: Record<Visit["status"], [string, string]> = {
+  planned: ["Nie odbyta", "bg-muted text-muted-foreground"],
+  completed: ["Odbyta", "bg-chart-2/10 text-chart-2 dark:bg-chart-2/20"],
+  cancelled: [
+    "Odwołana",
+    "bg-destructive/10 text-destructive dark:bg-destructive/20",
+  ],
+};
+
+function VisitTile({ visit }: { visit: Visit }) {
+  const [statusLabel, statusClass] = statusPill[visit.status];
+  return (
+    <div
+      className="min-w-0 flex-1 rounded-md border-l-[3px] px-3 py-2"
+      style={{
+        borderLeftColor: `var(${visit.color})`,
+        backgroundColor: `color-mix(in oklab, var(${visit.color}) 15%, transparent)`,
+      }}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <p className="truncate text-sm font-semibold">{visit.date}</p>
+        <span className="text-muted-foreground shrink-0 text-xs font-semibold tabular-nums">
+          {formatPln(visit.price)}
+        </span>
+      </div>
+      <p className="text-muted-foreground truncate text-xs">
+        {visit.time} · {visit.duration}
+      </p>
+      <p className="text-muted-foreground truncate text-xs">
+        {visit.services} · {visit.employee}
+      </p>
+      <div className="mt-1.5 flex flex-wrap gap-1.5">
+        <span className={cn(pill, statusClass)}>{statusLabel}</span>
+        <span
+          className={cn(
+            pill,
+            visit.paid
+              ? "bg-chart-2/10 text-chart-2 dark:bg-chart-2/20"
+              : "bg-amber-500/10 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400",
+          )}
+        >
+          {visit.paid ? "Opłacona" : "Nieopłacona"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function TimelineDot({ color }: { color: string }) {
+  return (
+    <span className="bg-card relative z-10 flex size-4 shrink-0 items-center justify-center rounded-full">
+      <span
+        className="size-2 rounded-full"
+        style={{ backgroundColor: color }}
+      />
+    </span>
+  );
+}
+
+function VisitsTimeline() {
+  const upcoming = visits.filter((v) => v.status === "planned");
+  const past = visits.filter((v) => v.status !== "planned");
+  const row = (v: Visit) => (
+    <li key={v.date} className="flex items-start gap-2.5">
+      <span className="mt-3.5 flex w-4 justify-center">
+        <TimelineDot color={`var(${v.color})`} />
+      </span>
+      <VisitTile visit={v} />
+    </li>
+  );
+  return (
+    <div>
+      <p className="text-muted-foreground mb-3 flex gap-3 text-xs">
+        <span>
+          <span className="text-foreground font-semibold">
+            {upcoming.length}
+          </span>{" "}
+          nadchodząca
+        </span>
+        <span>
+          <span className="text-foreground font-semibold">{past.length}</span>{" "}
+          wcześniejsze
+        </span>
+      </p>
+      <ol className="relative space-y-2">
+        <span className="bg-border absolute top-2 bottom-2 left-2 w-px -translate-x-1/2" />
+        {upcoming.map(row)}
+        <li className="flex items-center gap-2.5">
+          <span className="flex w-4 justify-center">
+            <TimelineDot color="var(--primary)" />
+          </span>
+          <span className="text-primary text-xs font-semibold">Dziś</span>
+        </li>
+        {past.map(row)}
+      </ol>
+    </div>
+  );
+}
 
 type CardEntry = { name: string; status: "sent" | "completed"; date: string };
 
@@ -49,7 +202,7 @@ function CardStatusBadge({ status }: { status: CardEntry["status"] }) {
 
 export function TreatmentCardsPanel({ className }: { className?: string }) {
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("@container space-y-2", className)}>
       {cards.map((card) => (
         <div
           key={card.name}
@@ -65,11 +218,11 @@ export function TreatmentCardsPanel({ className }: { className?: string }) {
           </div>
           <CardStatusBadge status={card.status} />
           {card.status === "sent" ? (
-            <span className="hidden items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium sm:inline-flex">
+            <span className="hidden items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium @sm:inline-flex">
               <UploadIcon className="size-3" /> Dodaj skan
             </span>
           ) : (
-            <span className="text-muted-foreground hidden gap-1.5 sm:flex">
+            <span className="text-muted-foreground hidden gap-1.5 @sm:flex">
               <ExternalLinkIcon className="size-3.5" />
               <DownloadIcon className="size-3.5" />
             </span>
@@ -101,9 +254,9 @@ export function ClientCardMockup({ className }: { className?: string }) {
   return (
     <figure
       role="img"
-      aria-label="Kartoteka klienta: zakładki z wizytami, kartami zabiegowymi, zdjęciami przed i po oraz opinią"
+      aria-label="Kartoteka klienta: historia wizyt z datą, usługą, pracownikiem, ceną oraz statusem wizyty i płatności"
       className={cn(
-        "bg-card rounded-xl border p-5 text-left shadow-xl select-none",
+        "bg-card @container rounded-xl border p-5 text-left shadow-xl select-none",
         className,
       )}
     >
@@ -126,10 +279,10 @@ export function ClientCardMockup({ className }: { className?: string }) {
               key={tab.label}
               className={cn(
                 "inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium",
-                i === 2 || i === 3
+                i === 1
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground",
-                i === 0 && "hidden sm:inline-flex",
+                i === 0 && "hidden @md:inline-flex",
               )}
             >
               <tab.icon className="size-3" />
@@ -138,20 +291,7 @@ export function ClientCardMockup({ className }: { className?: string }) {
           ))}
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-[1.3fr_1fr]">
-          <div>
-            <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-wider uppercase">
-              Karty zabiegowe
-            </p>
-            <TreatmentCardsPanel />
-          </div>
-          <div>
-            <p className="text-muted-foreground mb-2 text-[11px] font-semibold tracking-wider uppercase">
-              Zdjęcia
-            </p>
-            <PhotoPairPanel />
-          </div>
-        </div>
+        <VisitsTimeline />
       </div>
     </figure>
   );

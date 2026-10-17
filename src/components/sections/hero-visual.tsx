@@ -26,9 +26,8 @@ export function HeroVisual() {
     <motion.div
       ref={ref}
       className="relative min-w-0 [perspective:1400px]"
-      initial={{ opacity: 0, y: 32, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      data-rise
+      style={{ "--i": 4 } as React.CSSProperties}
     >
       <motion.div
         style={reduced ? undefined : { rotateX, y, transformOrigin: "top" }}

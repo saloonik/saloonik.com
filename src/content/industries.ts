@@ -1,4 +1,5 @@
 import type { FaqItem } from "./faq";
+import { grossPln, monthlyPrice, plan } from "@/lib/pricing";
 
 export type ServiceSample = { name: string; duration: number; price: number };
 
@@ -43,7 +44,7 @@ export const industries: Industry[] = [
     slug: "salon-fryzjerski",
     photo: {
       src: "/images/salon-fryzjerski.jpg",
-      alt: "Fryzjerka modeluje włosy klientki suszarką",
+      alt: "Fryzjer strzyże pasmo włosów nożyczkami",
     },
     name: "Fryzjerstwo",
     color: "#B7791F",
@@ -95,13 +96,28 @@ export const industries: Industry[] = [
         answer:
           "Nie. Przy rejestracji Saloonik podpowiada typowe usługi fryzjerskie z cenami, a własny cennik wgrasz z pliku Excel.",
       },
+      {
+        question: "Czy mogę sprzedawać kosmetyki klientkom przy wizycie?",
+        answer:
+          "Tak. Produkty na sprzedaż i do zabiegów prowadzisz w magazynie z osobnymi stanami. Sprzedaż dodasz przy wizycie albo osobno, a alert pokaże, gdy farby lub szamponu zostaje mniej niż ustawione minimum.",
+      },
+      {
+        question: "Mam salon z kilkoma fryzjerami. Ile to kosztuje?",
+        answer:
+          "Płacisz cenę bazową za właściciela i lokal oraz stawkę za każdego pracownika. Dokładną kwotę dla swojego zespołu policzysz w kalkulatorze na stronie cennika, a przy płatności rocznej 2 miesiące masz gratis.",
+      },
+      {
+        question: "Czy widzę, który fryzjer zarabia najwięcej?",
+        answer:
+          "Tak. Statystyki pokazują przychód i liczbę wizyt w podziale na pracowników i usługi, z porównaniem do poprzedniego okresu.",
+      },
     ],
   },
   {
     slug: "barber",
     photo: {
       src: "/images/barber.jpg",
-      alt: "Barber suszy i układa włosy klientowi",
+      alt: "Pędzel do golenia, brzytwy i maszynki na stanowisku barbera",
     },
     name: "Barber",
     color: "#475569",
@@ -140,8 +156,7 @@ export const industries: Industry[] = [
     faq: [
       {
         question: "Ile kosztuje Saloonik dla barber shopu z trzema barberami?",
-        answer:
-          "Właściciel i 3 pracowników w jednym lokalu to 184 zł netto miesięcznie. Przy płatności rocznej płacisz za 10 miesięcy. Dokładną kwotę policzysz w kalkulatorze na stronie cennika.",
+        answer: `Właściciel i 3 pracowników w jednym lokalu to ${grossPln(monthlyPrice(3, 1))} brutto miesięcznie. Przy płatności rocznej płacisz za 10 miesięcy. Dokładną kwotę policzysz w kalkulatorze na stronie cennika.`,
       },
       {
         question: "Czy widzę przychód każdego barbera?",
@@ -152,6 +167,21 @@ export const industries: Industry[] = [
         question: "Czy mogę zablokować grafik na przerwę albo szkolenie?",
         answer:
           "Tak. Nieobecności (przerwa, szkolenie, urlop, dzień wolny) blokują rezerwacje w kalendarzu danego barbera.",
+      },
+      {
+        question: "Czy klient dostanie przypomnienie o strzyżeniu?",
+        answer:
+          "Tak. SMS z przypomnieniem wychodzi automatycznie przed każdą wizytą, zgodnie ze zgodą zapisaną w kartotece klienta.",
+      },
+      {
+        question: "Czy mogę sprzedawać kosmetyki do brody i włosów?",
+        answer:
+          "Tak. Magazyn prowadzi stany produktów, a sprzedaż dodasz przy wizycie albo osobno. Alert pokaże, gdy produkt się kończy.",
+      },
+      {
+        question: "Czy barber widzi tylko swoje wizyty?",
+        answer:
+          "Decydujesz Ty. Role i uprawnienia określają, czy pracownik widzi swój grafik, czy kalendarz całego barber shopu.",
       },
     ],
   },
@@ -183,8 +213,7 @@ export const industries: Industry[] = [
       },
       {
         problem: "Pracujesz sama i liczy się każda złotówka",
-        solution:
-          "Sama właścicielka bez pracowników to 79 zł netto miesięcznie — ze wszystkimi funkcjami.",
+        solution: `Sama właścicielka bez pracowników to ${grossPln(plan.monthlyPrice)} brutto miesięcznie — ze wszystkimi funkcjami.`,
       },
     ],
     featureIds: ["przypomnienia", "zdjecia", "kalendarz", "magazyn"],
@@ -198,8 +227,7 @@ export const industries: Industry[] = [
     faq: [
       {
         question: "Pracuję sama. Czy Saloonik ma dla mnie sens?",
-        answer:
-          "Tak. Plan dla samej właścicielki kosztuje 79 zł netto miesięcznie i zawiera kalendarz, bazę klientek, przypomnienia SMS i statystyki. Pracownika dodasz, gdy zespół urośnie.",
+        answer: `Tak. Plan dla samej właścicielki kosztuje ${grossPln(plan.monthlyPrice)} brutto miesięcznie i zawiera kalendarz, bazę klientek, przypomnienia SMS i statystyki. Pracownika dodasz, gdy zespół urośnie.`,
       },
       {
         question: "Czy mogę zapisywać zdjęcia stylizacji?",
@@ -211,13 +239,28 @@ export const industries: Industry[] = [
         answer:
           "Zgody na przypomnienia SMS i e-mail zapisujesz na karcie klientki. Przypomnienia wychodzą zgodnie z tymi zgodami.",
       },
+      {
+        question: "Czy mogę prowadzić magazyn lakierów i żeli?",
+        answer:
+          "Tak. Materiały przypiszesz do usług, a zużycie przy zabiegach odejmie się od stanu. Alert pokaże, gdy produkt spadnie poniżej minimum.",
+      },
+      {
+        question: "Czy przeniosę klientki z zeszytu lub innego programu?",
+        answer:
+          "Tak. Klientki zaimportujesz z pliku Excel — Saloonik udostępnia gotowy szablon i kreator importu.",
+      },
+      {
+        question: "Czy widzę, które usługi przynoszą największy przychód?",
+        answer:
+          "Tak. Statystyki pokazują przychód i liczbę wizyt w podziale na usługi, z porównaniem do poprzedniego okresu.",
+      },
     ],
   },
   {
     slug: "salon-kosmetyczny",
     photo: {
       src: "/images/salon-kosmetyczny.jpg",
-      alt: "Kosmetyczka nakłada maskę na twarz klientki",
+      alt: "Miseczki z solami kosmetycznymi i kwiaty w salonie",
     },
     name: "Kosmetologia",
     color: "#0F9488",
@@ -269,13 +312,28 @@ export const industries: Industry[] = [
         answer:
           "Tak — przez import z pliku Excel. Saloonik udostępnia gotowy szablon, a kreator prowadzi przez cały import.",
       },
+      {
+        question: "Czy mogę dokumentować efekty zabiegów zdjęciami?",
+        answer:
+          "Tak. Zdjęcia przed i po dodajesz przy każdej usłudze wizyty i porównujesz je obok siebie w kartotece klientki.",
+      },
+      {
+        question: "Czy Saloonik pilnuje stanów kosmetyków w gabinecie?",
+        answer:
+          "Tak. Magazyn prowadzi osobne stany produktów do zabiegów i na sprzedaż, a materiały przypisane do usług odejmują się przy zabiegach.",
+      },
+      {
+        question: "Ile SMS-ów mam w cenie?",
+        answer:
+          "400 SMS-ów miesięcznie na każdą osobę w salonie — właścicielkę i każdego pracownika.",
+      },
     ],
   },
   {
     slug: "brwi-i-rzesy",
     photo: {
       src: "/images/brwi-i-rzesy.jpg",
-      alt: "Wizażystka maluje usta klientki z wyrazistym makijażem oczu",
+      alt: "Zalotka, szczoteczka do rzęs i pędzle do makijażu na białym blacie",
     },
     name: "Brwi i rzęsy",
     color: "#7C5CD6",
@@ -323,8 +381,19 @@ export const industries: Industry[] = [
           "400 SMS-ów na osobę (właścicielkę i każdego pracownika) miesięcznie.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question:
+          "Czy mogę wysłać klientce kartę zabiegową przed liftingiem lub laminacją?",
+        answer:
+          "Tak. Wzór karty przypiszesz do usługi, a Saloonik wyśle ją mailem przy zapisie wizyty. Wypełnioną dodasz jako skan do kartoteki.",
+      },
+      {
+        question: "Czy zapiszę zdjęcia efektu przy każdej aplikacji?",
+        answer:
+          "Tak. Pary zdjęć przed i po dodajesz przy każdej usłudze wizyty, z notatką, np. o skrętach i długościach rzęs.",
+      },
+      {
+        question: "Pracuję sama. Ile zapłacę?",
+        answer: `Sam właściciel w jednym lokalu to ${grossPln(plan.monthlyPrice)} brutto miesięcznie, ze wszystkimi funkcjami. Przy płatności rocznej płacisz za 10 miesięcy.`,
       },
     ],
   },
@@ -332,7 +401,7 @@ export const industries: Industry[] = [
     slug: "gabinet-masazu",
     photo: {
       src: "/images/gabinet-masazu.jpg",
-      alt: "Masażystka wmasowuje olejek w plecy klientki",
+      alt: "Kamienie do masażu, zwinięte ręczniki i storczyki w gabinecie",
     },
     name: "Masaż",
     color: "#3F8F5B",
@@ -371,8 +440,7 @@ export const industries: Industry[] = [
     faq: [
       {
         question: "Mam dwa gabinety w różnych lokalizacjach. Czy to zadziała?",
-        answer:
-          "Tak. Każdy oddział ma własne godziny otwarcia i zespół, a statystyki pokażesz dla jednego lokalu albo całej firmy. Każdy kolejny oddział to 59 zł netto miesięcznie.",
+        answer: `Tak. Każdy oddział ma własne godziny otwarcia i zespół, a statystyki pokażesz dla jednego lokalu albo całej firmy. Każdy kolejny oddział to ${grossPln(plan.pricePerExtraBranch)} brutto miesięcznie.`,
       },
       {
         question: "Czy mogę wydrukować grafik terapeuty na dany dzień?",
@@ -383,6 +451,16 @@ export const industries: Industry[] = [
         question: "Czy Saloonik nadaje się też dla fizjoterapeuty?",
         answer:
           "Tak. Przy rejestracji wybierzesz branżę „Fizjoterapia” z gotowymi usługami — kalendarz, kartoteka i przypomnienia działają tak samo.",
+      },
+      {
+        question: "Czy mogę wysłać klientowi wywiad o przeciwwskazaniach?",
+        answer:
+          "Tak. Kartę zabiegową z wywiadem wyślesz mailem przed wizytą, a skan wypełnionej trafi do kartoteki klienta.",
+      },
+      {
+        question: "Czy widzę obłożenie każdego terapeuty?",
+        answer:
+          "Tak. Statystyki wykorzystania czasu pracy pokazują obłożenie każdego terapeuty i całego gabinetu, z porównaniem do poprzedniego okresu.",
       },
     ],
   },
@@ -429,8 +507,7 @@ export const industries: Industry[] = [
     faq: [
       {
         question: "Pracuję sama. Ile zapłacę?",
-        answer:
-          "Sam właściciel w jednym lokalu to 79 zł netto miesięcznie, ze wszystkimi funkcjami. Przy płatności rocznej płacisz za 10 miesięcy.",
+        answer: `Sam właściciel w jednym lokalu to ${grossPln(plan.monthlyPrice)} brutto miesięcznie, ze wszystkimi funkcjami. Przy płatności rocznej płacisz za 10 miesięcy.`,
       },
       {
         question: "Czy mogę zapisać zdjęcie makijażu przy wizycie?",
@@ -438,8 +515,15 @@ export const industries: Industry[] = [
           "Tak. Do każdej usługi wizyty dodasz zdjęcia przed i po, a w kartotece klientki zobaczysz je w historii wizyt.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question:
+          "Czy klientka dostanie przypomnienie przed makijażem ślubnym?",
+        answer:
+          "Tak. Przypomnienie SMS lub e-mail wychodzi automatycznie przed każdą wizytą, także przed próbnym makijażem.",
+      },
+      {
+        question: "Czy zapiszę, jakich kosmetyków użyłam?",
+        answer:
+          "Tak. Do każdego zdjęcia dodasz notatkę, np. o użytych podkładach i odcieniach, więc odtworzysz makijaż przy kolejnej wizycie.",
       },
     ],
   },
@@ -447,7 +531,7 @@ export const industries: Industry[] = [
     slug: "medycyna-estetyczna",
     photo: {
       src: "/images/medycyna-estetyczna.jpg",
-      alt: "Specjalistka nakłada maskę na twarz pacjentki w gabinecie",
+      alt: "Szklane buteleczki z serum wśród drobnych kwiatów",
     },
     name: "Medycyna estetyczna",
     color: "#0E7490",
@@ -495,8 +579,18 @@ export const industries: Industry[] = [
           "Nie. Uprawnienia ustawiasz dla każdej roli, więc recepcja może umawiać wizyty bez dostępu do dokumentacji.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question: "Czy porównam efekty przed zabiegiem i na kontroli?",
+        answer:
+          "Tak. Zdjęcia przed i po są przypisane do usługi i wizyty, a w kartotece pacjentki porównasz je obok siebie.",
+      },
+      {
+        question: "Czy widzę, kto zmieniał dane pacjentki?",
+        answer: "Tak. Dziennik aktywności zapisuje, kto, co i kiedy zmienił.",
+      },
+      {
+        question: "Czy lekarz i kosmetolog mogą mieć osobne grafiki?",
+        answer:
+          "Tak. Każdy pracownik ma własną kolumnę w kalendarzu, godziny pracy i nieobecności, które blokują rezerwacje.",
       },
     ],
   },
@@ -548,12 +642,18 @@ export const industries: Industry[] = [
       },
       {
         question: "Pracuję w dwóch gabinetach. Czy to zadziała?",
-        answer:
-          "Tak. Każdy oddział ma własne godziny otwarcia, a kolejny oddział to 59 zł netto miesięcznie.",
+        answer: `Tak. Każdy oddział ma własne godziny otwarcia, a kolejny oddział to ${grossPln(plan.pricePerExtraBranch)} brutto miesięcznie.`,
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question:
+          "Czy pacjent dostanie przypomnienie o kolejnej wizycie terapii?",
+        answer:
+          "Tak. SMS z przypomnieniem wychodzi automatycznie przed każdą wizytą, zgodnie ze zgodą zapisaną w kartotece pacjenta.",
+      },
+      {
+        question: "Czy mogę wysłać pacjentowi wywiad przed pierwszą wizytą?",
+        answer:
+          "Tak. Kartę zabiegową z wywiadem wyślesz mailem przy zapisie wizyty, a skan wypełnionej dodasz do kartoteki.",
       },
     ],
   },
@@ -609,8 +709,15 @@ export const industries: Industry[] = [
           "Uprawnienia ustawiasz dla każdej roli, więc decydujesz, do czego ma dostęp każdy pracownik.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question:
+          "Czy pacjent dostanie przypomnienie o każdej wizycie z serii?",
+        answer:
+          "Tak. Przypomnienie SMS lub e-mail wychodzi automatycznie przed każdą wizytą, więc o kolejnych terminach serii nie musisz przypominać ręcznie.",
+      },
+      {
+        question: "Czy mogę wysłać pacjentowi wywiad przed konsultacją?",
+        answer:
+          "Tak. Kartę z wywiadem przypiszesz do usługi, a Saloonik wyśle ją mailem przy zapisie wizyty.",
       },
     ],
   },
@@ -666,8 +773,14 @@ export const industries: Industry[] = [
           "Tak. Każdy pracownik ma swoją kolumnę w kalendarzu i własne konto z uprawnieniami.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question: "Czy klient podpisze zgodę przed sesją?",
+        answer:
+          "Kartę ze zgodą przypiszesz do usługi, a Saloonik wyśle ją mailem przy zapisie wizyty. Skan podpisanej zgody dodasz do kartoteki, a wizyta ostrzeże, gdy jej brakuje.",
+      },
+      {
+        question: "Czy zapiszę zdjęcia gotowych prac?",
+        answer:
+          "Tak. Zdjęcia dodajesz przy każdej wizycie, więc każda praca ma przypisanego klienta i datę.",
       },
     ],
   },
@@ -714,8 +827,7 @@ export const industries: Industry[] = [
     faq: [
       {
         question: "Pracuję sama. Ile zapłacę?",
-        answer:
-          "Sam właściciel w jednym lokalu to 79 zł netto miesięcznie, ze wszystkimi funkcjami.",
+        answer: `Sam właściciel w jednym lokalu to ${grossPln(plan.monthlyPrice)} brutto miesięcznie, ze wszystkimi funkcjami.`,
       },
       {
         question: "Czy mogę wysłać pacjentowi ankietę przed wizytą?",
@@ -723,8 +835,14 @@ export const industries: Industry[] = [
           "Tak. Kartę zabiegową z pytaniami wyślesz mailem, a wypełnioną zapiszesz w kartotece pacjenta.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question: "Czy pacjent dostanie przypomnienie o wizycie kontrolnej?",
+        answer:
+          "Tak. SMS lub e-mail z przypomnieniem wychodzi automatycznie przed każdą wizytą.",
+      },
+      {
+        question: "Czy zobaczę, ilu pacjentów wraca na kontrole?",
+        answer:
+          "Tak. Statystyki pokazują nowych i powracających klientów w wybranym okresie.",
       },
     ],
   },
@@ -732,7 +850,7 @@ export const industries: Industry[] = [
     slug: "trening-personalny",
     photo: {
       src: "/images/trening-personalny.jpg",
-      alt: "Trenerka koryguje podopiecznego podczas pompek na siłowni",
+      alt: "Rząd hantli na stojaku w studiu treningowym",
     },
     name: "Trening personalny",
     color: "#C2410C",
@@ -780,8 +898,13 @@ export const industries: Industry[] = [
           "Tak. SMS z przypomnieniem wychodzi automatycznie przed każdą wizytą.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question: "Pracuję sam. Ile zapłacę?",
+        answer: `Sam właściciel w jednym lokalu to ${grossPln(plan.monthlyPrice)} brutto miesięcznie, ze wszystkimi funkcjami. Przy płatności rocznej płacisz za 10 miesięcy.`,
+      },
+      {
+        question: "Czy widzę, ile treningów poprowadził każdy trener?",
+        answer:
+          "Tak. Statystyki pokazują liczbę wizyt i przychód w podziale na pracowników i usługi.",
       },
     ],
   },
@@ -837,8 +960,14 @@ export const industries: Industry[] = [
           "Tak. Gotowe szablony to punkt startowy — usługi, czasy i ceny zmienisz w każdej chwili.",
       },
       {
-        question: "Czy potrzebuję karty płatniczej, żeby zacząć?",
-        answer: "Nie. Okres próbny trwa 7 dni i nie wymaga podawania karty.",
+        question: "Czy właściciel psa dostanie przypomnienie o wizycie?",
+        answer:
+          "Tak. SMS z przypomnieniem wychodzi automatycznie przed wizytą, zgodnie ze zgodą zapisaną w kartotece.",
+      },
+      {
+        question: "Czy mogę sprzedawać karmę i kosmetyki dla psów?",
+        answer:
+          "Tak. Magazyn prowadzi stany produktów, a sprzedaż dodasz przy wizycie albo osobno.",
       },
     ],
   },

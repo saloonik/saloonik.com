@@ -130,7 +130,7 @@ export function PhoneMockup({ className }: { className?: string }) {
       <Floater
         show={inView}
         delay={0.5}
-        className="top-20 -left-44 hidden w-48 sm:block"
+        className="top-20 -left-28 hidden w-48 sm:block xl:-left-44"
       >
         <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-400">
           <CheckCheckIcon className="size-4" />
@@ -145,7 +145,7 @@ export function PhoneMockup({ className }: { className?: string }) {
       <Floater
         show={inView}
         delay={0.9}
-        className="-right-44 bottom-24 hidden w-44 [animation-delay:-3s] sm:block"
+        className="-right-28 bottom-24 hidden w-44 [animation-delay:-3s] sm:block xl:-right-44"
       >
         <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-8 shrink-0 items-center justify-center rounded-lg">
           <TrendingUpIcon className="size-4" />

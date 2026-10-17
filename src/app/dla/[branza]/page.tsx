@@ -52,7 +52,7 @@ export default async function IndustryPage({ params }: Props) {
     <>
       <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
         <HeroBackground />
-        <Container className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr]">
+        <Container className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div>
             <nav
               aria-label="Okruszki"
@@ -103,7 +103,7 @@ export default async function IndustryPage({ params }: Props) {
         />
         <motion.div
           {...revealGroup}
-          className="mt-14 grid gap-6 md:grid-cols-3"
+          className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-3"
         >
           {industry.pains.map((pain) => (
             <motion.div
@@ -126,7 +126,7 @@ export default async function IndustryPage({ params }: Props) {
       </Section>
 
       <Section>
-        <div className="grid gap-14 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2">
           <div>
             <SectionHeading
               align="left"
@@ -148,7 +148,18 @@ export default async function IndustryPage({ params }: Props) {
                       <f.icon className="size-5" />
                     </span>
                     <div>
-                      <h3 className="font-semibold">{f.title}</h3>
+                      <h3 className="font-semibold">
+                        {f.page ? (
+                          <Link
+                            href={`/funkcje/${f.id}`}
+                            className="hover:text-primary hover:underline"
+                          >
+                            {f.title}
+                          </Link>
+                        ) : (
+                          f.title
+                        )}
+                      </h3>
                       <p className="text-muted-foreground mt-1 leading-relaxed">
                         {f.description}
                       </p>
@@ -206,10 +217,10 @@ export default async function IndustryPage({ params }: Props) {
                         />
                         {s.name}
                       </td>
-                      <td className="text-muted-foreground py-2.5 text-right font-mono">
+                      <td className="text-muted-foreground py-2.5 text-right font-mono whitespace-nowrap">
                         {s.duration} min
                       </td>
-                      <td className="py-2.5 pl-4 text-right font-mono">
+                      <td className="py-2.5 pl-3 text-right font-mono whitespace-nowrap sm:pl-4">
                         {formatPln(s.price)}
                       </td>
                     </motion.tr>
@@ -230,7 +241,7 @@ export default async function IndustryPage({ params }: Props) {
       <Section>
         <SectionHeading
           eyebrow="Inne branże"
-          title="Saloonik sprawdza się także w"
+          title="Inne branże, w których działa Saloonik"
         />
         <ul className="mt-10 flex flex-wrap justify-center gap-2">
           {others.map((o) => (

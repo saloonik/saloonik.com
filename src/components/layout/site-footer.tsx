@@ -9,17 +9,12 @@ const productLinks = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-const linkClass = "hover:text-primary transition-colors";
+// extra vertical padding on phones gives each link a ~32px tap target
+const linkClass =
+  "hover:text-primary inline-block py-1.5 transition-colors sm:py-0.5";
 
 export function SiteFooter() {
   const { company } = siteConfig;
-  const companyLine = [
-    company.legalName,
-    company.address,
-    company.nip && `NIP ${company.nip}`,
-  ]
-    .filter(Boolean)
-    .join(", ");
 
   return (
     <footer className="bg-card border-t">
@@ -33,7 +28,7 @@ export function SiteFooter() {
           </div>
           <nav
             aria-label="Stopka"
-            className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium"
+            className="flex flex-wrap gap-x-5 text-sm font-medium sm:gap-y-1"
           >
             {productLinks.map((l) => (
               <Link key={l.href} href={l.href} className={linkClass}>
@@ -45,7 +40,7 @@ export function SiteFooter() {
             </a>
             <a
               href={siteConfig.registerUrl}
-              className="text-primary hover:underline"
+              className="text-primary inline-block py-1.5 hover:underline sm:py-0.5"
             >
               Załóż konto
             </a>
@@ -54,9 +49,11 @@ export function SiteFooter() {
 
         <nav
           aria-label="Branże"
-          className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1.5 border-t pt-6 text-sm"
+          className="text-muted-foreground flex flex-wrap gap-x-4 border-t pt-6 text-sm sm:gap-y-1"
         >
-          <span className="text-foreground font-medium">Branże:</span>
+          <span className="text-foreground py-1.5 font-medium sm:py-0.5">
+            Branże:
+          </span>
           {industries.map((i) => (
             <Link key={i.slug} href={`/dla/${i.slug}`} className={linkClass}>
               {i.name}
@@ -64,12 +61,17 @@ export function SiteFooter() {
           ))}
         </nav>
 
-        <div className="text-muted-foreground flex flex-col gap-2 border-t pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} Saloonik
-            {companyLine && `, ${companyLine}`}
-          </p>
-          <div className="flex flex-wrap gap-x-4 gap-y-1">
+        <div className="text-muted-foreground flex flex-col gap-3 border-t pt-6 text-xs sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-0.5">
+            <p>
+              © {new Date().getFullYear()} {company.legalName}, {company.street}
+              , {company.postalCode} {company.city}
+            </p>
+            <p>
+              NIP {company.nip}, KRS {company.krs}, REGON {company.regon}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-4">
             <a href={siteConfig.termsUrl} className={linkClass}>
               Regulamin
             </a>

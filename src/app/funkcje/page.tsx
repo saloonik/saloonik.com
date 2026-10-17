@@ -9,19 +9,11 @@ import {
   Section,
   SectionHeading,
 } from "@/components/layout/section";
-import { CalendarMockup } from "@/components/mockups/calendar-mockup";
-import {
-  ClientCardMockup,
-  PhotosMockup,
-  TreatmentCardsMockup,
-} from "@/components/mockups/client-card-mockup";
-import { PhoneMockup } from "@/components/mockups/phone-mockup";
-import { SmsMockup } from "@/components/mockups/sms-mockup";
-import { StatsMockup } from "@/components/mockups/stats-mockup";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FeatureDetail } from "@/components/sections/feature-detail";
 import { HeroBackground } from "@/components/sections/hero-background";
 import { features, upcomingFeatures } from "@/content/features";
+import { featureVisuals } from "@/components/mockups/feature-visuals";
 import { cn } from "@/lib/utils";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
@@ -32,21 +24,11 @@ export const metadata = buildMetadata({
   path: "/funkcje",
 });
 
-const visuals: Record<string, React.ReactNode> = {
-  kalendarz: <CalendarMockup />,
-  klienci: <ClientCardMockup />,
-  "karty-zabiegowe": <TreatmentCardsMockup />,
-  zdjecia: <PhotosMockup />,
-  przypomnienia: <SmsMockup className="mx-auto max-w-sm" />,
-  statystyki: <StatsMockup />,
-  "aplikacja-mobilna": <PhoneMockup />,
-};
-
 export default function FeaturesPage() {
   const all = [...features, ...upcomingFeatures];
   // features without a visual would leave half a row empty, so they share one card grid
-  const detailed = all.filter((f) => visuals[f.id] || f.photo);
-  const cards = all.filter((f) => !visuals[f.id] && !f.photo);
+  const detailed = all.filter((f) => featureVisuals[f.id] || f.photo);
+  const cards = all.filter((f) => !featureVisuals[f.id] && !f.photo);
   return (
     <>
       <section className={cn(heroScreen, "relative isolate overflow-hidden")}>
@@ -80,8 +62,9 @@ export default function FeaturesPage() {
           <FeatureDetail
             key={feature.id}
             feature={feature}
-            visual={visuals[feature.id]}
+            visual={featureVisuals[feature.id]}
             reverse={i % 2 === 1}
+            moreLink
           />
         ))}
       </Container>
@@ -95,7 +78,7 @@ export default function FeaturesPage() {
           />
           <motion.div
             {...revealGroup}
-            className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+            className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
           >
             {cards.map((f) => (
               <motion.article

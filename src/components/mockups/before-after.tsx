@@ -14,14 +14,14 @@ export function BeforeAfter({ className }: { className?: string }) {
         src="/images/koloryzacja.jpg"
         alt=""
         fill
-        sizes="(min-width: 1024px) 240px, 50vw"
+        sizes="(min-width: 1024px) 320px, 50vw"
         className="object-cover brightness-90 grayscale"
       />
       <Image
         src="/images/koloryzacja.jpg"
         alt=""
         fill
-        sizes="(min-width: 1024px) 240px, 50vw"
+        sizes="(min-width: 1024px) 320px, 50vw"
         className="object-cover"
         style={{ clipPath: "inset(0 0 0 var(--split))" }}
       />

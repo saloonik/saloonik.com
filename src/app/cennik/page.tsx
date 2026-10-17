@@ -9,13 +9,18 @@ import { FaqSection } from "@/components/sections/faq-section";
 import { HeroBackground } from "@/components/sections/hero-background";
 import { PricingSection } from "@/components/sections/pricing-section";
 import { pricingFaq } from "@/content/faq";
-import { formatPln, monthlyPrice } from "@/lib/pricing";
+import {
+  formatPln,
+  grossPln,
+  monthlyPrice,
+  plan,
+  withVat,
+} from "@/lib/pricing";
 import { breadcrumbJsonLd, buildMetadata, softwareJsonLd } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Cennik — program do wizyt od 79 zł/mies.",
-  description:
-    "Cennik Saloonika: 79 zł netto miesięcznie za właściciela i lokal, 35 zł za pracownika, powyżej 15 osób za darmo. Rocznie 2 miesiące gratis.",
+  title: `Cennik — program do wizyt od ${grossPln(plan.monthlyPrice)}/mies. brutto`,
+  description: `Cennik Saloonika: ${grossPln(plan.monthlyPrice)} brutto miesięcznie za właściciela i lokal, ${grossPln(plan.pricePerExtraEmployee)} brutto za pracownika, powyżej ${plan.maxEmployees} osób za darmo. Rocznie 2 miesiące gratis.`,
   path: "/cennik",
 });
 
@@ -38,7 +43,7 @@ export default function PricingPage() {
         <SectionHeading
           eyebrow="Przykłady"
           title="Ile zapłaci firma taka jak Twoja?"
-          description="Ceny netto za miesiąc przy płatności miesięcznej. Przy płatności rocznej płacisz za 10 miesięcy."
+          description="Ceny brutto z 23% VAT, pod nimi kwota netto. Przy płatności rocznej płacisz za 10 miesięcy."
         />
         <div className="mx-auto mt-12 max-w-3xl overflow-x-auto rounded-xl border">
           <table className="bg-background w-full text-left text-sm">
@@ -63,12 +68,8 @@ export default function PricingPage() {
                     <th scope="row" className="px-4 py-3 font-medium">
                       {ex.label}
                     </th>
-                    <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
-                      {formatPln(m)}
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
-                      {formatPln(m * 10)}
-                    </td>
+                    <PriceCell net={m} />
+                    <PriceCell net={m * 10} />
                   </tr>
                 );
               })}
@@ -86,5 +87,16 @@ export default function PricingPage() {
         ]}
       />
     </>
+  );
+}
+
+function PriceCell({ net }: { net: number }) {
+  return (
+    <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
+      {formatPln(withVat(net))}
+      <span className="text-muted-foreground block text-xs">
+        {formatPln(net)} netto
+      </span>
+    </td>
   );
 }

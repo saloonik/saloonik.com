@@ -29,18 +29,6 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  keywords: [
-    "program do umawiania wizyt",
-    "kalendarz wizyt online",
-    "program do salonu kosmetycznego",
-    "program do zarządzania salonem",
-    "program dla fryzjera",
-    "system rezerwacji wizyt",
-    "kalendarz wizyt",
-    "przypomnienia SMS",
-    "program dla barbera",
-  ],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
@@ -67,7 +55,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pl" suppressHydrationWarning>
+    // data-scroll-behavior lets Next turn off smooth scrolling while switching pages
+    <html lang="pl" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${jetbrainsMono.variable} min-h-dvh`}
       >

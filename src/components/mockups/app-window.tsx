@@ -2,10 +2,13 @@ import { cn } from "@/lib/utils";
 
 export function AppWindow({
   label,
+  path = "",
   className,
   children,
 }: {
   label: string;
+  /** Shown after the domain in the address bar, e.g. "/dashboard/services". */
+  path?: string;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -26,7 +29,7 @@ export function AppWindow({
         <span className="size-2.5 rounded-full bg-[#febc2e]" />
         <span className="size-2.5 rounded-full bg-[#28c840]" />
         <span className="bg-background text-muted-foreground mx-auto rounded-md border px-3 py-0.5 font-mono text-[11px]">
-          system.saloonik.com
+          system.saloonik.com{path}
         </span>
         <span className="w-10" />
       </div>
