@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2Icon, XIcon } from "lucide-react";
+import { LoaderIcon, XIcon } from "@/components/ui/icons";
 import { useTheme } from "next-themes";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 import { buttonVariants } from "@/components/ui/button";
@@ -19,7 +19,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         warning: <ToastStatusIcon tone="warning" />,
         error: <ToastStatusIcon tone="error" />,
         loading: (
-          <Loader2Icon className="text-muted-foreground size-7 animate-spin" />
+          <LoaderIcon className="text-muted-foreground size-7 animate-spin" />
         ),
         close: <XIcon className="size-4" />,
       }}
