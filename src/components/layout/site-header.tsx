@@ -5,6 +5,7 @@ import { mainNav, siteConfig } from "@/config/site";
 import { industries } from "@/content/industries";
 import { IndustriesMenu } from "./industries-menu";
 import { MobileNav } from "./mobile-nav";
+import { ScrollProgress } from "./scroll-progress";
 import { ThemeToggle } from "./theme";
 
 export function SiteHeader() {
@@ -20,10 +21,10 @@ export function SiteHeader() {
         >
           <NavItem href={features.href}>{features.label}</NavItem>
           <IndustriesMenu
-            items={industries.map(({ slug, h1, color }) => ({
+            items={industries.map(({ slug, name, photo }) => ({
               slug,
-              h1,
-              color,
+              name,
+              photo: photo?.src,
             }))}
           />
           {rest.map((link) => (
@@ -49,6 +50,7 @@ export function SiteHeader() {
           />
         </div>
       </div>
+      <ScrollProgress />
     </header>
   );
 }

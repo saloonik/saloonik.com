@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import { cn } from "@/lib/utils";
 
 // Full viewport minus the 65px sticky header, content centered.
@@ -46,7 +47,19 @@ export function SectionHeading({
   className,
 }: HeadingProps) {
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      variants={{
+        hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+        show: {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+        },
+      }}
       className={cn(
         "max-w-3xl",
         align === "center" && "mx-auto text-center",
@@ -73,6 +86,6 @@ export function SectionHeading({
           {description}
         </p>
       )}
-    </div>
+    </motion.div>
   );
 }

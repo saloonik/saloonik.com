@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ThemeProvider } from "@/components/layout/theme";
+import { PointerSpotlight } from "@/components/layout/pointer-spotlight";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 const dmSans = DM_Sans({
@@ -71,6 +72,7 @@ export default function RootLayout({
         className={`${dmSans.variable} ${jetbrainsMono.variable} min-h-dvh`}
       >
         <ThemeProvider>
+          <PointerSpotlight />
           <a
             href="#tresc"
             className="bg-primary text-primary-foreground sr-only z-50 rounded-md px-4 py-2 focus:not-sr-only focus:fixed focus:top-3 focus:left-3"

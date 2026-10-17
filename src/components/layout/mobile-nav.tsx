@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Menu, X } from "lucide-react";
+import { MenuIcon, XIcon } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import type { NavLink } from "@/config/site";
@@ -28,7 +28,7 @@ export function MobileNav({ links, industries, registerUrl, loginUrl }: Props) {
           className="md:hidden"
           aria-label="Otwórz menu"
         >
-          <Menu className="size-5" />
+          <MenuIcon className="size-5" />
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
@@ -38,7 +38,7 @@ export function MobileNav({ links, industries, registerUrl, loginUrl }: Props) {
             <Logo onClick={close} />
             <Dialog.Close asChild>
               <Button variant="ghost" size="icon" aria-label="Zamknij menu">
-                <X className="size-5" />
+                <XIcon className="size-5" />
               </Button>
             </Dialog.Close>
           </div>

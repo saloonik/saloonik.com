@@ -3,45 +3,13 @@ import { Logo } from "@/components/ui/logo";
 import { siteConfig } from "@/config/site";
 import { industries } from "@/content/industries";
 
-type FooterLink = { href: string; label: string; external?: boolean };
-
-const columns: { title: string; links: FooterLink[] }[] = [
-  {
-    title: "Produkt",
-    links: [
-      { href: "/funkcje", label: "Funkcje" },
-      { href: "/cennik", label: "Cennik" },
-      { href: siteConfig.registerUrl, label: "Załóż konto", external: true },
-      { href: siteConfig.loginUrl, label: "Zaloguj się", external: true },
-    ],
-  },
-  {
-    title: "Branże",
-    links: industries.map((i) => ({ href: `/dla/${i.slug}`, label: i.name })),
-  },
-  {
-    title: "Pomoc",
-    links: [
-      { href: "/kontakt", label: "Kontakt" },
-      {
-        href: `mailto:${siteConfig.contactEmail}`,
-        label: siteConfig.contactEmail,
-        external: true,
-      },
-    ],
-  },
-  {
-    title: "Dokumenty",
-    links: [
-      { href: siteConfig.termsUrl, label: "Regulamin", external: true },
-      {
-        href: siteConfig.privacyUrl,
-        label: "Polityka prywatności",
-        external: true,
-      },
-    ],
-  },
+const productLinks = [
+  { href: "/funkcje", label: "Funkcje" },
+  { href: "/cennik", label: "Cennik" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
+
+const linkClass = "hover:text-primary transition-colors";
 
 export function SiteFooter() {
   const { company } = siteConfig;
@@ -51,55 +19,67 @@ export function SiteFooter() {
     company.nip && `NIP ${company.nip}`,
   ]
     .filter(Boolean)
-    .join(" · ");
+    .join(", ");
 
   return (
     <footer className="bg-card border-t">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_2fr] lg:px-8">
-        <div className="max-w-xs space-y-4">
-          <Logo />
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            Program do umawiania wizyt dla firm usługowych — kalendarz wizyt,
-            klienci, przypomnienia SMS i statystyki w jednym miejscu.
-          </p>
+      <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
+            <Logo />
+            <p className="text-muted-foreground text-sm">
+              Program do umawiania wizyt dla firm usługowych
+            </p>
+          </div>
+          <nav
+            aria-label="Stopka"
+            className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium"
+          >
+            {productLinks.map((l) => (
+              <Link key={l.href} href={l.href} className={linkClass}>
+                {l.label}
+              </Link>
+            ))}
+            <a href={siteConfig.loginUrl} className={linkClass}>
+              Zaloguj się
+            </a>
+            <a
+              href={siteConfig.registerUrl}
+              className="text-primary hover:underline"
+            >
+              Załóż konto
+            </a>
+          </nav>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {columns.map((col) => (
-            <div key={col.title}>
-              <h2 className="text-muted-foreground mb-3 text-[11px] font-semibold tracking-wider uppercase">
-                {col.title}
-              </h2>
-              <ul className="space-y-2">
-                {col.links.map((link) => (
-                  <li key={link.href}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        className="hover:text-primary text-sm break-all transition-colors"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="hover:text-primary text-sm transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+
+        <nav
+          aria-label="Branże"
+          className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1.5 border-t pt-6 text-sm"
+        >
+          <span className="text-foreground font-medium">Branże:</span>
+          {industries.map((i) => (
+            <Link key={i.slug} href={`/dla/${i.slug}`} className={linkClass}>
+              {i.name}
+            </Link>
           ))}
-        </div>
-      </div>
-      <div className="border-t">
-        <div className="text-muted-foreground mx-auto flex max-w-7xl flex-col gap-1 px-4 py-6 text-xs sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+        </nav>
+
+        <div className="text-muted-foreground flex flex-col gap-2 border-t pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} Saloonik. Wszelkie prawa zastrzeżone.
+            © {new Date().getFullYear()} Saloonik
+            {companyLine && `, ${companyLine}`}
           </p>
-          {companyLine && <p>{companyLine}</p>}
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <a href={siteConfig.termsUrl} className={linkClass}>
+              Regulamin
+            </a>
+            <a href={siteConfig.privacyUrl} className={linkClass}>
+              Polityka prywatności
+            </a>
+            <a href={`mailto:${siteConfig.contactEmail}`} className={linkClass}>
+              {siteConfig.contactEmail}
+            </a>
+          </div>
         </div>
       </div>
     </footer>
