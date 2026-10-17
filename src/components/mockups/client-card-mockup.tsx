@@ -70,7 +70,6 @@ const visits: Visit[] = [
     paid: false,
     color: "--viz-3",
   },
-
 ];
 
 const pill =
@@ -135,9 +134,11 @@ function TimelineDot({ color }: { color: string }) {
   );
 }
 
-function VisitsTimeline() {
+// counts always describe the full history, `limit` only trims what is drawn
+function VisitsTimeline({ limit }: { limit?: number }) {
   const upcoming = visits.filter((v) => v.status === "planned");
   const past = visits.filter((v) => v.status !== "planned");
+  const shownPast = past.slice(0, limit ? limit - upcoming.length : undefined);
   const row = (v: Visit) => (
     <li key={v.date} className="flex items-start gap-2.5">
       <span className="mt-3.5 flex w-4 justify-center">
@@ -169,7 +170,7 @@ function VisitsTimeline() {
           </span>
           <span className="text-primary text-xs font-semibold">Dziś</span>
         </li>
-        {past.map(row)}
+        {shownPast.map(row)}
       </ol>
     </div>
   );
@@ -250,7 +251,13 @@ export function PhotoPairPanel({ className }: { className?: string }) {
   );
 }
 
-export function ClientCardMockup({ className }: { className?: string }) {
+export function ClientCardMockup({
+  className,
+  visitLimit,
+}: {
+  className?: string;
+  visitLimit?: number;
+}) {
   return (
     <figure
       role="img"
@@ -291,7 +298,7 @@ export function ClientCardMockup({ className }: { className?: string }) {
           ))}
         </div>
 
-        <VisitsTimeline />
+        <VisitsTimeline limit={visitLimit} />
       </div>
     </figure>
   );

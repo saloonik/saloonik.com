@@ -21,6 +21,8 @@ type Tile = {
   bullets?: string[];
   bulletCount?: number;
   visual?: React.ReactNode;
+  // split text and visual side by side from lg instead of xl
+  splitLg?: boolean;
 };
 
 const tiles: Tile[] = [
@@ -28,11 +30,13 @@ const tiles: Tile[] = [
     id: "klienci",
     wide: true,
     bullets: [
-      "Karty zabiegowe wysyłane klientom mailem i skany wypełnionych kart",
+      "Historia wizyt ze statusem wizyty i płatności",
+      "Karty zabiegowe wysyłane klientom mailem przed wizytą",
       "Zdjęcia przed i po dla każdej usługi wizyty",
-      "Historia wizyt i opinie klientów",
+      "Opinie klientów o pracownikach po wizycie",
     ],
-    visual: <ClientCardMockup className="shadow-lg" />,
+    splitLg: true,
+    visual: <ClientCardMockup visitLimit={2} className="shadow-lg" />,
   },
   { id: "przypomnienia", visual: <SmsMockup className="shadow-md" /> },
   { id: "zespol", points: true },
@@ -49,6 +53,7 @@ const tiles: Tile[] = [
     id: "magazyn",
     wide: true,
     full: true,
+    splitLg: true,
     bulletCount: 4,
     visual: <WarehouseMockup className="shadow-lg" />,
   },
@@ -98,6 +103,7 @@ function FeatureTile({
   bullets,
   bulletCount,
   visual,
+  splitLg,
 }: { feature: Feature } & Tile) {
   const Icon = feature.icon;
   if (!visual && !points && feature.photo)
@@ -109,8 +115,11 @@ function FeatureTile({
       data-spotlight
       className={cn(
         "bg-card group flex min-w-0 flex-col gap-4 rounded-xl border p-6 shadow-sm transition-shadow hover:shadow-md",
+        wide && "md:col-span-2",
         wide &&
-          "md:col-span-2 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] xl:items-start xl:gap-8",
+          (splitLg
+            ? "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start lg:gap-8"
+            : "xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] xl:items-start xl:gap-8"),
         full && "lg:col-span-3",
       )}
     >
@@ -136,7 +145,12 @@ function FeatureTile({
         )}
       </div>
       {visual && (
-        <div className={cn("mt-2", wide ? "xl:mt-0" : "mt-auto pt-2")}>
+        <div
+          className={cn(
+            "mt-2",
+            wide ? (splitLg ? "lg:mt-0" : "xl:mt-0") : "mt-auto pt-2",
+          )}
+        >
           {visual}
         </div>
       )}

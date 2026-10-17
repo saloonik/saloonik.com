@@ -45,7 +45,7 @@ const guarantees = [
 type Props = { registerUrl: string; contactEmail: string };
 
 export function PricingCalculator({ registerUrl, contactEmail }: Props) {
-  const [employees, setEmployees] = useState(2);
+  const [employees, setEmployees] = useState(0);
   const [branches, setBranches] = useState(1);
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
   const [gross, setGross] = useState(true);
