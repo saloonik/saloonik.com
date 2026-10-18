@@ -14,7 +14,7 @@ import {
   grossPln,
   monthlyPrice,
   plan,
-  withVat,
+  netOf,
 } from "@/lib/pricing";
 import { breadcrumbJsonLd, buildMetadata, softwareJsonLd } from "@/lib/seo";
 
@@ -68,8 +68,8 @@ export default function PricingPage() {
                     <th scope="row" className="px-4 py-3 font-medium">
                       {ex.label}
                     </th>
-                    <PriceCell net={m} />
-                    <PriceCell net={m * 10} />
+                    <PriceCell gross={m} />
+                    <PriceCell gross={m * 10} />
                   </tr>
                 );
               })}
@@ -90,12 +90,12 @@ export default function PricingPage() {
   );
 }
 
-function PriceCell({ net }: { net: number }) {
+function PriceCell({ gross }: { gross: number }) {
   return (
     <td className="px-4 py-3 text-right whitespace-nowrap tabular-nums">
-      {formatPln(withVat(net))}
+      {formatPln(gross)}
       <span className="text-muted-foreground block text-xs">
-        {formatPln(net)} netto
+        {formatPln(netOf(gross))} netto
       </span>
     </td>
   );

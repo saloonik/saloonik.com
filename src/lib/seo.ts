@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import type { FaqItem } from "@/content/faq";
-import { plan, withVat } from "@/lib/pricing";
+import { plan } from "@/lib/pricing";
 
 type PageMeta = {
   title?: string;
@@ -108,12 +108,12 @@ export function softwareJsonLd(industry?: {
     publisher: { "@id": abs("/#organization") },
     offers: {
       "@type": "Offer",
-      price: withVat(plan.monthlyPrice),
+      price: plan.monthlyPrice,
       priceCurrency: "PLN",
       url: abs("/cennik"),
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: withVat(plan.monthlyPrice),
+        price: plan.monthlyPrice,
         priceCurrency: "PLN",
         unitCode: "MON",
         valueAddedTaxIncluded: true,

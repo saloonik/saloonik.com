@@ -22,7 +22,7 @@ const items = [
   {
     icon: CreditCardIcon,
     title: "Bezpieczne płatności",
-    text: "Abonament opłacasz przez Przelewy24 (m.in. BLIK). Nie przechowujemy danych Twojej karty.",
+    text: "Abonament opłacasz przez PayU (m.in. BLIK). Nie przechowujemy danych Twojej karty.",
   },
   {
     icon: FileSpreadsheetIcon,

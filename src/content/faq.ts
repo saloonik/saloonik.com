@@ -16,7 +16,7 @@ export const generalFaq: FaqItem[] = [
   {
     question: "Jak działa okres próbny?",
     answer:
-      "Po rejestracji przez 7 dni korzystasz z pełnej wersji Saloonika, bez podawania karty płatniczej. Po tym czasie wybierasz liczbę pracowników i oddziałów i opłacasz abonament.",
+      `Po rejestracji przez 7 dni korzystasz z pełnej wersji Saloonika, bez podawania karty płatniczej. W okresie próbnym możesz wysłać ${plan.trialSms} SMS-ów i ${plan.trialEmails} e-maili. Po tym czasie wybierasz liczbę pracowników i oddziałów i opłacasz abonament.`,
   },
   {
     question: "Czy muszę coś instalować?",
@@ -31,7 +31,7 @@ export const generalFaq: FaqItem[] = [
   {
     question: "Czy dane moich klientów są bezpieczne?",
     answer:
-      "Dostęp do danych kontrolujesz rolami i uprawnieniami, a dziennik aktywności pokazuje, kto i co zmienił. Zgody klientów na SMS i e-mail zapisujesz na ich kartach. Płatności obsługuje Przelewy24 — Saloonik nie przechowuje danych Twojej karty.",
+      "Dostęp do danych kontrolujesz rolami i uprawnieniami, a dziennik aktywności pokazuje, kto i co zmienił. Zgody klientów na SMS i e-mail zapisujesz na ich kartach. Płatności obsługuje PayU — Saloonik nie przechowuje danych Twojej karty.",
   },
 ];
 
@@ -56,12 +56,12 @@ export const pricingFaq: FaqItem[] = [
   {
     question: "Czy SMS-y są w cenie?",
     answer:
-      "Tak. Abonament obejmuje 400 SMS-ów miesięcznie na każdą osobę w firmie — właściciela i każdego pracownika.",
+      `Tak. Abonament obejmuje 400 SMS-ów miesięcznie na każdą osobę w firmie — właściciela i każdego pracownika. W 7-dniowym okresie próbnym limit wynosi ${plan.trialSms} SMS-ów i ${plan.trialEmails} e-maili.`,
   },
   {
     question: "Jak mogę zapłacić?",
     answer:
-      "Płatności obsługuje Przelewy24, m.in. BLIK i karta. Wszystkie ceny na stronie są cenami brutto i zawierają 23% VAT.",
+      "Płatności obsługuje PayU, m.in. BLIK i karta. Wszystkie ceny na stronie są cenami brutto, zawierają 23% VAT.",
   },
   {
     question: "Co się stanie po zakończeniu okresu próbnego?",

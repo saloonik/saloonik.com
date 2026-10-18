@@ -74,13 +74,12 @@ export function FeatureDetail({
             />
             {feature.photo.caption && (
               <div
-                data-reveal-self
                 className={cn(
                   "absolute -bottom-5 max-w-[85%]",
                   reverse ? "-right-3 sm:-right-5" : "-left-3 sm:-left-5",
                 )}
               >
-                <p className="bg-card/90 motion-safe:animate-float flex items-center gap-3 rounded-xl border p-3 pr-4 text-sm font-medium shadow-xl backdrop-blur">
+                <p className="bg-card motion-safe:animate-float flex items-center gap-3 rounded-xl border p-3 pr-4 text-sm font-medium shadow-xl">
                   <span className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
                     <Icon className="size-4" />
                   </span>

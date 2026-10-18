@@ -3,9 +3,10 @@ import {
   formatPln,
   monthlyPrice,
   periodPrice,
-  withVat,
+  netOf,
   grossPln,
   isEnterprise,
+  plan,
 } from "./pricing";
 
 describe("formatPln", () => {
@@ -17,14 +18,14 @@ describe("formatPln", () => {
 
 describe("monthlyPrice", () => {
   it.each([
-    [0, 1, 79],
-    [1, 1, 114],
-    [3, 1, 184],
-    [5, 1, 254],
-    [6, 2, 338],
-    [12, 5, 665],
-    [15, 5, 740],
-    [40, 5, 740],
+    [0, 1, 98],
+    [1, 1, 142],
+    [3, 1, 230],
+    [5, 1, 318],
+    [6, 2, 422],
+    [12, 5, 827],
+    [15, 5, 920],
+    [40, 5, 920],
   ])(
     "%i pracowników, %i oddziałów → %i zł",
     (employees, branches, expected) => {
@@ -41,20 +42,26 @@ describe("monthlyPrice", () => {
 
 describe("periodPrice", () => {
   it("rocznie płaci się za 10 miesięcy", () => {
-    expect(periodPrice(3, 1, "yearly")).toBe(1840);
-    expect(periodPrice(3, 1, "monthly")).toBe(184);
+    expect(periodPrice(3, 1, "yearly")).toBe(2300);
+    expect(periodPrice(3, 1, "monthly")).toBe(230);
   });
 });
 
 describe("VAT i Enterprise", () => {
-  it("pokazuje cenę brutto z groszami", () => {
-    expect(grossPln(79)).toBe("97,17 zł");
-    expect(grossPln(25)).toBe("30,75 zł");
+  it("ceny brutto są w pełnych złotych", () => {
+    expect(grossPln(98)).toBe("98 zł");
+    for (const p of [
+      plan.monthlyPrice,
+      plan.pricePerExtraEmployee,
+      plan.pricePerExtraEmployeeAboveTier,
+      plan.pricePerExtraBranch,
+    ])
+      expect(Number.isInteger(p)).toBe(true);
   });
 
-  it("dolicza 23% VAT z zaokrągleniem do grosza", () => {
-    expect(withVat(79)).toBe(97.17);
-    expect(withVat(184)).toBe(226.32);
+  it("netto liczy z brutto przez 23% VAT", () => {
+    expect(netOf(98)).toBe(79.67);
+    expect(netOf(123)).toBe(100);
   });
 
   it("powyżej 5 oddziałów to Enterprise", () => {

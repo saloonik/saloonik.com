@@ -333,7 +333,7 @@ function Floater({
     >
       <div
         aria-hidden
-        className="bg-card/90 motion-safe:animate-float flex items-center gap-2.5 rounded-xl border p-2.5 text-left shadow-xl backdrop-blur"
+        className="bg-card motion-safe:animate-float flex items-center gap-2.5 rounded-xl border p-2.5 text-left shadow-xl"
       >
         {children}
       </div>

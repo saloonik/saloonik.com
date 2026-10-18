@@ -1,15 +1,18 @@
+/** All prices are gross (with VAT), in whole złoty. Net is derived via netOf. */
 export const plan = {
-  monthlyPrice: 79,
+  monthlyPrice: 98,
   includedEmployees: 0,
   includedBranches: 1,
   maxEmployees: 15,
   maxBranches: 5,
-  pricePerExtraEmployee: 35,
+  pricePerExtraEmployee: 44,
   extraEmployeeTierSize: 5,
-  pricePerExtraEmployeeAboveTier: 25,
-  pricePerExtraBranch: 59,
+  pricePerExtraEmployeeAboveTier: 31,
+  pricePerExtraBranch: 73,
   yearlyMonthsCharged: 10,
   smsPerPersonMonth: 400,
+  trialSms: 50,
+  trialEmails: 50,
   vatRate: 0.23,
 } as const;
 
@@ -50,7 +53,8 @@ export function periodPrice(
     : monthly;
 }
 
-export const withVat = (net: number) => round(net * (1 + plan.vatRate));
+/** Net price from a gross one, rounded to the grosz: 98 → 79.67. */
+export const netOf = (gross: number) => round(gross / (1 + plan.vatRate));
 
 export const isEnterprise = (branches: number) => branches > plan.maxBranches;
 
@@ -63,5 +67,5 @@ const plnCents = new Intl.NumberFormat("pl-PL", {
 export const formatPln = (value: number) =>
   `${(Number.isInteger(round(value)) ? plnWhole : plnCents).format(value)} zł`;
 
-/** Gross price label, e.g. 79 → "97,17 zł". We are a VAT payer, so this is what we show by default. */
-export const grossPln = (net: number) => formatPln(withVat(net));
+/** Gross price label, e.g. 98 → "98 zł". We are a VAT payer, so this is what we show by default. */
+export const grossPln = (gross: number) => formatPln(gross);

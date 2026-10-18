@@ -20,7 +20,7 @@ import {
   monthlyPrice,
   periodPrice,
   plan,
-  withVat,
+  netOf,
   type BillingPeriod,
 } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ const guarantees = [
   { icon: GiftIcon, text: "7 dni za darmo, bez karty" },
   { icon: FileSpreadsheetIcon, text: "Import klientów z Excela" },
   { icon: GlobeIcon, text: "Działa w przeglądarce" },
-  { icon: ShieldUserIcon, text: "Płatności przez Przelewy24" },
+  { icon: ShieldUserIcon, text: "Płatności przez PayU" },
 ];
 
 type Props = { registerUrl: string; contactEmail: string };
@@ -53,7 +53,7 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
   const grossId = useId();
 
   const enterprise = isEnterprise(branches);
-  const show = (net: number) => formatPln(gross ? withVat(net) : net);
+  const show = (value: number) => formatPln(gross ? value : netOf(value));
   const monthly = monthlyPrice(employees, branches);
   const total = periodPrice(employees, branches, period);
   const extraBranches = Math.max(0, branches - plan.includedBranches);
