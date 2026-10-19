@@ -1,4 +1,4 @@
-FROM node:20-alpine AS dependencies-env
+FROM node:24-alpine AS dependencies-env
 
 ARG GITHUB_TOKEN
 
@@ -12,7 +12,7 @@ RUN echo "@saloonik:registry=https://npm.pkg.github.com" > .npmrc && \
     rm -f .npmrc
 
 
-FROM node:20-alpine AS build-env
+FROM node:24-alpine AS build-env
 
 # NEXT_PUBLIC_* są wklejane do kodu w czasie buildu
 ARG NEXT_PUBLIC_GSC_VERIFICATION
@@ -27,7 +27,7 @@ WORKDIR /app
 RUN npm run build
 
 
-FROM node:20-alpine
+FROM node:24-alpine
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
