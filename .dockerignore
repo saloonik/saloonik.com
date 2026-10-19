@@ -1,0 +1,9 @@
+.git
+.next
+.claude
+node_modules
+coverage
+README.md
+.npmrc
+.env*
+*.tsbuildinfo
