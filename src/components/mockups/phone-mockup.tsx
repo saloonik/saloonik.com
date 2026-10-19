@@ -326,8 +326,8 @@ function Floater({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={show ? { opacity: 1, scale: 1, y: 0 } : undefined}
+      initial={{ opacity: 0, y: 20 }}
+      animate={show ? { opacity: 1, y: 0 } : undefined}
       transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
       className={cn("absolute z-10", className)}
     >

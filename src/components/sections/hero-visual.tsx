@@ -36,7 +36,7 @@ export function HeroVisual() {
       </motion.div>
       <motion.div
         style={reduced ? undefined : { y: smsY }}
-        className="absolute -bottom-5 left-4 z-30 hidden w-72 lg:block"
+        className="motion-safe:animate-float absolute -bottom-5 left-4 z-30 hidden w-72 lg:block"
       >
         <motion.div
           initial={{ opacity: 0, x: -48, rotate: -8 }}
@@ -48,7 +48,7 @@ export function HeroVisual() {
             damping: 16,
           }}
         >
-          <SmsMockup className="motion-safe:animate-float" />
+          <SmsMockup />
         </motion.div>
       </motion.div>
     </motion.div>
