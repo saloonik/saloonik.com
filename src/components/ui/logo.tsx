@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Logo as BrandLogo } from "@saloonik/icons/web";
 import { cn } from "@/lib/utils";
 
 export function Logo({
   className,
   onClick,
+  animate = false,
 }: {
   className?: string;
+  /** Letter-by-letter entrance; keep it to the header so it plays once per page load. */
+  animate?: boolean;
   onClick?: () => void;
 }) {
   const pathname = usePathname();
@@ -32,23 +36,12 @@ export function Logo({
         className,
       )}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logo-light.svg"
-        alt=""
-        width={85}
-        height={20}
-        draggable={false}
-        className="pointer-events-none block h-6 w-auto dark:hidden"
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logo-dark.svg"
-        alt=""
-        width={91}
-        height={20}
-        draggable={false}
-        className="pointer-events-none hidden h-6 w-auto dark:block"
+      {/* Both themes rendered and toggled by CSS: no resolvedTheme, no hydration flash. */}
+      <BrandLogo animate={animate} className="block h-6 w-auto dark:hidden" />
+      <BrandLogo
+        theme="dark"
+        animate={animate}
+        className="hidden h-6 w-auto dark:block"
       />
     </Link>
   );
