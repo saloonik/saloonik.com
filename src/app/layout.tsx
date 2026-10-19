@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { JsonLd } from "@/components/json-ld";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { CookieNotice } from "@/components/layout/cookie-notice";
 import { ThemeProvider } from "@/components/layout/theme";
 import { PointerSpotlight } from "@/components/layout/pointer-spotlight";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
@@ -75,6 +76,7 @@ export default function RootLayout({
             </main>
             <SiteFooter />
           </div>
+          <CookieNotice />
         </ThemeProvider>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       </body>

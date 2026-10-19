@@ -27,6 +27,7 @@ export {
   ClipboardListIcon,
   ClockIcon,
   ContactlessIcon,
+  CookieIcon,
   CreditCardIcon,
   DashboardIcon,
   DownloadIcon,
