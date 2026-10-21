@@ -60,10 +60,10 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
 
   return (
     <div className="bg-card grid grid-cols-1 overflow-hidden rounded-2xl border shadow-xl lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:grid-rows-[auto_1fr_auto]">
-      <div className="flex flex-col gap-6 p-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
+      <div className="flex flex-col gap-4 p-5 sm:gap-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
         <div>
           <h3 className="text-xl font-semibold">Skonfiguruj swój abonament</h3>
-          <p className="text-muted-foreground mt-1 text-sm">
+          <p className="text-muted-foreground mt-1 text-sm max-sm:hidden">
             Jeden plan ze wszystkimi funkcjami. Płacisz tylko za wielkość
             zespołu i liczbę lokali.
           </p>
@@ -117,19 +117,10 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
           />
         </div>
 
-        <ul className="grid content-end gap-x-6 gap-y-3 text-sm font-medium sm:grid-cols-2">
-          {guarantees.map(({ icon: Icon, text }) => (
-            <li key={text} className="flex items-center gap-3">
-              <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-8 shrink-0 items-center justify-center rounded-lg">
-                <Icon className="size-4" />
-              </span>
-              {text}
-            </li>
-          ))}
-        </ul>
+        <GuaranteeList className="max-lg:hidden" />
       </div>
 
-      <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground flex flex-col gap-6 p-6 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
+      <div className="bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground flex flex-col gap-6 p-5 sm:p-10 lg:row-span-3 lg:grid lg:grid-rows-subgrid [@media(max-height:820px)]:gap-4 [@media(max-height:820px)]:lg:p-8">
         {enterprise ? (
           <div className="space-y-3">
             <p className="text-sm font-medium opacity-80">Enterprise</p>
@@ -148,7 +139,7 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
               · {gross ? "brutto" : "netto"}
             </p>
             <p className="mt-2 flex items-baseline gap-2" aria-live="polite">
-              <span className="text-5xl font-semibold tracking-tight tabular-nums">
+              <span className="text-4xl font-semibold tracking-tight tabular-nums sm:text-5xl">
                 {show(total)}
               </span>
               <span className="opacity-80">
@@ -217,7 +208,30 @@ export function PricingCalculator({ registerUrl, contactEmail }: Props) {
           </p>
         </div>
       </div>
+
+      {/* Na telefonie gwarancje są pod ceną, żeby kontrolki i cena mieściły się na jednym ekranie. */}
+      <GuaranteeList className="p-5 sm:p-10 lg:hidden" />
     </div>
+  );
+}
+
+function GuaranteeList({ className }: { className?: string }) {
+  return (
+    <ul
+      className={cn(
+        "grid content-end gap-x-6 gap-y-3 text-sm font-medium sm:grid-cols-2",
+        className,
+      )}
+    >
+      {guarantees.map(({ icon: Icon, text }) => (
+        <li key={text} className="flex items-center gap-3">
+          <span className="bg-primary/10 text-primary dark:bg-primary/20 flex size-8 shrink-0 items-center justify-center rounded-lg">
+            <Icon className="size-4" />
+          </span>
+          {text}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -260,7 +274,7 @@ function Stepper({
   onChange,
 }: StepperProps) {
   return (
-    <div className="flex flex-1 items-center justify-between gap-4 py-4">
+    <div className="flex flex-1 items-center justify-between gap-4 py-3 sm:py-4">
       <div>
         <p className="font-medium">{label}</p>
         <p className="text-muted-foreground text-sm">{hint}</p>
@@ -310,7 +324,7 @@ type ToggleProps = {
 
 function Toggle({ id, label, hint, badge, checked, onChange }: ToggleProps) {
   return (
-    <div className="flex flex-1 items-center justify-between gap-4 py-4">
+    <div className="flex flex-1 items-center justify-between gap-4 py-3 sm:py-4">
       <label htmlFor={id} className="cursor-pointer">
         <span className="flex flex-wrap items-center gap-2 font-medium">
           {label}

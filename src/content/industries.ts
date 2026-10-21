@@ -3,6 +3,74 @@ import { grossPln, monthlyPrice, plan } from "@/lib/pricing";
 
 export type ServiceSample = { name: string; duration: number; price: number };
 
+type Viz = `--viz-${1 | 2 | 3 | 4 | 5}`;
+type VisitRow = {
+  date: string;
+  time: string;
+  service: string;
+  customer: string;
+  price: number;
+  status: "planned" | "completed";
+  paid: boolean;
+  color: Viz;
+};
+
+/** The screen shown on top of the reservation sheet, each one a real view of the app. */
+export type VisitLayer =
+  | { kind: "photos"; image: string; after: boolean }
+  | { kind: "card"; name: string; sent: string }
+  | { kind: "cardMissing"; name: string }
+  | { kind: "rating"; stars: number; comment: string; date: string }
+  | { kind: "preview"; visits: number; last: string; paid: number }
+  | {
+      kind: "employee";
+      role: string;
+      visits: Omit<VisitRow, "date" | "price">[];
+    }
+  | { kind: "wrapup"; product: [name: string, price: number]; next: string }
+  | { kind: "slots"; slots: [time: string, day: string, free: string][] }
+  | {
+      kind: "week";
+      range: string;
+      visits: number;
+      top: [service: string, count: number][];
+    }
+  | { kind: "history"; visits: Omit<VisitRow, "customer">[] }
+  | {
+      kind: "opinion";
+      average: number;
+      ratings: {
+        author: string;
+        stars: number;
+        date: string;
+        comment: string;
+      }[];
+    }
+  | {
+      kind: "cards";
+      pending: [name: string, sent: string][];
+      completed: [name: string, visit: string][];
+    }
+  | { kind: "profile"; email: string; address: string };
+
+/** Hero mockup: one visit as the app's reservation sheet shows it. `start` is minutes from midnight. */
+export type IndustryVisit = {
+  customer: string;
+  phone: string;
+  employee: string;
+  employeeColor: Viz;
+  services: string[];
+  date: string;
+  start: number;
+  status: "planned" | "completed";
+  paid?: boolean;
+  atCustomer?: boolean;
+  products?: [name: string, price: number][];
+  messages: [title: string, status: string][];
+  notes?: string;
+  layer: VisitLayer;
+};
+
 export type Industry = {
   slug: string;
   name: string;
@@ -17,6 +85,7 @@ export type Industry = {
   pains: { problem: string; solution: string }[];
   featureIds: string[];
   services: ServiceSample[];
+  visit: IndustryVisit;
   faq: FaqItem[];
 };
 
@@ -80,6 +149,26 @@ export const industries: Industry[] = [
       { name: "Balayage", duration: 180, price: 450 },
       { name: "Keratynowe prostowanie", duration: 150, price: 450 },
     ],
+    visit: {
+      customer: "Ewa Kowalska",
+      phone: "+48 601 234 567",
+      employee: "Anna Nowak",
+      employeeColor: "--viz-4",
+      services: ["Balayage"],
+      date: "wtorek, 14 października",
+      start: 13 * 60,
+      status: "completed",
+      products: [["Szampon do włosów rozjaśnianych", 69]],
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 13 paź, 13:04 (wysłano 13:00)",
+        ],
+      ],
+      notes:
+        "Baza 6.1, pasma rozjaśniacz + 6%, toner 9.12 na 20 min. Woli chłodny odcień.",
+      layer: { kind: "photos", image: "/images/koloryzacja.jpg", after: true },
+    },
     faq: [
       {
         question: "Czy każdy fryzjer może mieć własny grafik?",
@@ -153,6 +242,26 @@ export const industries: Industry[] = [
       { name: "Strzyżenie i broda", duration: 75, price: 120 },
       { name: "Golenie brzytwą", duration: 30, price: 60 },
     ],
+    visit: {
+      customer: "Tomek Zieliński",
+      phone: "+48 512 908 334",
+      employee: "Kuba Mazur",
+      employeeColor: "--viz-3",
+      services: ["Strzyżenie i broda"],
+      date: "czwartek, 16 października",
+      start: 17 * 60 + 30,
+      status: "planned",
+      messages: [
+        ["Potwierdzenie wizyty", "Dostarczono, 25 wrz, 18:51 (wysłano 18:50)"],
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 15 paź, 17:32 (wysłano 17:30)",
+        ],
+      ],
+      notes:
+        "Boki na 0,5, przejście wysoko. Góra nożyczkami, ok. 4 cm. Broda krótko, kontur brzytwą.",
+      layer: { kind: "preview", visits: 9, last: "25 wrz", paid: 1040 },
+    },
     faq: [
       {
         question: "Ile kosztuje Saloonik dla barber shopu z trzema barberami?",
@@ -224,6 +333,30 @@ export const industries: Industry[] = [
       { name: "Pedicure hybrydowy", duration: 90, price: 140 },
       { name: "Zdjęcie hybrydy", duration: 20, price: 30 },
     ],
+    visit: {
+      customer: "Magda Nowicka",
+      phone: "+48 664 210 873",
+      employee: "Kasia Lis",
+      employeeColor: "--viz-1",
+      services: ["Uzupełnienie żelu"],
+      date: "środa, 15 października",
+      start: 16 * 60,
+      status: "completed",
+      products: [["Oliwka do skórek", 35]],
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 14 paź, 16:01 (wysłano 16:00)",
+        ],
+      ],
+      notes:
+        "Migdał, długość 2. Nude + french. Prawy kciuk pęka przy wolnym brzegu — wzmocnić.",
+      layer: {
+        kind: "wrapup",
+        product: ["Oliwka do skórek", 35],
+        next: "środa, 5 listopada, 16:00",
+      },
+    },
     faq: [
       {
         question: "Pracuję sama. Czy Saloonik ma dla mnie sens?",
@@ -296,6 +429,37 @@ export const industries: Industry[] = [
       { name: "Zabieg nawilżający", duration: 60, price: 200 },
       { name: "Mezoterapia mikroigłowa", duration: 60, price: 350 },
     ],
+    visit: {
+      customer: "Aleksandra Dąbrowska",
+      phone: "+48 509 377 120",
+      employee: "Paulina Wrona",
+      employeeColor: "--viz-5",
+      services: ["Oczyszczanie wodorowe", "Zabieg nawilżający"],
+      date: "poniedziałek, 13 października",
+      start: 10 * 60,
+      status: "completed",
+      paid: true,
+      products: [["Krem z ceramidami", 129]],
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 12 paź, 10:03 (wysłano 10:00)",
+        ],
+        ["Prośba o ocenę", "Dostarczono, 13 paź, 12:31 (wysłano 12:30)"],
+      ],
+      notes:
+        "Cera mieszana, naczynka na policzkach — bez peelingu kawitacyjnego. Seria 2 z 4.",
+      layer: {
+        kind: "week",
+        range: "13 paź – 19 paź",
+        visits: 31,
+        top: [
+          ["Oczyszczanie wodorowe", 9],
+          ["Zabieg nawilżający", 7],
+          ["Peeling kawitacyjny", 5],
+        ],
+      },
+    },
     faq: [
       {
         question: "Czy Saloonik obsługuje karty zabiegowe?",
@@ -369,6 +533,29 @@ export const industries: Industry[] = [
       { name: "Rzęsy 1:1", duration: 120, price: 220 },
       { name: "Uzupełnienie rzęs", duration: 90, price: 160 },
     ],
+    visit: {
+      customer: "Natalia Wiśniewska",
+      phone: "+48 791 455 302",
+      employee: "Ola Zielińska",
+      employeeColor: "--viz-1",
+      services: ["Laminacja brwi", "Lifting rzęs"],
+      date: "sobota, 11 października",
+      start: 11 * 60,
+      status: "completed",
+      paid: true,
+      messages: [
+        ["Prośba o ocenę", "Dostarczono, 11 paź, 13:31 (wysłano 13:30)"],
+      ],
+      notes:
+        "Brwi: henna ciemny brąz, 4 min. Rzęsy: wałek M, bez tuszu przez 24 h.",
+      layer: {
+        kind: "rating",
+        stars: 5,
+        comment:
+          "Brwi wyglądają naturalnie, a lifting trzyma się świetnie. Wrócę na uzupełnienie!",
+        date: "11 paź 2026",
+      },
+    },
     faq: [
       {
         question: "Czy mogę dodać własne usługi, np. rzęsy 2–3D?",
@@ -437,6 +624,44 @@ export const industries: Industry[] = [
       { name: "Masaż twarzy Kobido", duration: 60, price: 220 },
       { name: "Drenaż limfatyczny", duration: 60, price: 180 },
     ],
+    visit: {
+      customer: "Piotr Kamiński",
+      phone: "+48 600 718 245",
+      employee: "Marta Sowa",
+      employeeColor: "--viz-2",
+      services: ["Masaż klasyczny"],
+      date: "czwartek, 16 października",
+      start: 18 * 60,
+      status: "planned",
+      messages: [
+        ["Potwierdzenie wizyty", "Dostarczono, 9 paź, 20:11 (wysłano 20:10)"],
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 15 paź, 18:02 (wysłano 18:00)",
+        ],
+      ],
+      notes:
+        "Napięte barki i odcinek lędźwiowy. Mocny ucisk, olejek bezzapachowy.",
+      layer: {
+        kind: "opinion",
+        average: 5,
+        ratings: [
+          {
+            author: "Marta Sowa",
+            stars: 5,
+            date: "2 paź 2026",
+            comment:
+              "Zawsze punktualny. Lubi mocny ucisk i ciszę podczas masażu.",
+          },
+          {
+            author: "Kamil Bąk",
+            stars: 5,
+            date: "4 wrz 2026",
+            comment: "Po urazie barku — omijać okolice lewej łopatki.",
+          },
+        ],
+      },
+    },
     faq: [
       {
         question: "Mam dwa gabinety w różnych lokalizacjach. Czy to zadziała?",
@@ -504,6 +729,55 @@ export const industries: Industry[] = [
       { name: "Próbny makijaż ślubny", duration: 90, price: 250 },
       { name: "Lekcja makijażu", duration: 120, price: 300 },
     ],
+    visit: {
+      customer: "Julia Malinowska",
+      phone: "+48 733 105 920",
+      employee: "Natalia Kruk",
+      employeeColor: "--viz-1",
+      services: ["Makijaż ślubny"],
+      date: "sobota, 18 października",
+      start: 9 * 60 + 30,
+      status: "planned",
+      atCustomer: true,
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 17 paź, 09:31 (wysłano 09:30)",
+        ],
+      ],
+      notes:
+        "Ślub o 14:00. Jak na próbnym, rzęsy kępki. O 11:30 makijaż mamy panny młodej w tym samym miejscu.",
+      layer: {
+        kind: "employee",
+        role: "Wizażystka",
+        visits: [
+          {
+            time: "07:00 – 08:30",
+            service: "Makijaż ślubny",
+            customer: "Karolina Mazur",
+            status: "completed",
+            paid: true,
+            color: "--viz-3",
+          },
+          {
+            time: "09:30 – 11:00",
+            service: "Makijaż ślubny",
+            customer: "Julia Malinowska",
+            status: "planned",
+            paid: false,
+            color: "--viz-1",
+          },
+          {
+            time: "11:30 – 12:30",
+            service: "Makijaż wieczorowy",
+            customer: "Ewa Malinowska",
+            status: "planned",
+            paid: false,
+            color: "--viz-4",
+          },
+        ],
+      },
+    },
     faq: [
       {
         question: "Pracuję sama. Ile zapłacę?",
@@ -567,6 +841,30 @@ export const industries: Industry[] = [
       { name: "Peeling medyczny", duration: 45, price: 350 },
       { name: "Wizyta kontrolna", duration: 20, price: 0 },
     ],
+    visit: {
+      customer: "Karolina Wójcik",
+      phone: "+48 698 441 207",
+      employee: "lek. Marta Lis",
+      employeeColor: "--viz-2",
+      services: ["Mezoterapia igłowa"],
+      date: "piątek, 17 października",
+      start: 11 * 60,
+      status: "planned",
+      messages: [
+        ["Potwierdzenie wizyty", "Dostarczono, 19 wrz, 12:12 (wysłano 12:10)"],
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 16 paź, 11:02 (wysłano 11:00)",
+        ],
+      ],
+      notes:
+        "Zabieg 2 z 3. Po pierwszym lekki obrzęk, ustąpił po 2 dniach. Bez nowych leków.",
+      layer: {
+        kind: "card",
+        name: "Kwestionariusz i zgoda na mezoterapię",
+        sent: "16 paź na k.wojcik@poczta.pl",
+      },
+    },
     faq: [
       {
         question: "Czy mogę wysłać pacjentce wywiad przed zabiegiem?",
@@ -634,6 +932,25 @@ export const industries: Industry[] = [
       { name: "Usunięcie odcisku", duration: 30, price: 120 },
       { name: "Klamra ortonyksyjna", duration: 45, price: 250 },
     ],
+    visit: {
+      customer: "Stanisław Górski",
+      phone: "+48 503 662 918",
+      employee: "Agata Pawlak",
+      employeeColor: "--viz-3",
+      services: ["Terapia wrastającego paznokcia"],
+      date: "wtorek, 14 października",
+      start: 12 * 60,
+      status: "completed",
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 13 paź, 12:02 (wysłano 12:00)",
+        ],
+      ],
+      notes:
+        "Paluch prawy, stan zapalny ustępuje. Cukrzyca typu 2 — kontrola co 3 tygodnie.",
+      layer: { kind: "photos", image: "/images/podologia.jpg", after: false },
+    },
     faq: [
       {
         question: "Czy mogę prowadzić dokumentację zdjęciową pacjenta?",
@@ -697,6 +1014,56 @@ export const industries: Industry[] = [
       { name: "Kinesiotaping", duration: 20, price: 60 },
       { name: "Trening medyczny", duration: 60, price: 170 },
     ],
+    visit: {
+      customer: "Michał Kowalczyk",
+      phone: "+48 662 004 517",
+      employee: "Tomasz Lewandowski",
+      employeeColor: "--viz-3",
+      services: ["Terapia manualna", "Kinesiotaping"],
+      date: "piątek, 17 października",
+      start: 8 * 60,
+      status: "planned",
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 16 paź, 08:01 (wysłano 08:00)",
+        ],
+      ],
+      notes:
+        "Rwa kulszowa L5/S1, lewa strona. Seria 4 z 8. Ćwiczenia domowe: McKenzie 3 × 10.",
+      layer: {
+        kind: "history",
+        visits: [
+          {
+            date: "24 października 2026",
+            time: "08:00 – 09:10",
+            service: "Terapia manualna, Kinesiotaping",
+            price: 240,
+            status: "planned",
+            paid: false,
+            color: "--viz-3",
+          },
+          {
+            date: "17 października 2026",
+            time: "08:00 – 09:10",
+            service: "Terapia manualna, Kinesiotaping",
+            price: 240,
+            status: "planned",
+            paid: false,
+            color: "--viz-3",
+          },
+          {
+            date: "10 października 2026",
+            time: "08:00 – 08:50",
+            service: "Terapia manualna",
+            price: 180,
+            status: "completed",
+            paid: true,
+            color: "--viz-2",
+          },
+        ],
+      },
+    },
     faq: [
       {
         question: "Czy każdy terapeuta ma własny grafik?",
@@ -761,6 +1128,26 @@ export const industries: Industry[] = [
       { name: "Piercing ucha", duration: 20, price: 100 },
       { name: "Piercing nosa", duration: 20, price: 120 },
     ],
+    visit: {
+      customer: "Bartek Wróbel",
+      phone: "+48 728 390 116",
+      employee: "Igor Sadowski",
+      employeeColor: "--viz-5",
+      services: ["Sesja tatuażu"],
+      date: "sobota, 18 października",
+      start: 11 * 60,
+      status: "planned",
+      messages: [
+        ["Potwierdzenie wizyty", "Dostarczono, 2 paź, 15:21 (wysłano 15:20)"],
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 17 paź, 11:02 (wysłano 11:00)",
+        ],
+      ],
+      notes:
+        "Rękaw, lewe przedramię — sesja 2 z 3. Kontury gotowe, dziś cieniowanie. Zadatek 300 zł wpłacony.",
+      layer: { kind: "cardMissing", name: "Zgoda na wykonanie tatuażu" },
+    },
     faq: [
       {
         question: "Czy wizyta może trwać cały dzień?",
@@ -824,6 +1211,32 @@ export const industries: Industry[] = [
       { name: "Analiza składu ciała", duration: 15, price: 60 },
       { name: "Konsultacja online", duration: 45, price: 150 },
     ],
+    visit: {
+      customer: "Joanna Michalska",
+      phone: "+48 517 248 690",
+      employee: "Kinga Rutkowska",
+      employeeColor: "--viz-4",
+      services: ["Wizyta kontrolna", "Analiza składu ciała"],
+      date: "środa, 22 października",
+      start: 17 * 60,
+      status: "planned",
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 21 paź, 17:01 (wysłano 17:00)",
+        ],
+      ],
+      notes:
+        "−3,2 kg od pierwszej wizyty. Plan 1800 kcal bez laktozy. Omówić dzienniczek z ostatnich 7 dni.",
+      layer: {
+        kind: "cards",
+        pending: [["Dzienniczek żywieniowy — 7 dni", "15 paź 2026"]],
+        completed: [
+          ["Wywiad żywieniowy", "24 wrz 2026"],
+          ["Zgoda na przetwarzanie danych o zdrowiu", "24 wrz 2026"],
+        ],
+      },
+    },
     faq: [
       {
         question: "Pracuję sama. Ile zapłacę?",
@@ -886,6 +1299,32 @@ export const industries: Industry[] = [
       { name: "Plan treningowy", duration: 30, price: 200 },
       { name: "Trening medyczny", duration: 60, price: 170 },
     ],
+    visit: {
+      customer: "Adam Szymański",
+      phone: "+48 695 120 774",
+      employee: "Kamil Bąk",
+      employeeColor: "--viz-4",
+      services: ["Trening personalny"],
+      date: "czwartek, 16 października",
+      start: 7 * 60,
+      status: "planned",
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 15 paź, 07:01 (wysłano 07:00)",
+        ],
+      ],
+      notes:
+        "Przysiad 90 kg × 5. Lewe kolano — bez wykroków. Pomiary co 4 tygodnie.",
+      layer: {
+        kind: "slots",
+        slots: [
+          ["06:00–07:00", "Jutro", "1h"],
+          ["13:00–15:00", "Jutro", "2h"],
+          ["06:00–08:00", "pt., 17 paź", "2h"],
+        ],
+      },
+    },
     faq: [
       {
         question: "Czy mogę zarządzać kilkoma trenerami?",
@@ -948,6 +1387,30 @@ export const industries: Industry[] = [
       { name: "Trymowanie", duration: 120, price: 200 },
       { name: "Obcinanie pazurów", duration: 15, price: 30 },
     ],
+    visit: {
+      customer: "Monika Zając",
+      phone: "+48 606 941 382",
+      employee: "Dominika Krawczyk",
+      employeeColor: "--viz-2",
+      services: ["Strzyżenie małego psa", "Obcinanie pazurów"],
+      date: "piątek, 17 października",
+      start: 13 * 60,
+      status: "planned",
+      atCustomer: true,
+      messages: [
+        [
+          "Przypomnienie o wizycie",
+          "Dostarczono, 16 paź, 13:02 (wysłano 13:00)",
+        ],
+      ],
+      notes:
+        "Fiona, pudel miniaturowy, 6 lat. Boi się suszarki — suszyć ręcznikiem. Nie lubi dotykania łap.",
+      layer: {
+        kind: "profile",
+        email: "monika.zajac@poczta.pl",
+        address: "ul. Ogrodowa 14/3, Poznań",
+      },
+    },
     faq: [
       {
         question: "Czy zapiszę notatki o psie, nie tylko o właścicielu?",

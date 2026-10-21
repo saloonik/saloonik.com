@@ -10,7 +10,7 @@ import {
   SectionHeading,
 } from "@/components/layout/section";
 import { cn } from "@/lib/utils";
-import { CalendarMockup } from "@/components/mockups/calendar-mockup";
+import { VisitMockup } from "@/components/mockups/visit-mockup";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
 import { HeroBackground } from "@/components/sections/hero-background";
@@ -92,7 +92,7 @@ export default async function IndustryPage({ params }: Props) {
               ))}
             </ul>
           </div>
-          <CalendarMockup />
+          <VisitMockup industry={industry} visit={industry.visit} />
         </Container>
       </section>
 
