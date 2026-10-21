@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       images: i.photo ? [url(i.photo.src)] : undefined,
     })),
+    { url: url("/dla-klientow"), changeFrequency: "monthly", priority: 0.7 },
     { url: url("/kontakt"), changeFrequency: "yearly", priority: 0.5 },
   ];
 }

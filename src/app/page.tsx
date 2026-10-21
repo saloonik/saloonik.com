@@ -1,4 +1,5 @@
 import { JsonLd } from "@/components/json-ld";
+import { AudienceGate } from "@/components/layout/audience-gate";
 import { ComingSoon } from "@/components/sections/coming-soon";
 import { CtaSection } from "@/components/sections/cta-section";
 import { FaqSection } from "@/components/sections/faq-section";
@@ -26,6 +27,7 @@ export default function HomePage() {
       <FaqSection items={generalFaq} className="bg-card/50 border-y" />
       <CtaSection />
       <JsonLd data={softwareJsonLd()} />
+      <AudienceGate />
     </>
   );
 }

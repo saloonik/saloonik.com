@@ -295,3 +295,8 @@
     }
   }
 }
+
+/* the audience gate covers the landing; don't let the page scroll under it */
+html:has(#audience-gate[open]) {
+  overflow: hidden;
+}

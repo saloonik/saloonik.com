@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { siteConfig } from "@/config/site";
 import { industries } from "@/content/industries";
+import { AudienceLink, CLIENT_PATH, ForAudience } from "./audience";
 
 const productLinks = [
   { href: "/funkcje", label: "Funkcje" },
@@ -26,40 +27,76 @@ export function SiteFooter() {
               Program do umawiania wizyt dla firm usługowych
             </p>
           </div>
-          <nav
-            aria-label="Stopka"
-            className="flex flex-wrap gap-x-5 text-sm font-medium sm:gap-y-1"
-          >
-            {productLinks.map((l) => (
-              <Link key={l.href} href={l.href} className={linkClass}>
-                {l.label}
-              </Link>
-            ))}
-            <a href={siteConfig.loginUrl} className={linkClass}>
-              Zaloguj się
-            </a>
-            <a
-              href={siteConfig.registerUrl}
-              className="text-primary inline-block py-1.5 hover:underline sm:py-0.5"
-            >
-              Załóż konto
-            </a>
-          </nav>
+          <ForAudience
+            client={
+              <nav
+                aria-label="Stopka"
+                className="flex flex-wrap gap-x-5 text-sm font-medium sm:gap-y-1"
+              >
+                <a href={`${CLIENT_PATH}#konto`} className={linkClass}>
+                  Konto klienta
+                </a>
+                <Link href="/kontakt" className={linkClass}>
+                  Kontakt
+                </Link>
+                <AudienceLink audience="salon" href="/" className={linkClass}>
+                  Dla salonów
+                </AudienceLink>
+              </nav>
+            }
+            salon={
+              <nav
+                aria-label="Stopka"
+                className="flex flex-wrap gap-x-5 text-sm font-medium sm:gap-y-1"
+              >
+                {productLinks.map((l) => (
+                  <Link key={l.href} href={l.href} className={linkClass}>
+                    {l.label}
+                  </Link>
+                ))}
+                <a href={siteConfig.loginUrl} className={linkClass}>
+                  Zaloguj się
+                </a>
+                <a
+                  href={siteConfig.registerUrl}
+                  className="text-primary inline-block py-1.5 hover:underline sm:py-0.5"
+                >
+                  Załóż konto
+                </a>
+                <AudienceLink
+                  audience="klient"
+                  href={CLIENT_PATH}
+                  className={linkClass}
+                >
+                  Dla klientów
+                </AudienceLink>
+              </nav>
+            }
+          />
         </div>
 
-        <nav
-          aria-label="Branże"
-          className="text-muted-foreground flex flex-wrap gap-x-4 border-t pt-6 text-sm sm:gap-y-1"
-        >
-          <span className="text-foreground py-1.5 font-medium sm:py-0.5">
-            Branże:
-          </span>
-          {industries.map((i) => (
-            <Link key={i.slug} href={`/dla/${i.slug}`} className={linkClass}>
-              {i.name}
-            </Link>
-          ))}
-        </nav>
+        <ForAudience
+          client={null}
+          salon={
+            <nav
+              aria-label="Branże"
+              className="text-muted-foreground flex flex-wrap gap-x-4 border-t pt-6 text-sm sm:gap-y-1"
+            >
+              <span className="text-foreground py-1.5 font-medium sm:py-0.5">
+                Branże:
+              </span>
+              {industries.map((i) => (
+                <Link
+                  key={i.slug}
+                  href={`/dla/${i.slug}`}
+                  className={linkClass}
+                >
+                  {i.name}
+                </Link>
+              ))}
+            </nav>
+          }
+        />
 
         <div className="text-muted-foreground flex flex-col gap-3 border-t pt-6 text-xs sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-0.5">

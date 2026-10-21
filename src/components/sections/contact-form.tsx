@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
-const fieldClass =
+export const fieldClass =
   "bg-background border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 w-full rounded-md border px-3 text-base shadow-xs outline-none transition-[color,box-shadow] focus-visible:ring-[3px] sm:text-sm";
 
 export function ContactForm({
@@ -213,7 +213,7 @@ export function ContactForm({
   );
 }
 
-function Field({
+export function Field({
   id,
   label,
   optional,
