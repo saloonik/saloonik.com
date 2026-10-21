@@ -78,7 +78,11 @@ export default function FeaturesPage() {
           />
           <motion.div
             {...revealGroup}
-            className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+            // a third column only once there is a third card to fill it
+            className={cn(
+              "mt-14 grid grid-cols-1 gap-4 md:grid-cols-2",
+              cards.length > 2 ? "lg:grid-cols-3" : "mx-auto max-w-4xl",
+            )}
           >
             {cards.map((f) => (
               <motion.article

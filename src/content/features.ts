@@ -1,7 +1,6 @@
 import {
   CalendarPlusIcon,
   ContactlessIcon,
-  ReceiptIcon,
   CalendarIcon,
   ChartColumnIcon,
   ClipboardListIcon,
@@ -12,6 +11,7 @@ import {
   SmartphoneIcon,
   StoreIcon,
   UserCogIcon,
+  UserIcon,
   UsersIcon,
   WarehouseIcon,
   type AtelierIconComponent,
@@ -376,19 +376,6 @@ export const upcomingFeatures: Feature[] = [
     soon: true,
   },
   {
-    id: "kasa-fiskalna",
-    icon: ReceiptIcon,
-    title: "Kasa fiskalna",
-    summary: "Paragon po wizycie bez wpisywania pozycji.",
-    description:
-      "Usługi i produkty z wizyty trafią na kasę fiskalną, więc paragon wydrukujesz bez ręcznego wpisywania pozycji.",
-    points: [
-      "Pozycje paragonu prosto z wizyty i sprzedaży",
-      "Mniej pracy przy recepcji na koniec dnia",
-    ],
-    soon: true,
-  },
-  {
     id: "rezerwacja-online",
     icon: CalendarPlusIcon,
     title: "Rezerwacja online",
@@ -397,7 +384,20 @@ export const upcomingFeatures: Feature[] = [
       "Strona rezerwacji Twojej firmy: klient wybiera usługę, pracownika i wolny termin, a wizyta od razu pojawia się w kalendarzu.",
     points: [
       "Wolne terminy liczone z grafiku i godzin otwarcia",
-      "Wizyta od razu w kalendarzu i przypomnienie SMS",
+      "Wizyta w kalendarzu i przypomnienie SMS",
+    ],
+    soon: true,
+  },
+  {
+    id: "konto-klienta",
+    icon: UserIcon,
+    title: "Konto klienta",
+    summary: "Twoi klienci zobaczą swoje wizyty i umówią kolejną.",
+    description:
+      "Klienci zobaczą swoje wizyty, umówią kolejną i opłacą zadatek. Najpierw w firmach na Saloonik, potem w wyszukiwarce salonów.",
+    points: [
+      "Wizyty, rezerwacje i zadatki w jednym miejscu",
+      "Później nowi klienci z wyszukiwarki salonów",
     ],
     soon: true,
   },
